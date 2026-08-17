@@ -1,0 +1,357 @@
+/* ==========================================================================
+   BASE — reset, typography, the paper, drafting primitives.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--space-16);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--text-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+::selection {
+  background: var(--steel-200);
+  color: var(--steel-950);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-xs);
+}
+
+/* --------------------------------------------------------------------------
+   The paper. Plain off-white by default; the blueprint grid is opt-in via
+   .grid-on on <body>, for checking alignment or for a page that wants it.
+   -------------------------------------------------------------------------- */
+
+.paper {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-minor) var(--hair), transparent var(--hair)),
+    linear-gradient(90deg, var(--grid-minor) var(--hair), transparent var(--hair)),
+    linear-gradient(var(--grid-major) var(--hair), transparent var(--hair)),
+    linear-gradient(90deg, var(--grid-major) var(--hair), transparent var(--hair));
+  background-size:
+    100% var(--grid-cell),
+    var(--grid-cell) 100%,
+    100% var(--grid-block),
+    var(--grid-block) 100%;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+/* Vignette so the grid fades at the edges instead of stopping dead. */
+.paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 90% at 50% 0%,
+    transparent 30%,
+    rgba(253, 252, 248, 0.86) 100%
+  );
+}
+
+body.grid-on .paper {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Typography
+   -------------------------------------------------------------------------- */
+
+.display-1,
+.display-2,
+.display-3,
+.heading-1,
+.heading-2,
+.heading-3 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.005em; /* Jura is wide; only a hair of negative */
+  color: var(--text);
+}
+.heading-2,
+.heading-3 {
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0;
+}
+
+.display-1 {
+  font-size: clamp(var(--text-5xl), 6.4vw, var(--text-7xl));
+}
+.display-2 {
+  font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
+}
+.display-3 {
+  font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+}
+.heading-1 {
+  font-size: var(--text-4xl);
+}
+.heading-2 {
+  font-size: var(--text-3xl);
+  line-height: var(--leading-snug);
+}
+.heading-3 {
+  font-size: var(--text-2xl);
+  line-height: var(--leading-snug);
+}
+
+/* Sub-headings switch to Inter — Jura is for display sizes and labels. */
+.heading-4 {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+}
+.heading-5 {
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.lede {
+  font-size: var(--text-xl);
+  line-height: var(--leading-relaxed);
+  color: var(--text-muted);
+}
+.body-lg {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+.body {
+  font-size: var(--text-md);
+}
+.body-sm {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+.caption {
+  font-size: var(--text-xs);
+  color: var(--text-subtle);
+}
+
+/* The drafting label: every technical annotation on the sheet uses this.
+   Jura's caps are the technical voice of the system. */
+.label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+.label--accent {
+  color: var(--steel-600);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0;
+  color: var(--text-muted);
+}
+
+/* An emphasised word inside body copy, set in the display face. */
+.display-accent {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  color: var(--steel-700);
+}
+
+/* --------------------------------------------------------------------------
+   Drafting primitives — reusable technical detailing
+   -------------------------------------------------------------------------- */
+
+/* Corner crosshairs. Eight gradient layers = four "+" marks, no extra markup. */
+.ticks {
+  position: relative;
+}
+.ticks::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--tick-len) / -2);
+  pointer-events: none;
+  --t: var(--line-strong);
+  --arm: var(--tick-len);
+  background-image: linear-gradient(var(--t), var(--t)),
+    linear-gradient(var(--t), var(--t)), linear-gradient(var(--t), var(--t)),
+    linear-gradient(var(--t), var(--t)), linear-gradient(var(--t), var(--t)),
+    linear-gradient(var(--t), var(--t)), linear-gradient(var(--t), var(--t)),
+    linear-gradient(var(--t), var(--t));
+  background-size: var(--arm) var(--hair), var(--hair) var(--arm),
+    var(--arm) var(--hair), var(--hair) var(--arm), var(--arm) var(--hair),
+    var(--hair) var(--arm), var(--arm) var(--hair), var(--hair) var(--arm);
+  background-position: top left, top left, top right, top right, bottom left,
+    bottom left, bottom right, bottom right;
+  background-repeat: no-repeat;
+}
+
+/* Dimension line: |—————— 24px ——————| */
+.dimension {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--steel-400);
+}
+.dimension__line {
+  position: relative;
+  flex: 1;
+  height: var(--hair);
+  background: currentColor;
+}
+.dimension__line::before,
+.dimension__line::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  width: var(--hair);
+  height: 9px;
+  background: currentColor;
+}
+.dimension__line::before {
+  left: 0;
+}
+.dimension__line::after {
+  right: 0;
+}
+.dimension__value {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--steel-600);
+  white-space: nowrap;
+}
+
+/* Leader line: a hairline that points from a label to a thing. */
+.leader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.leader::before {
+  content: "";
+  order: 1; /* label, then the line, then the dot it points at */
+  width: 28px;
+  height: var(--hair);
+  background: var(--line);
+  flex: none;
+}
+.leader::after {
+  content: "";
+  order: 2;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: var(--hair) solid var(--steel-500);
+  flex: none;
+}
+
+/* Hairline rules */
+.rule {
+  height: var(--hair);
+  background: var(--line-hair);
+  border: 0;
+}
+.rule--soft {
+  background: var(--line-soft);
+}
+.rule--dashed {
+  height: 0;
+  border-top: var(--hair) dashed var(--line-soft);
+  background: none;
+}
+
+/* --------------------------------------------------------------------------
+   Layout helpers
+   -------------------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.stack > * + * {
+  margin-top: var(--space-4);
+}
+.stack-sm > * + * {
+  margin-top: var(--space-2);
+}
+.stack-lg > * + * {
+  margin-top: var(--space-8);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
