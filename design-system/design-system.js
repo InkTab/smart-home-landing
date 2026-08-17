@@ -1,0 +1,144 @@
+/* ==========================================================================
+   Design system sheet — small interactions only.
+   ========================================================================== */
+
+(function () {
+  "use strict";
+
+  /* ---- Toast ----------------------------------------------------------- */
+  const toast = document.getElementById("toast");
+  const toastText = document.getElementById("toast-text");
+  let toastTimer;
+
+  function showToast(message) {
+    toastText.textContent = message;
+    toast.classList.add("is-visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 1600);
+  }
+
+  /* ---- Copy a swatch --------------------------------------------------- */
+  document.querySelectorAll(".swatch").forEach((swatch) => {
+    swatch.addEventListener("click", () => {
+      const hex = swatch.dataset.hex;
+      navigator.clipboard
+        .writeText(hex)
+        .then(() => showToast(hex + " copied"))
+        .catch(() => showToast(hex));
+    });
+  });
+
+  /* ---- Copy any mono token on click ------------------------------------ */
+  document.querySelectorAll(".mono").forEach((el) => {
+    el.style.cursor = "copy";
+    el.addEventListener("click", () => {
+      const value = el.textContent.trim();
+      navigator.clipboard
+        .writeText(value)
+        .then(() => showToast(value + " copied"))
+        .catch(() => {});
+    });
+  });
+
+  /* ---- Blueprint grid toggle ------------------------------------------- */
+  const gridToggle = document.getElementById("grid-toggle");
+  if (gridToggle) {
+    gridToggle.addEventListener("change", () => {
+      document.body.classList.toggle("grid-on", gridToggle.checked);
+    });
+  }
+
+  /* ---- Ranges: paint the track fill, mirror the value ------------------- */
+  function paintRange(input) {
+    const min = Number(input.min || 0);
+    const max = Number(input.max || 100);
+    const pct = ((Number(input.value) - min) / (max - min)) * 100;
+    input.style.setProperty("--fill", pct + "%");
+
+    const key = input.dataset.range;
+    const out = key && document.querySelector('[data-range-out="' + key + '"]');
+    if (out) out.textContent = input.value + (input.dataset.suffix || "");
+  }
+
+  document.querySelectorAll(".range").forEach((input) => {
+    paintRange(input);
+    input.addEventListener("input", () => paintRange(input));
+  });
+
+  /* ---- Dial: slider drives the sweep and the reading -------------------- */
+  const dial = document.getElementById("demo-dial");
+  const dialInput = document.querySelector("[data-dial-input]");
+  const dialValue = document.querySelector("[data-dial-value]");
+
+  if (dial && dialInput && dialValue) {
+    const paintDial = () => {
+      const min = Number(dialInput.min);
+      const max = Number(dialInput.max);
+      const pct = ((Number(dialInput.value) - min) / (max - min)) * 100;
+      dial.style.setProperty("--dial", pct + "%");
+      dialValue.textContent = Number(dialInput.value).toFixed(1) + "°";
+    };
+    paintDial();
+    dialInput.addEventListener("input", paintDial);
+  }
+
+  /* ---- Soft tiles ------------------------------------------------------- */
+  document.querySelectorAll(".tile").forEach((tile) => {
+    tile.addEventListener("click", () => {
+      const on = tile.getAttribute("aria-pressed") === "true";
+      tile.setAttribute("aria-pressed", String(!on));
+    });
+  });
+
+  /* ---- Tabs ------------------------------------------------------------ */
+  const panel = document.querySelector("[data-tab-panel]");
+  const copy = {
+    Overview: "Overview — fourteen devices across five zones, all reporting.",
+    Devices: "Devices — 14 online, 1 offline. Two firmware updates pending.",
+    Automations: "Automations — 9 routines. Sleep mode runs nightly at 22:30.",
+    Energy: "Energy — 6.4 kWh today, 31% below the same week last year.",
+  };
+
+  document.querySelectorAll(".tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tab.parentElement
+        .querySelectorAll(".tab")
+        .forEach((t) => t.setAttribute("aria-selected", "false"));
+      tab.setAttribute("aria-selected", "true");
+      if (panel) panel.textContent = copy[tab.textContent.trim()] || "";
+    });
+  });
+
+  /* ---- Loading buttons: let them actually spin for a moment ------------- */
+  document.querySelectorAll(".btn:not(.is-loading)").forEach((btn) => {
+    if (btn.disabled || btn.hasAttribute("data-force-hover")) return;
+    btn.addEventListener("click", () => {
+      if (!btn.closest(".matrix")) return;
+      btn.classList.add("is-loading");
+      setTimeout(() => btn.classList.remove("is-loading"), 1200);
+    });
+  });
+
+  /* ---- Rail scroll spy -------------------------------------------------- */
+  const links = Array.from(document.querySelectorAll("#rail-list a"));
+  const sections = links
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+
+  if ("IntersectionObserver" in window && sections.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((l) => l.classList.remove("is-active"));
+          const active = links.find(
+            (l) => l.getAttribute("href") === "#" + entry.target.id
+          );
+          if (active) active.classList.add("is-active");
+        });
+      },
+      { rootMargin: "-10% 0px -80% 0px", threshold: 0 }
+    );
+    sections.forEach((section) => observer.observe(section));
+  }
+})();

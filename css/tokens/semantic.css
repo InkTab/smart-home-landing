@@ -1,0 +1,170 @@
+/* ==========================================================================
+   SEMANTIC TOKENS — what the palette is for, plus the scales components use.
+   This is the only token layer components should reference.
+
+   The system: off-white paper, steel-blue ink, soft (neumorphic) depth by
+   default. Hairline geometry is the exception, kept for drawn objects —
+   device cards, annotations, and the optional blueprint grid.
+   ========================================================================== */
+
+:root {
+  /* ---- Surfaces --------------------------------------------------------- */
+  --bg: var(--paper-000);
+  --surface: var(--paper-000);
+  --surface-sunken: var(--paper-200);
+  --surface-tint: var(--steel-050);
+  --surface-ink: var(--steel-900);
+
+  /* ---- Text -------------------------------------------------------------- */
+  --text: var(--steel-950);
+  --text-muted: var(--stone-700);
+  --text-subtle: var(--stone-500);
+  --text-accent: var(--steel-600);
+  --text-inverse: var(--paper-000);
+
+  /* ---- Signal roles ------------------------------------------------------ */
+  --signal-online: var(--green-600);
+  --signal-idle: var(--amber-700);
+  --signal-alert: var(--rust-600);
+  --signal-offline: var(--stone-400);
+
+  /* ---- Lines : the drawn vocabulary --------------------------------------
+     All --steel-600 (58,117,152) at increasing alpha.                    */
+  --line-hair: rgba(58, 117, 152, 0.16); /* 1px structural hairline      */
+  --line-soft: rgba(58, 117, 152, 0.28); /* visible divider              */
+  --line: rgba(58, 117, 152, 0.46); /* component border             */
+  --line-strong: var(--steel-500); /* emphasis / ticks             */
+  --line-neutral: var(--stone-200);
+
+  --grid-minor: rgba(58, 117, 152, 0.07);
+  --grid-major: rgba(58, 117, 152, 0.14);
+
+  /* ---- Typography -------------------------------------------------------- */
+  --font-display: "Jura", "Eurostile", "Avenir Next", "Segoe UI", sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    monospace;
+
+  --text-2xs: 0.6875rem; /* 11 */
+  --text-xs: 0.75rem; /* 12 */
+  --text-sm: 0.875rem; /* 14 */
+  --text-md: 1rem; /* 16 */
+  --text-lg: 1.125rem; /* 18 */
+  --text-xl: 1.3125rem; /* 21 */
+  --text-2xl: 1.5625rem; /* 25 */
+  --text-3xl: 1.9375rem; /* 31 */
+  --text-4xl: 2.375rem; /* 38 */
+  --text-5xl: 3rem; /* 48 */
+  --text-6xl: 3.75rem; /* 60 */
+  --text-7xl: 4.75rem; /* 76 */
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-label: 0.14em; /* annotation labels          */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* ---- Space : 4px base --------------------------------------------------- */
+  --space-1: 0.25rem; /* 4  */
+  --space-2: 0.5rem; /* 8  */
+  --space-3: 0.75rem; /* 12 */
+  --space-4: 1rem; /* 16 */
+  --space-5: 1.25rem; /* 20 */
+  --space-6: 1.5rem; /* 24 */
+  --space-8: 2rem; /* 32 */
+  --space-10: 2.5rem; /* 40 */
+  --space-12: 3rem; /* 48 */
+  --space-16: 4rem; /* 64 */
+  --space-20: 5rem; /* 80 */
+  --space-24: 6rem; /* 96 */
+  --space-32: 8rem; /* 128 */
+
+  /* ---- Geometry ----------------------------------------------------------- */
+  --radius-none: 0;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 12px; /* soft surfaces start here */
+  --radius-2xl: 20px;
+  --radius-pill: 999px;
+
+  --hair: 1px;
+  --tick-len: 9px; /* corner crosshair arm length */
+
+  /* ---- Cast shadow : overlays only ---------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(45, 40, 32, 0.06);
+  --shadow-md: 0 6px 20px -8px rgba(45, 40, 32, 0.14);
+  --shadow-lg: 0 24px 48px -22px rgba(45, 40, 32, 0.2);
+  --shadow-focus: 0 0 0 3px rgba(72, 141, 180, 0.32);
+
+  /* ---- Soft light : the default surface treatment -------------------------
+     One light source, top-left. Both halves must sit on --paper-000 — on
+     pure white the highlight disappears and only the shade reads.        */
+  --soft-light: var(--light-highlight);
+  --soft-shade: var(--light-shade);
+  --soft-shade-strong: var(--light-shade-strong);
+
+  /* Subtle by default — these sit on nearly every surface, so they have to
+     survive being repeated fifty times down a page. */
+  --shadow-soft-sm: 2px 2px 5px var(--soft-shade), -2px -2px 5px var(--soft-light);
+  --shadow-soft: 4px 4px 10px var(--soft-shade), -3px -3px 8px var(--soft-light);
+  --shadow-soft-lg: 10px 10px 24px var(--soft-shade),
+    -8px -8px 18px var(--soft-light);
+  --shadow-soft-inset: inset 2px 2px 5px var(--soft-shade),
+    inset -2px -2px 5px var(--soft-light);
+  --shadow-soft-inset-deep: inset 4px 4px 9px var(--soft-shade-strong),
+    inset -3px -3px 7px var(--soft-light);
+  /* Lift sized for controls — the same light as --shadow-soft-lg, scaled so
+     a 44px button does not float off the page. */
+  --shadow-soft-lift: 6px 6px 16px var(--soft-shade),
+    -5px -5px 12px var(--soft-light);
+  /* Pressed = inset, and slightly tighter than the resting state. */
+  --shadow-soft-press: inset 3px 3px 7px var(--soft-shade),
+    inset -3px -3px 7px var(--soft-light);
+
+  /* The lit sheen: the light source read as a highlight, not just a shadow.
+     Translucent overlays rather than colour ramps, so a 700px-wide button and
+     a 34px chip get the same read instead of a stretched gradient. */
+  --lit-paper: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(211, 204, 190, 0.28) 100%
+  );
+  --lit-steel: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(13, 31, 43, 0.16) 100%
+  );
+  --lit-steel-hover: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(13, 31, 43, 0.08) 100%
+  );
+
+  /* ---- Motion -------------------------------------------------------------- */
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur: 180ms;
+  --dur-slow: 320ms;
+
+  /* ---- Layout -------------------------------------------------------------- */
+  --grid-cell: 24px; /* minor grid pitch */
+  --grid-block: 96px; /* major grid pitch */
+  --container: 1240px;
+  --container-narrow: 760px;
+  --z-nav: 40;
+  --z-toast: 90;
+}

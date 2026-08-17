@@ -1,0 +1,48 @@
+/* ==========================================================================
+   PALETTE — raw values only. Nothing in here knows what it is used for.
+   Components must never reference these directly; go through semantic.css.
+   ========================================================================== */
+
+:root {
+  /* ---- Steel ink -------------------------------------------------------
+     Derived from #488DB4 — hsl(202, 43%, 49%) — by walking lightness.   */
+  --steel-950: #0d1f2b;
+  --steel-900: #163041;
+  --steel-800: #21475f;
+  --steel-700: #2d5d7c;
+  --steel-600: #3a7598;
+  --steel-500: #488db4; /* the source colour */
+  --steel-400: #6ea4c4;
+  --steel-300: #97bdd3;
+  --steel-200: #c2d8e5;
+  --steel-100: #dfeaf1;
+  --steel-050: #f1f6f9;
+
+  /* ---- Paper (warm off-white) ------------------------------------------ */
+  --paper-000: #fdfcf8;
+  --paper-100: #faf9f4;
+  --paper-200: #f5f2eb;
+  --paper-300: #ece8df;
+
+  /* ---- Stone (warm neutrals) -------------------------------------------- */
+  --stone-900: #332e28;
+  --stone-700: #5d544c;
+  --stone-500: #7a7166;
+  --stone-400: #a89f94;
+  --stone-300: #cec8c0;
+  --stone-200: #e5e2dc;
+  --stone-100: #f2f1ed;
+
+  /* ---- Signal ------------------------------------------------------------
+     Muted to sit with the warm paper; all ≥ 4.5:1 on --paper-000.        */
+  --green-600: #277c5d;
+  --amber-700: #956b23;
+  --rust-600: #b24934;
+
+  /* ---- Light ------------------------------------------------------------
+     The two colours the single top-left light source is made of: the
+     highlight, and the paper darkened warm.                              */
+  --light-highlight: #ffffff;
+  --light-shade: rgba(163, 153, 138, 0.32);
+  --light-shade-strong: rgba(151, 141, 128, 0.46);
+}

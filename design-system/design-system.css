@@ -1,0 +1,541 @@
+/* ==========================================================================
+   DESIGN SYSTEM SHEET — layout for the playground page only.
+   ========================================================================== */
+
+.sheet {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  gap: var(--space-12);
+  max-width: 1480px;
+  margin-inline: auto;
+  padding: var(--space-8) var(--space-8) var(--space-32);
+}
+
+/* --------------------------------------------------------------------------
+   Index rail
+   -------------------------------------------------------------------------- */
+
+.rail {
+  position: sticky;
+  top: var(--space-8);
+  align-self: start;
+  max-height: calc(100vh - var(--space-16));
+  overflow-y: auto;
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: var(--paper-000);
+  box-shadow: var(--shadow-soft);
+}
+.rail__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-bottom: var(--space-5);
+  border-bottom: var(--hair) solid var(--paper-300);
+}
+.rail__brand-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: 1.2;
+}
+.rail__brand-sub {
+  font-size: var(--text-2xs);
+  color: var(--text-subtle);
+}
+.rail__list {
+  list-style: none;
+  padding: var(--space-5) 0;
+  margin: 0;
+  display: grid;
+  gap: 1px;
+}
+.rail__list a {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: var(--space-2);
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+.rail__list a span:first-child {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--steel-300);
+}
+.rail__list a:hover {
+  color: var(--steel-800);
+  box-shadow: var(--shadow-soft-sm);
+}
+.rail__list a.is-active {
+  color: var(--steel-800);
+  font-weight: var(--weight-medium);
+  box-shadow: var(--shadow-soft-press);
+}
+.rail__list a.is-active span:first-child {
+  color: var(--steel-500);
+}
+.rail__foot {
+  padding-top: var(--space-4);
+  border-top: var(--hair) solid var(--paper-300);
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* --------------------------------------------------------------------------
+   Title block — the drawing's header stamp
+   -------------------------------------------------------------------------- */
+
+.titleblock {
+  position: relative;
+  padding: var(--space-16) var(--space-10) var(--space-10);
+  background: var(--paper-000);
+  border: 0;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-soft-lg);
+  margin-bottom: var(--space-16);
+}
+.titleblock__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+.titleblock__title {
+  max-width: 18ch;
+}
+.titleblock__title span {
+  color: var(--steel-500);
+  font-weight: var(--weight-semibold);
+}
+.titleblock__lede {
+  max-width: 56ch;
+  margin-top: var(--space-6);
+}
+.titleblock__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  margin-top: var(--space-12);
+  border-top: var(--hair) solid var(--paper-300);
+}
+.titleblock__cell {
+  padding: var(--space-4) var(--space-4) 0 0;
+  display: grid;
+  gap: var(--space-1);
+}
+.titleblock__cell + .titleblock__cell {
+  padding-left: var(--space-4);
+  border-left: var(--hair) solid var(--paper-300);
+}
+.titleblock__cell-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   Sections
+   -------------------------------------------------------------------------- */
+
+.section {
+  margin-bottom: var(--space-24);
+  scroll-margin-top: var(--space-8);
+}
+.section__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-8);
+  border-bottom: var(--hair) solid var(--paper-300);
+}
+.section__index {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--steel-400);
+  margin-bottom: var(--space-2);
+}
+.section__note {
+  font-size: var(--text-sm);
+  color: var(--text-subtle);
+  max-width: 44ch;
+  text-align: right;
+}
+
+/* Sub-block inside a section */
+.block {
+  margin-bottom: var(--space-12);
+}
+.block__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+.block__head::after {
+  content: "";
+  flex: 1;
+  height: var(--hair);
+  background: var(--paper-300);
+}
+
+/* Specimen surface: where components sit for inspection */
+.specimen {
+  position: relative;
+  padding: var(--space-8);
+  background: var(--paper-000);
+  border: 0;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+}
+/* Recessed tray — for showing raised things sitting in something. */
+.specimen--sunken {
+  box-shadow: var(--shadow-soft-inset);
+}
+.specimen--soft {
+  box-shadow: var(--shadow-soft);
+}
+.specimen--ink {
+  background: var(--surface-ink);
+  box-shadow: var(--shadow-soft);
+}
+.specimen__caption {
+  margin-top: var(--space-3);
+  display: flex;
+  gap: var(--space-4);
+  justify-content: space-between;
+}
+
+/* Generic responsive grids */
+.grid {
+  display: grid;
+  gap: var(--space-5);
+}
+.grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.grid--4 {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+.grid--6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.grid--5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.grid--8 {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.grid--tight {
+  gap: var(--space-3);
+}
+
+@media (max-width: 1000px) {
+  .grid--6 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .grid--8 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .grid--5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .grid--5,
+  .grid--6,
+  .grid--8 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Colour
+   -------------------------------------------------------------------------- */
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+.swatches--11 {
+  --cols: 11;
+}
+.swatches--9 {
+  --cols: 9;
+}
+.swatches--4 {
+  --cols: 4;
+}
+
+@media (max-width: 1000px) {
+  .swatches--11 {
+    --cols: 6;
+  }
+  .swatches--9 {
+    --cols: 5;
+  }
+}
+@media (max-width: 640px) {
+  .swatches--11 {
+    --cols: 4;
+  }
+  .swatches--9 {
+    --cols: 3;
+  }
+  .swatches--4 {
+    --cols: 2;
+  }
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  padding: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  border-right: var(--hair) solid var(--paper-300);
+}
+.swatch:last-child {
+  border-right: 0;
+}
+.swatch__chip {
+  height: 84px;
+  transition: transform var(--dur) var(--ease);
+}
+.swatch:hover .swatch__chip {
+  transform: scaleY(1.08);
+  transform-origin: bottom;
+}
+.swatch__meta {
+  padding: var(--space-3);
+  background: var(--surface);
+  display: grid;
+  gap: 2px;
+}
+.swatch__name {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.swatch__hex {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--text-subtle);
+  text-transform: uppercase;
+}
+
+.pair {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft-sm);
+}
+.pair__demo {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+/* --------------------------------------------------------------------------
+   Typography specimens
+   -------------------------------------------------------------------------- */
+
+.typerow {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: baseline;
+  padding: var(--space-5) 0;
+  border-bottom: var(--hair) solid var(--paper-300);
+}
+.typerow:last-child {
+  border-bottom: 0;
+}
+.typerow__spec {
+  display: grid;
+  gap: 2px;
+}
+.typerow__sample {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Spacing scale
+   -------------------------------------------------------------------------- */
+
+.spacerow {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 60px;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-2) 0;
+}
+.spacerow__bar {
+  height: 14px;
+  border-radius: var(--radius-xs);
+  background: var(--steel-100);
+  box-shadow: var(--shadow-soft-inset);
+}
+
+/* Layout grid demo */
+.gridcols {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-5);
+  height: 120px;
+}
+.gridcols span {
+  background: rgba(72, 141, 180, 0.07);
+  border-radius: var(--radius-xs);
+}
+
+/* --------------------------------------------------------------------------
+   Small display cells (radii, elevation, lines, icons)
+   -------------------------------------------------------------------------- */
+
+.cell {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  padding: var(--space-5) var(--space-3);
+  border-radius: var(--radius-xl);
+  background: var(--paper-000);
+  box-shadow: var(--shadow-soft-sm);
+  text-align: center;
+}
+.cell__box {
+  width: 72px;
+  height: 52px;
+  background: var(--steel-050);
+  border: var(--hair) solid var(--steel-300);
+}
+.cell__elev {
+  width: 72px;
+  height: 52px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+}
+.cell__line {
+  width: 100%;
+  height: 24px;
+  display: grid;
+  align-content: center;
+}
+
+.iconcell {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  padding: var(--space-4) var(--space-2);
+  border-radius: var(--radius-lg);
+  color: var(--steel-700);
+  background: var(--paper-000);
+  box-shadow: var(--shadow-soft-sm);
+  transition: box-shadow var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.iconcell:hover {
+  color: var(--steel-500);
+  box-shadow: var(--shadow-soft);
+}
+.icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: var(--space-3);
+}
+
+/* Pinned hover states, so the matrix can show them side by side. */
+.btn--primary[data-force-hover] {
+  background-image: var(--lit-steel-hover);
+  box-shadow: var(--shadow-soft-lg);
+}
+.btn--secondary[data-force-hover] {
+  color: var(--steel-800);
+  box-shadow: var(--shadow-soft-lg);
+}
+.btn--ghost[data-force-hover] {
+  background-color: var(--paper-000);
+  background-image: var(--lit-paper);
+  color: var(--steel-800);
+  box-shadow: var(--shadow-soft-lift);
+}
+
+/* States matrix for buttons */
+.matrix {
+  display: grid;
+  grid-template-columns: 108px repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: center;
+}
+.matrix .btn {
+  justify-self: start;
+}
+.matrix__label {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+@media (max-width: 1100px) {
+  .sheet {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+    padding: var(--space-6) var(--space-5) var(--space-24);
+  }
+  .rail {
+    position: static;
+    max-height: none;
+    border-right: 0;
+    border-bottom: var(--hair) solid var(--line-hair);
+    padding-right: 0;
+  }
+  .rail__list {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  .matrix {
+    grid-template-columns: 1fr;
+  }
+  .section__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .section__note {
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .titleblock {
+    padding: var(--space-10) var(--space-5) var(--space-6);
+  }
+  .specimen {
+    padding: var(--space-5);
+  }
+  .typerow,
+  .spacerow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+  }
+  .gridcols {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
