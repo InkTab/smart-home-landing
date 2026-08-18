@@ -1014,6 +1014,23 @@
 .table__num {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+/* Once the columns stop fitting the table scrolls inside its own box, rather
+   than crushing values until they break mid-token. Keep it focusable so the
+   region can be reached from the keyboard. */
+.table-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.table-scroll .table {
+  min-width: 440px;
+}
+.table-scroll:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-sm);
 }
 
 /* --------------------------------------------------------------------------
@@ -1021,6 +1038,7 @@
    -------------------------------------------------------------------------- */
 
 .navbar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1031,6 +1049,19 @@
   border: 0;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-soft);
+}
+/* Above the breakpoint the menu is not a box: its children become direct
+   flex items, so the bar reads brand | links | actions. */
+.navbar__menu {
+  display: contents;
+}
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.navbar__toggle {
+  display: none;
 }
 .navbar__brand {
   display: flex;
@@ -1116,6 +1147,76 @@
 }
 .breadcrumb__sep {
   color: var(--steel-300);
+}
+
+/* The bar needs ~712px for five links and two buttons; below that it keeps
+   the brand and a toggle, and drops the rest into a panel underneath. */
+@media (max-width: 800px) {
+  .navbar {
+    gap: var(--space-4);
+  }
+  .navbar__toggle {
+    display: inline-flex;
+  }
+  .navbar__menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    left: 0;
+    right: 0;
+    z-index: var(--z-nav);
+    padding: var(--space-4);
+    gap: var(--space-4);
+    background: var(--paper-000);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-soft-lg);
+  }
+  .navbar[data-open="true"] .navbar__menu {
+    display: grid;
+  }
+  .navbar__links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .navbar__links a {
+    display: block;
+    padding: var(--space-3) var(--space-2);
+    border-radius: var(--radius-lg);
+    font-size: var(--text-md);
+  }
+  .navbar__links a[aria-current="page"] {
+    box-shadow: var(--shadow-soft-press);
+  }
+  .navbar__actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: var(--hair) solid var(--paper-300);
+  }
+  .navbar__actions .btn {
+    --btn-height: 44px;
+    width: 100%;
+    font-size: var(--text-sm);
+  }
+}
+
+/* The strip scrolls rather than overflowing once the tabs stop fitting. */
+@media (max-width: 640px) {
+  .tabs {
+    display: flex;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: none;
+  }
 }
 
 /* --------------------------------------------------------------------------

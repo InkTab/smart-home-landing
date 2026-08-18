@@ -109,6 +109,39 @@
     });
   });
 
+  /* ---- Navbar: the mobile toggle --------------------------------------- */
+  document.querySelectorAll(".navbar__toggle").forEach((toggle) => {
+    const bar = toggle.closest(".navbar");
+    if (!bar) return;
+    const icon = toggle.querySelector("[data-toggle-icon] use");
+
+    function setOpen(open) {
+      bar.dataset.open = String(open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      if (icon) icon.setAttribute("href", open ? "#i-x" : "#i-menu");
+    }
+
+    setOpen(false);
+
+    toggle.addEventListener("click", () => {
+      setOpen(bar.dataset.open !== "true");
+    });
+
+    /* Outside click and Escape close it, the way a real nav does. */
+    document.addEventListener("click", (event) => {
+      if (bar.dataset.open === "true" && !bar.contains(event.target)) {
+        setOpen(false);
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && bar.dataset.open === "true") {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  });
+
   /* ---- Loading buttons: let them actually spin for a moment ------------- */
   document.querySelectorAll(".btn:not(.is-loading)").forEach((btn) => {
     if (btn.disabled || btn.hasAttribute("data-force-hover")) return;
@@ -119,9 +152,76 @@
     });
   });
 
+  /* ---- Jump menu: the index again, once the rail has scrolled away ------ */
+  const jump = document.getElementById("jump");
+  const jumpPanel = document.getElementById("jump-panel");
+  const railList = document.getElementById("rail-list");
+  const rail = document.querySelector(".rail");
+
+  if (jump && jumpPanel && railList) {
+    const jumpToggle = jump.querySelector(".jump__toggle");
+    const jumpIcon = jumpToggle.querySelector("use");
+
+    /* One source of truth for the section order: copy the rail's list. */
+    const indexCopy = railList.cloneNode(true);
+    indexCopy.removeAttribute("id");
+    indexCopy
+      .querySelectorAll("a")
+      .forEach((a) => a.classList.remove("is-active"));
+    jumpPanel.appendChild(indexCopy);
+
+    function setJumpOpen(open) {
+      jump.dataset.open = String(open);
+      jumpToggle.setAttribute("aria-expanded", String(open));
+      jumpToggle.setAttribute(
+        "aria-label",
+        open ? "Close section index" : "Jump to section"
+      );
+      if (jumpIcon) jumpIcon.setAttribute("href", open ? "#i-x" : "#i-menu");
+    }
+
+    setJumpOpen(false);
+
+    jumpToggle.addEventListener("click", () => {
+      setJumpOpen(jump.dataset.open !== "true");
+    });
+
+    /* Picking a section is the whole point — close on the way out. */
+    jumpPanel.addEventListener("click", (event) => {
+      if (event.target.closest("a")) setJumpOpen(false);
+    });
+    document.addEventListener("click", (event) => {
+      if (jump.dataset.open === "true" && !jump.contains(event.target)) {
+        setJumpOpen(false);
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && jump.dataset.open === "true") {
+        setJumpOpen(false);
+        jumpToggle.focus();
+      }
+    });
+
+    /* It only earns its place once the rail itself is out of view. */
+    if (rail && "IntersectionObserver" in window) {
+      const railWatcher = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            jump.classList.toggle("is-visible", !entry.isIntersecting);
+            if (entry.isIntersecting) setJumpOpen(false);
+          });
+        },
+        { threshold: 0 }
+      );
+      railWatcher.observe(rail);
+    }
+  }
+
   /* ---- Rail scroll spy -------------------------------------------------- */
-  const links = Array.from(document.querySelectorAll("#rail-list a"));
-  const sections = links
+  /* Both copies of the index follow the scroll, so the pinned one opens on
+     the section you are actually in. */
+  const links = Array.from(document.querySelectorAll(".rail__list a"));
+  const sections = Array.from(document.querySelectorAll("#rail-list a"))
     .map((link) => document.querySelector(link.getAttribute("href")))
     .filter(Boolean);
 
@@ -131,10 +231,9 @@
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           links.forEach((l) => l.classList.remove("is-active"));
-          const active = links.find(
-            (l) => l.getAttribute("href") === "#" + entry.target.id
-          );
-          if (active) active.classList.add("is-active");
+          links
+            .filter((l) => l.getAttribute("href") === "#" + entry.target.id)
+            .forEach((l) => l.classList.add("is-active"));
         });
       },
       { rootMargin: "-10% 0px -80% 0px", threshold: 0 }
