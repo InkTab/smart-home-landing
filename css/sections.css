@@ -1,0 +1,433 @@
+/* ==========================================================================
+   SECTIONS — page-level composition. Components stay in components.css;
+   this file only arranges them and owns the entrance choreography.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Entrance choreography
+
+   Everything that animates in carries data-anim and a --d delay, so the order
+   of the section is readable from the markup alone. Fill mode is `both`, so
+   the pre-animation state is the keyframe's — nothing is hidden by default,
+   which keeps the copy visible if the stylesheet loads late.
+   -------------------------------------------------------------------------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+[data-anim] {
+  animation-duration: 760ms;
+  animation-timing-function: var(--ease);
+  animation-fill-mode: both;
+  animation-delay: var(--d, 0ms);
+}
+[data-anim="rise"] {
+  animation-name: rise;
+}
+[data-anim="pop"] {
+  animation-name: settle;
+  animation-duration: 620ms;
+}
+
+/* --------------------------------------------------------------------------
+   Site header
+   -------------------------------------------------------------------------- */
+
+.site-head {
+  padding-top: var(--space-6);
+}
+.site-head .navbar__brand {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  letter-spacing: var(--tracking-wide);
+}
+
+/* Two-state language toggle — the segmented control at control size. */
+.langswitch {
+  flex: none;
+}
+.langswitch .tab {
+  min-width: 46px;
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+}
+
+/* --------------------------------------------------------------------------
+   01 — Hero
+
+   One centred column of copy; the system assembles itself around it. Above
+   --hero-bp the widgets are absolutely placed in the margins, below it they
+   collapse into a plain grid under the call to action.
+   -------------------------------------------------------------------------- */
+
+.hero {
+  /* The copy has to give up width as the viewport narrows, or the widgets in
+     the margins run into it just above the breakpoint. */
+  --hero-copy: clamp(460px, 46vw, 600px);
+  --hero-widget: 232px;
+  padding-block: var(--space-12) var(--space-20);
+}
+
+.hero__stage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--space-16);
+}
+
+.hero__copy {
+  max-width: var(--hero-copy);
+  text-align: center;
+}
+.hero__title {
+  text-wrap: balance;
+}
+.hero__lede {
+  margin-top: var(--space-6);
+  text-wrap: pretty;
+}
+.hero__actions {
+  margin-top: var(--space-8);
+  display: flex;
+  justify-content: center;
+}
+.hero__trust {
+  margin-top: var(--space-6);
+  color: var(--text-subtle);
+}
+
+/* ---- The widgets ------------------------------------------------------- */
+
+.hero__widgets {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  width: 100%;
+}
+
+/* The wrapper is the grid item; the card inside has to fill it so a row of
+   widgets lines up along the bottom as well as the top. */
+.hero__widget {
+  display: grid;
+}
+
+/* Once four of them fit across, the system reads as one strip. */
+@media (min-width: 760px) {
+  .hero__widgets {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.hero__device {
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+}
+.hero__device--slim {
+  padding-block: var(--space-4);
+}
+.hero__device .device__reading {
+  font-size: var(--text-3xl);
+}
+/* A word, not a number — it must not tower over the value cards. */
+.device__reading--state {
+  font-size: var(--text-2xl);
+  color: var(--steel-700);
+}
+.hero__device-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.hero__plate {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+}
+
+/* A reading that changes on its own fades through the swap rather than
+   snapping to the new number. */
+.hero__device .device__reading {
+  transition: opacity var(--dur) var(--ease);
+}
+.hero__device .device__reading.is-changing {
+  opacity: 0.3;
+}
+
+/* Recessed track with a steel fill — the humidity read at a glance. */
+.meter {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--paper-000);
+  box-shadow: var(--shadow-soft-inset);
+}
+.meter__fill {
+  display: block;
+  width: var(--v, 50%);
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--steel-500);
+  transition: width 1.2s var(--ease);
+}
+
+/* ---- The hub's link: drops, then comes back ---------------------------- */
+
+.hero__widget--hub .hero__device {
+  position: relative;
+  overflow: hidden;
+  transition: padding-top var(--dur-slow) var(--ease);
+}
+/* The strip pushes the card open rather than sitting on top of its name. */
+.hero__widget--hub:has(.linkstrip.is-on) .hero__device {
+  padding-top: calc(var(--space-4) + 30px);
+}
+
+.linkstrip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 7px var(--space-4);
+  background: var(--signal-idle);
+  color: var(--paper-000);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  transform: translateY(-100%);
+  transition: transform var(--dur-slow) var(--ease),
+    background-color var(--dur) var(--ease);
+}
+.linkstrip.is-on {
+  transform: none;
+}
+.linkstrip.is-connected {
+  background: var(--signal-online);
+}
+.linkstrip__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+/* Blinks while it is still trying; steady once it is back. */
+.linkstrip:not(.is-connected) .linkstrip__dot {
+  animation: blink 900ms steps(2, end) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* ---- The basement leak notification ------------------------------------ */
+
+/* It sits in a band of its own above the cluster, and that band is always
+   there — reserving the height is what keeps the page still when it fires. */
+.hero__widget--leak {
+  grid-column: 1 / -1;
+  align-content: center;
+  justify-items: center;
+  min-height: 84px;
+  pointer-events: none;
+}
+.hero__alert {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5) var(--space-3) var(--space-4);
+  border-left: 3px solid var(--signal-alert);
+  box-shadow: var(--shadow-soft-lg);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--dur-slow) var(--ease),
+    transform var(--dur-slow) var(--ease);
+}
+.hero__widget--leak.is-on .hero__alert {
+  opacity: 1;
+  transform: none;
+}
+.hero__alert-text {
+  display: grid;
+  gap: 2px;
+}
+.hero__plate--alert {
+  color: var(--signal-alert);
+  background: rgba(178, 73, 52, 0.06);
+}
+
+/* ---- The door: opens, then closes again -------------------------------- */
+
+/* The jump lives on the card, not the wrapper — the wrapper owns the
+   entrance animation, and one element can only run one of them. */
+@keyframes door-jump {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-10px);
+  }
+  42% {
+    transform: translateY(0);
+  }
+  58% {
+    transform: translateY(-4px);
+  }
+  76%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.hero__widget--door .hero__device {
+  transition: box-shadow var(--dur-slow) var(--ease);
+}
+.hero__widget--door.is-open .hero__device {
+  animation: door-jump 820ms var(--ease);
+  box-shadow: var(--shadow-soft-lg);
+}
+.hero__widget--door.is-open .device__reading--state {
+  color: var(--signal-idle);
+}
+
+/* ---- Desktop composition ------------------------------------------------ */
+
+@media (min-width: 1120px) {
+  .hero {
+    padding-block: var(--space-16) var(--space-24);
+  }
+  .hero__stage {
+    min-height: min(72vh, 640px);
+    gap: 0;
+  }
+  .hero__widgets {
+    position: absolute;
+    inset: 0;
+    display: block;
+    pointer-events: none;
+  }
+  .hero__widget {
+    position: absolute;
+    width: var(--hero-widget);
+    pointer-events: auto;
+  }
+  /* Vertical placement is proportional; the horizontal stagger is in pixels,
+     so the clearance to the copy never depends on the viewport. */
+  .hero__widget--climate {
+    left: 0;
+    top: 2%;
+  }
+  .hero__widget--humidity {
+    left: 8px;
+    bottom: 2%;
+  }
+  .hero__widget--door {
+    right: 0;
+    top: 7%;
+  }
+  .hero__widget--lights {
+    right: 28px;
+    top: 44%;
+  }
+  /* Same bottom as the humidity card, so the two sides of the stage land on
+     one line. */
+  .hero__widget--hub {
+    right: 10px;
+    bottom: 2%;
+  }
+  /* The empty band under the call to action — nothing else lives there. */
+  .hero__widget--leak {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    min-height: 0;
+  }
+
+  .hero__alert {
+    width: 340px;
+  }
+}
+
+@media (max-width: 1119px) {
+  /* Odd one out — the hub carries no reading, so it takes the full row and
+     the other five pair off above it, leaving no gaps. */
+  .hero__widget--hub {
+    grid-column: 1 / -1;
+  }
+  .hero__widget--hub .hero__device {
+    flex-direction: row;
+    align-items: center;
+  }
+  .hero__widget--hub .device__head {
+    width: 100%;
+  }
+  .hero__alert {
+    width: min(360px, 100%);
+  }
+}
+
+@media (max-width: 560px) {
+  .hero {
+    padding-block: var(--space-8) var(--space-16);
+  }
+  .hero__stage {
+    gap: var(--space-6);
+  }
+  .hero__lede {
+    font-size: var(--text-lg);
+  }
+  .hero__actions .btn {
+    width: 100%;
+  }
+  .hero__device {
+    padding: var(--space-4);
+  }
+  .hero__device .device__reading {
+    font-size: var(--text-2xl);
+  }
+  /* Two cards to a row leaves ~70px for the room name — the wide drafting
+     tracking is what breaks it, so it comes in at this width only. */
+  .hero__device .label {
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+  }
+  .hero__plate {
+    width: 28px;
+    height: 28px;
+  }
+  .hero__plate .icon {
+    width: 15px;
+    height: 15px;
+  }
+}

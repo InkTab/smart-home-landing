@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Halo — Smart Home Installation</title>
-    <meta name="description" content="" />
+    <meta
+      name="description"
+      content="Wireless, modular smart home systems designed around how you actually live. No drilling, no complicated installation, no commitment to one address."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,6 +19,287 @@
     <link rel="stylesheet" href="css/tokens/semantic.css" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/sections.css" />
   </head>
-  <body></body>
+  <body>
+    <div class="paper"></div>
+
+    <!-- Icon sprite — same drawing as the design system sheet. -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-hub" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3" />
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 3v6M12 15v6M3 12h6M15 12h6" />
+        </symbol>
+        <symbol id="i-thermostat" viewBox="0 0 24 24">
+          <path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0Z" />
+          <path d="M12 9v6" />
+        </symbol>
+        <symbol id="i-lock" viewBox="0 0 24 24">
+          <rect x="4" y="10" width="16" height="10" rx="2" />
+          <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+          <path d="M12 14v2" />
+        </symbol>
+        <symbol id="i-door" viewBox="0 0 24 24">
+          <path d="M4 21h16" />
+          <path d="M6.5 21V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v17" />
+          <path d="M14.5 12h.01" />
+        </symbol>
+        <symbol id="i-bulb" viewBox="0 0 24 24">
+          <path
+            d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.9v.2h5v-.2c0-.8.4-1.5 1-1.9A6 6 0 0 0 12 3Z"
+          />
+          <path d="M9.5 19h5M10.5 21.5h3" />
+        </symbol>
+        <symbol id="i-drop" viewBox="0 0 24 24">
+          <path d="M12 3.2c3.4 4 5.2 6.8 5.2 9.3a5.2 5.2 0 0 1-10.4 0c0-2.5 1.8-5.3 5.2-9.3Z" />
+          <path d="M9.4 13.6a2.6 2.6 0 0 0 2.6 2.6" />
+        </symbol>
+        <symbol id="i-wifi" viewBox="0 0 24 24">
+          <path d="M2.5 9.2a14 14 0 0 1 19 0" />
+          <path d="M6 12.8a9 9 0 0 1 12 0" />
+          <path d="M9.2 16.3a4.5 4.5 0 0 1 5.6 0" />
+          <path d="M12 19.8h.01" />
+        </symbol>
+        <symbol id="i-alert" viewBox="0 0 24 24">
+          <path d="M12 3.5 2.8 20h18.4Z" />
+          <path d="M12 10v4M12 17h.01" />
+        </symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24">
+          <path d="M4 12h15.5M13.5 6l6 6-6 6" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <header class="site-head">
+      <div class="container">
+        <nav class="navbar" data-i18n-aria-label="nav.label" aria-label="Main">
+          <a class="navbar__brand" href="#top">
+            <span class="brandmark"
+              ><svg class="icon icon--sm"><use href="#i-hub" /></svg
+            ></span>
+            Halo
+          </a>
+
+          <!-- Language follows the system, and can be overridden here. -->
+          <div
+            class="tabs tabs--sm langswitch"
+            role="group"
+            data-i18n-aria-label="lang.label"
+            aria-label="Language"
+          >
+            <button class="tab" type="button" data-lang="en" aria-pressed="true">
+              EN
+            </button>
+            <button class="tab" type="button" data-lang="ru" aria-pressed="false">
+              RU
+            </button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         01 — HERO
+         The headline lands first; the system assembles itself around it.
+         ====================================================================== -->
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container">
+          <div class="hero__stage">
+            <div class="hero__copy">
+              <h1
+                class="display-2 hero__title"
+                id="hero-title"
+                data-anim="rise"
+                style="--d: 80ms"
+                data-i18n="hero.title"
+              >
+                A smarter home that fits your life.
+              </h1>
+
+              <p
+                class="lede hero__lede"
+                data-anim="rise"
+                style="--d: 260ms"
+                data-i18n="hero.body"
+              >
+                From lighting and climate to security and everyday routines, your
+                smart home is designed around how you actually live.
+              </p>
+
+              <div class="hero__actions" data-anim="rise" style="--d: 420ms">
+                <a class="btn btn--primary btn--lg" href="#calculator">
+                  <span data-i18n="hero.cta">Build My Smart Home</span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-arrow-right" /></svg>
+                </a>
+              </div>
+
+              <p
+                class="label hero__trust"
+                data-anim="rise"
+                style="--d: 560ms"
+                data-i18n="hero.trust"
+              >
+                Wireless · Modular · Moveable
+              </p>
+            </div>
+
+            <!-- The live system: readings, not controls. Decorative. -->
+            <div class="hero__widgets" aria-hidden="true">
+              <div class="hero__widget hero__widget--leak" data-leak>
+                <article class="card hero__device hero__alert">
+                  <span class="icon-plate hero__plate hero__plate--alert"
+                    ><svg class="icon icon--sm"><use href="#i-alert" /></svg
+                  ></span>
+                  <span class="hero__alert-text">
+                    <span class="device__name" data-i18n="w.leak.title"
+                      >Water leak detected</span
+                    >
+                    <span class="caption" data-i18n="w.leak.note"
+                      >Basement · water shut off automatically</span
+                    >
+                  </span>
+                </article>
+              </div>
+
+              <div
+                class="hero__widget hero__widget--climate"
+                data-anim="pop"
+                style="--d: 700ms"
+              >
+                <article class="card device hero__device">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="w.climate.room">Living room</span>
+                      <span class="device__name" data-i18n="w.climate.name">Climate</span>
+                    </div>
+                    <span class="icon-plate hero__plate"
+                      ><svg class="icon icon--sm"><use href="#i-thermostat" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading" data-reading>
+                    <span data-temp>21.5</span><span class="device__unit">°C</span>
+                  </div>
+                  <div class="hero__device-foot">
+                    <span class="status status--online"
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-i18n="w.climate.note">Holding 22.0 °C</span>
+                  </div>
+                </article>
+              </div>
+
+              <div
+                class="hero__widget hero__widget--humidity"
+                data-anim="pop"
+                style="--d: 980ms"
+              >
+                <article class="card device hero__device">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="w.humidity.room">Bedroom</span>
+                      <span class="device__name" data-i18n="w.humidity.name">Humidity</span>
+                    </div>
+                    <span class="icon-plate hero__plate"
+                      ><svg class="icon icon--sm"><use href="#i-drop" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading" data-reading>
+                    <span data-humidity>44</span><span class="device__unit">%</span>
+                  </div>
+                  <div class="meter">
+                    <span class="meter__fill" style="--v: 44%" data-humidity-fill></span>
+                  </div>
+                  <span class="caption" data-i18n="w.humidity.note">Comfortable range</span>
+                </article>
+              </div>
+
+              <div
+                class="hero__widget hero__widget--door"
+                data-anim="pop"
+                style="--d: 840ms"
+                data-door
+              >
+                <article class="card device hero__device">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="w.door.room">Front door</span>
+                      <span class="device__name" data-i18n="w.door.name">Door sensor</span>
+                    </div>
+                    <span class="icon-plate hero__plate"
+                      ><svg class="icon icon--sm" data-door-icon>
+                        <use href="#i-lock" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading device__reading--state" data-i18n="w.door.closed">
+                    Closed
+                  </div>
+                  <div class="hero__device-foot">
+                    <span class="status status--online" data-door-status
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-door-note data-i18n="w.door.note"
+                      >Armed</span
+                    >
+                  </div>
+                </article>
+              </div>
+
+              <div
+                class="hero__widget hero__widget--lights"
+                data-anim="pop"
+                style="--d: 1120ms"
+              >
+                <article class="card device hero__device">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="w.lights.room">Hallway</span>
+                      <span class="device__name" data-i18n="w.lights.name">Lights</span>
+                    </div>
+                    <span class="icon-plate hero__plate"
+                      ><svg class="icon icon--sm"><use href="#i-bulb" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading">
+                    64<span class="device__unit">%</span>
+                  </div>
+                  <div class="meter"><span class="meter__fill" style="--v: 64%"></span></div>
+                  <span class="caption" data-i18n="w.lights.note">Warm · 2700 K</span>
+                </article>
+              </div>
+
+              <div
+                class="hero__widget hero__widget--hub"
+                data-anim="pop"
+                style="--d: 1260ms"
+              >
+                <article class="card device hero__device hero__device--slim">
+                  <!-- Slides down over the card when the hub drops the link. -->
+                  <div class="linkstrip" data-link>
+                    <span class="linkstrip__dot"></span>
+                    <span data-link-text data-i18n="w.link.reconnecting">Reconnecting</span>
+                  </div>
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="device__name" data-i18n="w.hub.name">System online</span>
+                      <span class="caption" data-i18n="w.hub.note">12 devices · 4 rooms</span>
+                    </div>
+                    <span class="icon-plate hero__plate"
+                      ><svg class="icon icon--sm"><use href="#i-wifi" /></svg
+                    ></span>
+                  </div>
+                </article>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/hero.js"></script>
+  </body>
 </html>
