@@ -58,7 +58,45 @@
       "w.link.connected": "Connected",
 
       "w.leak.title": "Water leak detected",
-      "w.leak.note": "Basement · water shut off automatically"
+      "w.leak.note": "Basement · water shut off automatically",
+
+      "problem.eyebrow": "Right now",
+      "problem.title": "You’re the automation.",
+      "problem.lede":
+        "Either you’re still flipping switches to find out which is which, or you’re four weekends into research with nothing installed.",
+
+      "problem.a.label": "Wall by the front door",
+      "problem.a.shot": "Unlabelled switches · a thermostat nobody trusts",
+      "problem.a.quote": "“Which one’s the porch light again?”",
+      "problem.a.stat": "14",
+      "problem.a.statNote": "switches — 2 you can name",
+
+      "problem.b.label": "Kitchen table, week three",
+      "problem.b.shot": "Cables, opened hub boxes, spec sheets, too many tabs",
+      "problem.b.quote": "“Do I need the hub, or does the app do it?”",
+      "problem.b.stat": "47",
+      "problem.b.statNote": "tabs — 0 in the cart",
+
+      /* The other side of every cell: the same wall, the same table, the
+         same question — once somebody has installed it. Only the toggle's
+         accessible name is copy here; the button itself is an arrow. */
+      "problem.a.flipPhoto": "The wall by the front door, with Halo",
+      "problem.a.flipQuote": "The porch light, with Halo",
+      "problem.a.flipStat": "The switches, with Halo",
+      "problem.a.shotAfter": "One plate · every room named",
+      "problem.a.labelAfter": "Wall by the front door",
+      "problem.a.quoteAfter": "“I haven’t touched a switch in a month.”",
+      "problem.a.statAfter": "0",
+      "problem.a.statNoteAfter": "switches left to guess at",
+
+      "problem.b.flipPhoto": "The kitchen table, with Halo",
+      "problem.b.flipQuote": "The hub question, with Halo",
+      "problem.b.flipStat": "The tabs, with Halo",
+      "problem.b.shotAfter": "One box, one afternoon, nothing left to read",
+      "problem.b.labelAfter": "Kitchen table, Thursday",
+      "problem.b.quoteAfter": "“I still don’t know what a hub is.”",
+      "problem.b.statAfter": "4h",
+      "problem.b.statNoteAfter": "one visit, start to handover"
     },
 
     ru: {
@@ -101,7 +139,42 @@
       "w.link.connected": "Подключено",
 
       "w.leak.title": "Обнаружена протечка",
-      "w.leak.note": "Подвал · вода перекрыта автоматически"
+      "w.leak.note": "Подвал · вода перекрыта автоматически",
+
+      "problem.eyebrow": "Пока что",
+      "problem.title": "Автоматика в вашем доме — это вы.",
+      "problem.lede":
+        "Либо вы до сих пор щёлкаете выключателями наугад, либо четвёртые выходные читаете обзоры — а дома так ничего и не появилось.",
+
+      "problem.a.label": "Стена у входной двери",
+      "problem.a.shot": "Выключатели без подписей · термостат, которому не верят",
+      "problem.a.quote": "«Какой из них свет на крыльце?»",
+      "problem.a.stat": "14",
+      "problem.a.statNote": "выключателей — 2 вы можете назвать",
+
+      "problem.b.label": "Кухонный стол, третья неделя",
+      "problem.b.shot": "Провода, вскрытые коробки хабов, спецификации, вкладки",
+      "problem.b.quote": "«А хаб вообще нужен, или всё через приложение?»",
+      "problem.b.stat": "47",
+      "problem.b.statNote": "вкладок — 0 в корзине",
+
+      "problem.a.flipPhoto": "Стена у входной двери — с Halo",
+      "problem.a.flipQuote": "Свет на крыльце — с Halo",
+      "problem.a.flipStat": "Выключатели — с Halo",
+      "problem.a.shotAfter": "Одна панель · у каждой комнаты есть имя",
+      "problem.a.labelAfter": "Стена у входной двери",
+      "problem.a.quoteAfter": "«Уже месяц не подхожу к выключателям.»",
+      "problem.a.statAfter": "0",
+      "problem.a.statNoteAfter": "выключателей, которые надо угадывать",
+
+      "problem.b.flipPhoto": "Кухонный стол — с Halo",
+      "problem.b.flipQuote": "Вопрос про хаб — с Halo",
+      "problem.b.flipStat": "Вкладки — с Halo",
+      "problem.b.shotAfter": "Одна коробка, один день, читать больше нечего",
+      "problem.b.labelAfter": "Кухонный стол, четверг",
+      "problem.b.quoteAfter": "«Я до сих пор не знаю, что такое хаб.»",
+      "problem.b.statAfter": "4 ч",
+      "problem.b.statNoteAfter": "один визит — от начала до сдачи"
     }
   };
 
