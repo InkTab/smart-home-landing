@@ -126,6 +126,9 @@
         <symbol id="i-x" viewBox="0 0 24 24">
           <path d="m6 6 12 12M18 6 6 18" />
         </symbol>
+        <symbol id="i-menu" viewBox="0 0 24 24">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </symbol>
         <symbol id="i-search" viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="7" />
           <path d="m20 20-3.6-3.6" />
@@ -441,14 +444,16 @@
             <div class="typerow">
               <div class="typerow__spec">
                 <span class="label">Display 1</span>
-                <span class="mono">76 / 1.05 / -0.02em</span>
+                <span class="mono">76 desktop · 48 mobile</span>
+                <span class="mono">1.05 / -0.02em</span>
               </div>
               <p class="typerow__sample display-1">The house is awake</p>
             </div>
             <div class="typerow">
               <div class="typerow__spec">
                 <span class="label">Display 2</span>
-                <span class="mono">60 / 1.05 / -0.02em</span>
+                <span class="mono">60 desktop · 38 mobile</span>
+                <span class="mono">1.05 / -0.02em</span>
               </div>
               <p class="typerow__sample display-2">The house is awake</p>
             </div>
@@ -1335,25 +1340,32 @@
 
           <div class="grid grid--2">
             <div class="specimen" style="padding: var(--space-4)">
-              <table class="table">
-                <caption class="label" style="text-align: left; padding: var(--space-2) var(--space-4) var(--space-4)">
-                  Standard install — hub specification
-                </caption>
-                <thead>
-                  <tr>
-                    <th>Property</th>
-                    <th>Value</th>
-                    <th>Note</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>Radio</td><td class="table__num">Thread + Zigbee 3.0</td><td>Matter certified</td></tr>
-                  <tr><td>Devices</td><td class="table__num">128</td><td>Per hub</td></tr>
-                  <tr><td>Power draw</td><td class="table__num">2.4 W</td><td>Idle</td></tr>
-                  <tr><td>Backup</td><td class="table__num">8 h</td><td>Internal cell</td></tr>
-                  <tr><td>Dimensions</td><td class="table__num">96 × 96 × 24 mm</td><td>Wall or shelf</td></tr>
-                </tbody>
-              </table>
+              <div
+                class="table-scroll"
+                tabindex="0"
+                role="region"
+                aria-label="Hub specification"
+              >
+                <table class="table">
+                  <caption class="label" style="text-align: left; padding: var(--space-2) var(--space-4) var(--space-4)">
+                    Standard install — hub specification
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Value</th>
+                      <th>Note</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Radio</td><td class="table__num">Thread + Zigbee 3.0</td><td>Matter certified</td></tr>
+                    <tr><td>Devices</td><td class="table__num">128</td><td>Per hub</td></tr>
+                    <tr><td>Power draw</td><td class="table__num">2.4 W</td><td>Idle</td></tr>
+                    <tr><td>Backup</td><td class="table__num">8 h</td><td>Internal cell</td></tr>
+                    <tr><td>Dimensions</td><td class="table__num">96 × 96 × 24 mm</td><td>Wall or shelf</td></tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <div class="stack">
@@ -1434,16 +1446,29 @@
                 <span class="brandmark"><svg class="icon icon--sm"><use href="#i-hub" /></svg></span>
                 Halo
               </div>
-              <ul class="navbar__links">
-                <li><a href="#nav" aria-current="page">Services</a></li>
-                <li><a href="#nav">Systems</a></li>
-                <li><a href="#nav">Projects</a></li>
-                <li><a href="#nav">Pricing</a></li>
-                <li><a href="#nav">Contact</a></li>
-              </ul>
-              <div class="row" style="gap: var(--space-2)">
-                <button class="btn btn--ghost btn--sm">Sign in</button>
-                <button class="btn btn--primary btn--sm">Book a survey</button>
+              <button
+                class="navbar__toggle btn btn--ghost btn--icon"
+                type="button"
+                aria-expanded="false"
+                aria-controls="navbar-demo-menu"
+                aria-label="Open menu"
+              >
+                <svg class="icon" data-toggle-icon><use href="#i-menu" /></svg>
+              </button>
+              <!-- display:contents above the breakpoint, so the bar keeps its
+                   three-part layout; a real box below it. -->
+              <div class="navbar__menu" id="navbar-demo-menu">
+                <ul class="navbar__links">
+                  <li><a href="#nav" aria-current="page">Services</a></li>
+                  <li><a href="#nav">Systems</a></li>
+                  <li><a href="#nav">Projects</a></li>
+                  <li><a href="#nav">Pricing</a></li>
+                  <li><a href="#nav">Contact</a></li>
+                </ul>
+                <div class="navbar__actions">
+                  <button class="btn btn--ghost btn--sm">Sign in</button>
+                  <button class="btn btn--primary btn--sm">Book a survey</button>
+                </div>
               </div>
             </nav>
 
@@ -1613,11 +1638,8 @@
               <span class="label">The pieces working together</span>
             </div>
             <div class="soft-panel">
-              <div
-                class="grid"
-                style="grid-template-columns: 260px minmax(0, 1fr); gap: var(--space-10); align-items: center"
-              >
-                <div style="display: grid; gap: var(--space-5); justify-items: center">
+              <div class="grid wallpanel">
+                <div class="wallpanel__dial">
                   <div class="dial" id="demo-dial" style="--dial: 54%">
                     <div class="dial__face">
                       <span class="dial__value" data-dial-value>21.5°</span>
@@ -1637,11 +1659,8 @@
                   />
                 </div>
 
-                <div style="display: grid; gap: var(--space-6)">
-                  <div
-                    class="grid grid--tight"
-                    style="grid-template-columns: repeat(4, minmax(0, 1fr))"
-                  >
+                <div class="wallpanel__controls">
+                  <div class="grid grid--tight wallpanel__tiles">
                     <button class="tile" aria-pressed="true">
                       <svg class="icon icon--lg"><use href="#i-bulb" /></svg>
                       <span class="tile__name">Hallway</span>
@@ -1721,6 +1740,22 @@
           <span class="mono">END OF SHEET</span>
         </footer>
       </main>
+    </div>
+
+    <!-- The index again, pinned, for when the rail has scrolled away. Its
+         list is cloned from the rail at runtime, so there is one source of
+         truth for the section order. -->
+    <div class="jump" id="jump">
+      <button
+        class="jump__toggle btn btn--icon btn--secondary"
+        type="button"
+        aria-expanded="false"
+        aria-controls="jump-panel"
+        aria-label="Jump to section"
+      >
+        <svg class="icon"><use href="#i-menu" /></svg>
+      </button>
+      <nav class="jump__panel" id="jump-panel" aria-label="Sections"></nav>
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite">

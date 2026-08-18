@@ -86,6 +86,57 @@
 }
 
 /* --------------------------------------------------------------------------
+   Jump menu — the index, pinned to the top corner.
+
+   Below 1100px the rail stops being sticky and sits at the top of the page,
+   so once it scrolls away there is no way back to the index without going
+   all the way up. This is that way back. It only exists below the
+   breakpoint, and only once the rail is actually off screen.
+   -------------------------------------------------------------------------- */
+
+.jump {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: var(--z-nav);
+  display: none;
+}
+@media (max-width: 1100px) {
+  .jump.is-visible {
+    display: block;
+  }
+}
+
+.jump__panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  width: max-content;
+  max-width: min(280px, calc(100vw - var(--space-8)));
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-3);
+  border-radius: var(--radius-xl);
+  background: var(--paper-000);
+  box-shadow: var(--shadow-soft-lg);
+}
+.jump[data-open="true"] .jump__panel {
+  display: block;
+}
+
+/* The list is a copy of the rail's, so it keeps the rail's link styling —
+   only the padding and the touch target need adjusting. */
+.jump__panel .rail__list {
+  padding: 0;
+}
+.jump__panel .rail__list a {
+  padding: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+/* --------------------------------------------------------------------------
    Title block — the drawing's header stamp
    -------------------------------------------------------------------------- */
 
@@ -495,6 +546,43 @@
   color: var(--text-subtle);
 }
 
+/* --------------------------------------------------------------------------
+   Wall panel demo — the dial beside its controls
+   -------------------------------------------------------------------------- */
+
+.wallpanel {
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: var(--space-10);
+  align-items: center;
+}
+.wallpanel__dial {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+}
+.wallpanel__controls {
+  display: grid;
+  gap: var(--space-6);
+}
+.wallpanel__tiles {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* The dial is a fixed 220px, so the two columns stop fitting well before the
+   sheet's own breakpoint. */
+@media (max-width: 780px) {
+  .wallpanel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+}
+/* Four tiles need ~90px each before the labels stop fitting. */
+@media (max-width: 520px) {
+  .wallpanel__tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 1100px) {
   .sheet {
     grid-template-columns: minmax(0, 1fr);
@@ -504,9 +592,6 @@
   .rail {
     position: static;
     max-height: none;
-    border-right: 0;
-    border-bottom: var(--hair) solid var(--line-hair);
-    padding-right: 0;
   }
   .rail__list {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -520,6 +605,24 @@
   }
   .section__note {
     text-align: left;
+  }
+}
+
+/* The cell rules assume one row. Below ~760px the five cells no longer fit
+   across, and a wrapped row would start with a vertical rule hanging in open
+   space — so the block stacks and the rules go horizontal instead. */
+@media (max-width: 760px) {
+  .titleblock__meta {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: var(--space-8);
+  }
+  .titleblock__cell {
+    padding: var(--space-3) 0;
+  }
+  .titleblock__cell + .titleblock__cell {
+    padding-left: 0;
+    border-left: 0;
+    border-top: var(--hair) solid var(--paper-300);
   }
 }
 
