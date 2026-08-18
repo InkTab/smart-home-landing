@@ -48,6 +48,14 @@
   animation-duration: 620ms;
 }
 
+/* A section below the fold would play its entrance to an empty room, so it
+   can hold every [data-anim] inside it until it scrolls in. The state is
+   written by js/reveal.js and never by the markup — with no script, or under
+   reduced motion, nothing is ever paused and the page behaves as before. */
+[data-reveal="out"] [data-anim] {
+  animation-play-state: paused;
+}
+
 /* --------------------------------------------------------------------------
    Site header
    -------------------------------------------------------------------------- */
@@ -429,5 +437,301 @@
   .hero__plate .icon {
     width: 15px;
     height: 15px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   02 — Problem
+
+   The tension beat. Two rows, one anxiety each, mirrored: the wide photo
+   opens row 1 and sits in the middle of row 2. Within a row the photo is
+   what sets the height and the two cards stretch to meet it, so a row reads
+   as one board rather than three objects that happen to be side by side.
+
+   Three treatments, three jobs: the photo is recessed into the paper, the
+   stat is a raised card, and the quote is ink — an overheard thought is not
+   the page's own voice, so it must not be set like the page's own copy.
+   -------------------------------------------------------------------------- */
+
+.problem {
+  padding-block: var(--space-16) var(--space-24);
+}
+
+.problem__head {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+.problem__title {
+  margin-top: var(--space-4);
+  text-wrap: balance;
+}
+.problem__lede {
+  margin-top: var(--space-5);
+  text-wrap: pretty;
+}
+
+/* ---- The board ---------------------------------------------------------- */
+
+.problem__board {
+  display: grid;
+  gap: var(--space-5);
+}
+
+/* Six of twelve for the photo, three each for the cards. Moving the wide
+   column from first to second is the entire mirror. */
+.problem__row {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: 6fr 3fr 3fr;
+}
+.problem__row--b {
+  grid-template-columns: 3fr 6fr 3fr;
+}
+
+/* ---- The flip: how it is now, and how it is once it is installed -------- */
+
+/* The cell is the stage; the pair of faces turns inside it. The toggle is a
+   sibling of the pair, not a child, so it stays facing the reader. */
+.problem__flip {
+  position: relative;
+  perspective: 1400px;
+  cursor: pointer;
+}
+.problem__faces {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 620ms var(--ease);
+}
+.problem__flip.is-flipped .problem__faces {
+  transform: rotateY(180deg);
+}
+.problem__face {
+  backface-visibility: hidden;
+}
+/* The front stays in flow: it is what gives the photo cell a height, and the
+   photo cell is what gives the row one. The back borrows that box. */
+.problem__face--front {
+  height: 100%;
+}
+.problem__face--back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+/* An arrow, not a word. Naming the answer on the front of six cards spends
+   the section's tension before the reader has felt it, and says the brand
+   six times over — the card's own copy is what should be read here. The
+   toggle still carries the full sentence as its accessible name. */
+.problem__toggle {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+}
+.problem__toggle .icon {
+  transition: transform var(--dur-slow) var(--ease);
+}
+/* Turned back on itself once the far side is showing: the same arrow now
+   points the way home. */
+.problem__toggle[aria-pressed="true"] .icon {
+  transform: rotate(180deg);
+}
+
+/* The whole cell is the hit area, so hovering anywhere on it should light
+   the corner up — otherwise a bare arrow on a bare card is a guess. */
+.problem__flip:hover .btn--ghost.problem__toggle {
+  background-color: var(--paper-000);
+  background-image: var(--lit-paper);
+  color: var(--steel-800);
+  box-shadow: var(--shadow-soft-lift);
+}
+.problem__flip:hover .btn--inverse-ghost.problem__toggle {
+  color: var(--paper-000);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Pressed is the flipped state, and on a card with no chrome the only way to
+   show it is to give the button some. */
+.problem__flip .problem__toggle[aria-pressed="true"] {
+  background-color: var(--paper-000);
+  background-image: none;
+  box-shadow: var(--shadow-soft-press);
+}
+.problem__flip .btn--inverse-ghost.problem__toggle[aria-pressed="true"] {
+  background-color: rgba(4, 14, 20, 0.32);
+  background-image: none;
+  box-shadow: inset 2px 2px 6px rgba(4, 14, 20, 0.5);
+  color: var(--paper-000);
+}
+
+/* ---- The photo: recessed, labelled, and honest about its ratio ---------- */
+
+.problem__cell--photo .problem__face {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+/* The photo is what sets the row's height, so the crop is how the row is
+   sized: 25:9 puts it at two thirds of the 16:9 these started at. Wider than
+   any of the fixed ratios in the sheet, so it is declared here rather than
+   added to the frame's own set — nothing else on the page wants this crop. */
+.problem__cell--photo .frame {
+  aspect-ratio: 25 / 9;
+}
+/* On the floor of the cell: if a long quote ever out-grows the photo and
+   stretches the row, the slack opens under the frame rather than leaving the
+   two rows' captions sitting at different heights. */
+.problem__caption {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+/* The label may wrap; the dimension may not — a size that breaks across two
+   lines stops reading as one value. */
+.problem__caption .mono {
+  white-space: nowrap;
+}
+/* The shot note is a brief, not a caption — it has to read as a card sitting
+   in the frame, so it wraps before it reaches the edges. Russian runs about
+   a fifth longer than English, and it is Russian that sets this width. */
+.problem__cell--photo .frame__note {
+  max-width: 84%;
+  text-align: center;
+}
+
+/* ---- The quote: the line sits on the floor of the card ------------------ */
+
+.problem__cell--quote .quote__text {
+  margin-top: auto;
+  text-wrap: pretty;
+}
+/* Quiet enough on ink to mark the card without competing with the line. */
+.problem__mark {
+  color: var(--steel-700);
+}
+
+/* ---- The stat: centred, or the number is stranded at the top ------------ */
+
+.problem__cell--stat .problem__face {
+  justify-content: center;
+  gap: var(--space-4);
+}
+/* Sized against the number, not against a feature card's heading — a full
+   48px plate next to a 48px numeral makes the card read as two headlines. */
+.problem__plate {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+}
+.problem__plate .icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---- Once three columns stop fitting ------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* No turn — the two faces simply trade places. */
+  .problem__faces,
+  .problem__flip.is-flipped .problem__faces {
+    transform: none;
+  }
+  .problem__face {
+    backface-visibility: visible;
+  }
+  .problem__face--back {
+    transform: none;
+    visibility: hidden;
+  }
+  .problem__flip.is-flipped .problem__face--front {
+    visibility: hidden;
+  }
+  .problem__flip.is-flipped .problem__face--back {
+    visibility: visible;
+  }
+}
+
+@media (max-width: 1023px) {
+  /* The photo takes its whole row and the two cards pair off underneath.
+     The mirror survives the drop: the photo caps row 1 and floors row 2. */
+  .problem__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .problem__row--a {
+    grid-template-areas:
+      "photo photo"
+      "quote stat";
+  }
+  .problem__row--b {
+    grid-template-areas:
+      "stat quote"
+      "photo photo";
+  }
+  .problem__cell--photo {
+    grid-area: photo;
+  }
+  .problem__cell--quote {
+    grid-area: quote;
+  }
+  .problem__cell--stat {
+    grid-area: stat;
+  }
+}
+
+@media (max-width: 639px) {
+  /* One column, source order — which keeps each row's three pieces
+     together, all of row 1 before any of row 2. Row 1 ends on a stat and
+     row 2 opens on one, so the break between the two anxieties has to be
+     wider than the gap inside a row or they read as one list. */
+  .problem__board {
+    gap: var(--space-10);
+  }
+  .problem__row {
+    grid-template-columns: 1fr;
+    grid-template-areas: none;
+  }
+  .problem__cell--photo,
+  .problem__cell--quote,
+  .problem__cell--stat {
+    grid-area: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .problem {
+    padding-block: var(--space-12) var(--space-16);
+  }
+  .problem__head {
+    margin-bottom: var(--space-8);
+  }
+  .problem__lede {
+    font-size: var(--text-lg);
+  }
+  /* The shot note is a full drafting label; at this width it stops fitting
+     on one line inside the frame before it stops being readable. */
+  .problem__cell--photo .frame__note {
+    letter-spacing: var(--tracking-wide);
+  }
+  .problem__toggle {
+    top: var(--space-2);
+    right: var(--space-2);
+  }
+  /* At this width the frame is only about 118px tall, and a corner button
+     and a two-line shot note cannot both live inside it — whichever corner
+     the button takes, it lands on the note. So on the photo cells the
+     toggle drops out of the frame, onto the end of the caption line. */
+  .problem__cell--photo .problem__toggle {
+    top: auto;
+    right: 0;
+    bottom: 0;
+  }
+  .problem__cell--photo .problem__caption {
+    padding-right: 42px;
   }
 }

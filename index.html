@@ -62,6 +62,23 @@
           <path d="M9.2 16.3a4.5 4.5 0 0 1 5.6 0" />
           <path d="M12 19.8h.01" />
         </symbol>
+        <symbol id="i-sliders" viewBox="0 0 24 24">
+          <path d="M4 7h4M12 7h8M4 17h8M16 17h4M4 12h10M18 12h2" />
+          <circle cx="10" cy="7" r="2" />
+          <circle cx="16" cy="12" r="2" />
+          <circle cx="14" cy="17" r="2" />
+        </symbol>
+        <symbol id="i-grid" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7.5" height="7.5" rx="1" />
+          <rect x="13.5" y="3" width="7.5" height="7.5" rx="1" />
+          <rect x="3" y="13.5" width="7.5" height="7.5" rx="1" />
+          <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1" />
+        </symbol>
+        <symbol id="i-speaker" viewBox="0 0 24 24">
+          <rect x="6" y="2.5" width="12" height="19" rx="2" />
+          <circle cx="12" cy="15" r="3" />
+          <path d="M12 7h.01" />
+        </symbol>
         <symbol id="i-alert" viewBox="0 0 24 24">
           <path d="M12 3.5 2.8 20h18.4Z" />
           <path d="M12 10v4M12 17h.01" />
@@ -297,9 +314,336 @@
           </div>
         </div>
       </section>
+
+      <!-- ==================================================================
+           02 — PROBLEM
+           The tension, not the answer. Two anxieties, one per row, and the
+           rows are mirrors of each other: photo, quote, stat — then stat,
+           photo, quote. Nothing here resolves; section 03 does that.
+           ================================================================== -->
+      <section
+        class="problem"
+        id="problem"
+        aria-labelledby="problem-title"
+        data-reveal
+      >
+        <div class="container">
+          <header class="problem__head">
+            <p
+              class="label label--accent"
+              data-anim="rise"
+              style="--d: 60ms"
+              data-i18n="problem.eyebrow"
+            >
+              Right now
+            </p>
+
+            <h2
+              class="display-3 problem__title"
+              id="problem-title"
+              data-anim="rise"
+              style="--d: 160ms"
+              data-i18n="problem.title"
+            >
+              You’re the automation.
+            </h2>
+
+            <p
+              class="lede problem__lede"
+              data-anim="rise"
+              style="--d: 280ms"
+              data-i18n="problem.lede"
+            >
+              Either you’re still flipping switches to find out which is which,
+              or you’re four weekends into research with nothing installed.
+            </p>
+          </header>
+
+          <div class="problem__board">
+            <!-- Row 1 — the switches you already own. Photo leads.
+                 Every cell carries two faces: how it is now, and how it is once
+                 somebody has installed it. Clicking a cell turns it over. -->
+            <div class="problem__row problem__row--a">
+              <div
+                class="problem__cell problem__cell--photo problem__flip"
+                data-flip
+                data-anim="pop"
+                style="--d: 380ms"
+              >
+                <div class="problem__faces">
+                  <figure class="problem__face problem__face--front">
+                    <div class="frame" data-ratio="25:9">
+                      <span class="frame__note label" data-i18n="problem.a.shot"
+                        >Unlabelled switches · a thermostat nobody trusts</span
+                      >
+                    </div>
+                    <figcaption class="problem__caption">
+                      <span class="label label--accent" data-i18n="problem.a.label"
+                        >Wall by the front door</span
+                      >
+                      <span class="mono">1200 × 432</span>
+                    </figcaption>
+                  </figure>
+                  <figure class="problem__face problem__face--back" aria-hidden="true">
+                    <div class="frame" data-ratio="25:9">
+                      <span class="frame__note label" data-i18n="problem.a.shotAfter"
+                        >One plate · every room named</span
+                      >
+                    </div>
+                    <figcaption class="problem__caption">
+                      <span class="label label--accent" data-i18n="problem.a.labelAfter"
+                        >Wall by the front door</span
+                      >
+                      <span class="mono">1200 × 432</span>
+                    </figcaption>
+                  </figure>
+                </div>
+                <button
+                  class="btn btn--sm btn--icon btn--ghost problem__toggle"
+                  type="button"
+                  data-flip-toggle
+                  aria-pressed="false"
+                  data-i18n-aria-label="problem.a.flipPhoto"
+                  aria-label="The wall by the front door, with Halo"
+                >
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-arrow-right" />
+                  </svg>
+                </button>
+              </div>
+
+              <div
+                class="problem__cell problem__cell--quote problem__flip"
+                data-flip
+                data-anim="pop"
+                style="--d: 460ms"
+              >
+                <div class="problem__faces">
+                  <blockquote
+                    class="card card--ink problem__face problem__face--front"
+                  >
+                    <svg class="icon icon--lg problem__mark" aria-hidden="true">
+                      <use href="#i-speaker" />
+                    </svg>
+                    <p class="quote__text" data-i18n="problem.a.quote">
+                      “Which one’s the porch light again?”
+                    </p>
+                  </blockquote>
+                  <blockquote
+                    class="card card--ink problem__face problem__face--back" aria-hidden="true"
+                  >
+                    <svg class="icon icon--lg problem__mark" aria-hidden="true">
+                      <use href="#i-speaker" />
+                    </svg>
+                    <p class="quote__text" data-i18n="problem.a.quoteAfter">
+                      “I haven’t touched a switch in a month.”
+                    </p>
+                  </blockquote>
+                </div>
+                <button
+                  class="btn btn--sm btn--icon btn--inverse-ghost problem__toggle"
+                  type="button"
+                  data-flip-toggle
+                  aria-pressed="false"
+                  data-i18n-aria-label="problem.a.flipQuote"
+                  aria-label="The porch light, with Halo"
+                >
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-arrow-right" />
+                  </svg>
+                </button>
+              </div>
+
+              <div
+                class="problem__cell problem__cell--stat problem__flip"
+                data-flip
+                data-anim="pop"
+                style="--d: 540ms"
+              >
+                <div class="problem__faces">
+                  <div class="card problem__face problem__face--front">
+                    <span class="icon-plate problem__plate">
+                      <svg class="icon" aria-hidden="true"><use href="#i-sliders" /></svg>
+                    </span>
+                    <div class="stat">
+                      <span class="stat__value" data-i18n="problem.a.stat">14</span>
+                      <span class="stat__label" data-i18n="problem.a.statNote"
+                        >switches — 2 you can name</span
+                      >
+                    </div>
+                  </div>
+                  <div class="card problem__face problem__face--back" aria-hidden="true">
+                    <span class="icon-plate problem__plate">
+                      <svg class="icon" aria-hidden="true"><use href="#i-sliders" /></svg>
+                    </span>
+                    <div class="stat">
+                      <span class="stat__value" data-i18n="problem.a.statAfter">0</span>
+                      <span class="stat__label" data-i18n="problem.a.statNoteAfter"
+                        >switches left to guess at</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <button
+                  class="btn btn--sm btn--icon btn--ghost problem__toggle"
+                  type="button"
+                  data-flip-toggle
+                  aria-pressed="false"
+                  data-i18n-aria-label="problem.a.flipStat"
+                  aria-label="The switches, with Halo"
+                >
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-arrow-right" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Row 2 — the setup you have not started. The stat leads and the
+                 photo moves to the middle: the same row, mirrored. -->
+            <div class="problem__row problem__row--b">
+              <div
+                class="problem__cell problem__cell--stat problem__flip"
+                data-flip
+                data-anim="pop"
+                style="--d: 640ms"
+              >
+                <div class="problem__faces">
+                  <div class="card problem__face problem__face--front">
+                    <span class="icon-plate problem__plate">
+                      <svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg>
+                    </span>
+                    <div class="stat">
+                      <span class="stat__value" data-i18n="problem.b.stat">47</span>
+                      <span class="stat__label" data-i18n="problem.b.statNote"
+                        >tabs — 0 in the cart</span
+                      >
+                    </div>
+                  </div>
+                  <div class="card problem__face problem__face--back" aria-hidden="true">
+                    <span class="icon-plate problem__plate">
+                      <svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg>
+                    </span>
+                    <div class="stat">
+                      <span class="stat__value" data-i18n="problem.b.statAfter">4h</span>
+                      <span class="stat__label" data-i18n="problem.b.statNoteAfter"
+                        >one visit, start to handover</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <button
+                  class="btn btn--sm btn--icon btn--ghost problem__toggle"
+                  type="button"
+                  data-flip-toggle
+                  aria-pressed="false"
+                  data-i18n-aria-label="problem.b.flipStat"
+                  aria-label="The tabs, with Halo"
+                >
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-arrow-right" />
+                  </svg>
+                </button>
+              </div>
+
+              <div
+                class="problem__cell problem__cell--photo problem__flip"
+                data-flip
+                data-anim="pop"
+                style="--d: 720ms"
+              >
+                <div class="problem__faces">
+                  <figure class="problem__face problem__face--front">
+                    <div class="frame" data-ratio="25:9">
+                      <span class="frame__note label" data-i18n="problem.b.shot"
+                        >Cables, opened hub boxes, spec sheets, too many tabs</span
+                      >
+                    </div>
+                    <figcaption class="problem__caption">
+                      <span class="label label--accent" data-i18n="problem.b.label"
+                        >Kitchen table, week three</span
+                      >
+                      <span class="mono">1200 × 432</span>
+                    </figcaption>
+                  </figure>
+                  <figure class="problem__face problem__face--back" aria-hidden="true">
+                    <div class="frame" data-ratio="25:9">
+                      <span class="frame__note label" data-i18n="problem.b.shotAfter"
+                        >One box, one afternoon, nothing left to read</span
+                      >
+                    </div>
+                    <figcaption class="problem__caption">
+                      <span class="label label--accent" data-i18n="problem.b.labelAfter"
+                        >Kitchen table, Thursday</span
+                      >
+                      <span class="mono">1200 × 432</span>
+                    </figcaption>
+                  </figure>
+                </div>
+                <button
+                  class="btn btn--sm btn--icon btn--ghost problem__toggle"
+                  type="button"
+                  data-flip-toggle
+                  aria-pressed="false"
+                  data-i18n-aria-label="problem.b.flipPhoto"
+                  aria-label="The kitchen table, with Halo"
+                >
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-arrow-right" />
+                  </svg>
+                </button>
+              </div>
+
+              <div
+                class="problem__cell problem__cell--quote problem__flip"
+                data-flip
+                data-anim="pop"
+                style="--d: 800ms"
+              >
+                <div class="problem__faces">
+                  <blockquote
+                    class="card card--ink problem__face problem__face--front"
+                  >
+                    <svg class="icon icon--lg problem__mark" aria-hidden="true">
+                      <use href="#i-speaker" />
+                    </svg>
+                    <p class="quote__text" data-i18n="problem.b.quote">
+                      “Do I need the hub, or does the app do it?”
+                    </p>
+                  </blockquote>
+                  <blockquote
+                    class="card card--ink problem__face problem__face--back" aria-hidden="true"
+                  >
+                    <svg class="icon icon--lg problem__mark" aria-hidden="true">
+                      <use href="#i-speaker" />
+                    </svg>
+                    <p class="quote__text" data-i18n="problem.b.quoteAfter">
+                      “I still don’t know what a hub is.”
+                    </p>
+                  </blockquote>
+                </div>
+                <button
+                  class="btn btn--sm btn--icon btn--inverse-ghost problem__toggle"
+                  type="button"
+                  data-flip-toggle
+                  aria-pressed="false"
+                  data-i18n-aria-label="problem.b.flipQuote"
+                  aria-label="The hub question, with Halo"
+                >
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-arrow-right" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <script src="js/i18n.js"></script>
+    <script src="js/reveal.js"></script>
+    <script src="js/problem.js"></script>
     <script src="js/hero.js"></script>
   </body>
 </html>
