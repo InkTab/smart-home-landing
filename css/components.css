@@ -1125,10 +1125,22 @@
 .tab:hover {
   color: var(--text);
 }
-.tab[aria-selected="true"] {
+.tab[aria-selected="true"],
+.tab[aria-pressed="true"] {
   color: var(--steel-700);
   background: var(--paper-000);
   box-shadow: var(--shadow-soft-sm);
+}
+
+/* Control-sized strip — for a two-state switch sitting in a bar. */
+.tabs--sm {
+  padding: var(--space-1);
+  border-radius: var(--radius-lg);
+}
+.tabs--sm .tab {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
 }
 
 .breadcrumb {
