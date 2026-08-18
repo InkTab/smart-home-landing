@@ -639,11 +639,459 @@
           </div>
         </div>
       </section>
+
+      <!-- ==================================================================
+           03 — PLAN
+           The answer to section 02: the apartment with the hardware marked
+           on it. Every device is a point on the photograph and a card of the
+           same live readings the hero shows. Above the pinned breakpoint the
+           card opens at its point; below it the cards drop into a rail under
+           the photo and the point lights up for whichever card is centred.
+
+           The rail is the layout the page has without JavaScript. js/plan.js
+           is what sets data-plan="live", and only then does the tooltip
+           layout take over — so nothing is ever hidden behind a hover that
+           cannot happen.
+           ================================================================== -->
+      <section class="plan" id="plan" aria-labelledby="plan-title" data-reveal>
+        <div class="container">
+          <header class="plan__head">
+            <p
+              class="label label--accent"
+              data-anim="rise"
+              style="--d: 60ms"
+              data-i18n="plan.eyebrow"
+            >
+              Once it’s in
+            </p>
+
+            <h2
+              class="display-3 plan__title"
+              id="plan-title"
+              data-anim="rise"
+              style="--d: 160ms"
+              data-i18n="plan.title"
+            >
+              The hardware disappears.
+            </h2>
+
+            <p
+              class="lede plan__lede"
+              data-anim="rise"
+              style="--d: 280ms"
+              data-i18n="plan.lede"
+            >
+              No new wall of switches, no tablet by the door. A dozen quiet
+              devices you stop noticing by the second week — and a home that
+              simply behaves.
+            </p>
+
+            <!-- One line, two readings of it: the pointer version and the
+                 touch version trade places at the pinned breakpoint. -->
+            <p class="plan__hint" data-anim="rise" style="--d: 400ms">
+              <span class="label plan__hint--pointer" data-i18n="plan.hint.pointer"
+                >Hover a point to see what is there</span
+              >
+              <span class="label plan__hint--touch" data-i18n="plan.hint.touch"
+                >Swipe the cards — the plan follows</span
+              >
+            </p>
+          </header>
+
+          <div class="plan__stage" data-plan-stage>
+            <figure class="plan__figure" data-anim="pop" style="--d: 460ms">
+              <img
+                class="plan__photo"
+                src="assets/appartment.webp"
+                width="2816"
+                height="1536"
+                loading="lazy"
+                decoding="async"
+                data-i18n-aria-label="plan.photo"
+                alt="Open-plan apartment: living room, kitchen and dining area by a wall of windows"
+              />
+
+              <!-- The points. Each one carries its place on the photograph as
+                   a percentage, and js/plan.js copies that onto the matching
+                   card — the coordinates are written once, here. -->
+              <ul class="plan__pins">
+                <li
+                  class="plan__pin"
+                  data-device="media"
+                  data-place="above"
+                  data-align="start"
+                  style="--x: 11.5%; --y: 45%; --d: 560ms"
+                  data-anim="pop"
+                >
+                  <button
+                    class="plan__dot"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="dev-media"
+                    data-i18n-aria-label="plan.media.pin"
+                    aria-label="Media, living room"
+                  ></button>
+                </li>
+
+                <li
+                  class="plan__pin"
+                  data-device="hub"
+                  data-place="above"
+                  data-align="center"
+                  style="--x: 17.5%; --y: 64.5%; --d: 630ms"
+                  data-anim="pop"
+                >
+                  <button
+                    class="plan__dot"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="dev-hub"
+                    data-i18n-aria-label="plan.hub.pin"
+                    aria-label="Hub, hallway"
+                  ></button>
+                </li>
+
+                <li
+                  class="plan__pin"
+                  data-device="climate"
+                  data-place="above"
+                  data-align="center"
+                  style="--x: 21.5%; --y: 41.5%; --d: 700ms"
+                  data-anim="pop"
+                >
+                  <button
+                    class="plan__dot"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="dev-climate"
+                    data-i18n-aria-label="plan.climate.pin"
+                    aria-label="Climate, living room"
+                  ></button>
+                </li>
+
+                <li
+                  class="plan__pin"
+                  data-device="lights"
+                  data-place="below"
+                  data-align="center"
+                  style="--x: 30%; --y: 11%; --d: 770ms"
+                  data-anim="pop"
+                >
+                  <button
+                    class="plan__dot"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="dev-lights"
+                    data-i18n-aria-label="plan.lights.pin"
+                    aria-label="Ceiling lights, living room"
+                  ></button>
+                </li>
+
+                <li
+                  class="plan__pin"
+                  data-device="lock"
+                  data-place="above"
+                  data-align="center"
+                  style="--x: 37.4%; --y: 45.5%; --d: 840ms"
+                  data-anim="pop"
+                >
+                  <button
+                    class="plan__dot"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="dev-lock"
+                    data-i18n-aria-label="plan.lock.pin"
+                    aria-label="Smart lock, entry"
+                  ></button>
+                </li>
+
+                <li
+                  class="plan__pin"
+                  data-device="presence"
+                  data-place="below"
+                  data-align="center"
+                  style="--x: 49.5%; --y: 20.3%; --d: 910ms"
+                  data-anim="pop"
+                >
+                  <button
+                    class="plan__dot"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="dev-presence"
+                    data-i18n-aria-label="plan.presence.pin"
+                    aria-label="Presence sensor, hallway"
+                  ></button>
+                </li>
+
+                <li
+                  class="plan__pin"
+                  data-device="leak"
+                  data-place="above"
+                  data-align="center"
+                  style="--x: 69.5%; --y: 55.9%; --d: 980ms"
+                  data-anim="pop"
+                >
+                  <button
+                    class="plan__dot"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="dev-leak"
+                    data-i18n-aria-label="plan.leak.pin"
+                    aria-label="Leak sensor, kitchen"
+                  ></button>
+                </li>
+
+                <!-- The other edge of the photograph, so this one hangs its
+                     card off the point too — see the media pin. -->
+                <li
+                  class="plan__pin"
+                  data-device="shades"
+                  data-place="below"
+                  data-align="end"
+                  style="--x: 90%; --y: 27.5%; --d: 1050ms"
+                  data-anim="pop"
+                >
+                  <button
+                    class="plan__dot"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="dev-shades"
+                    data-i18n-aria-label="plan.shades.pin"
+                    aria-label="Shades, dining area"
+                  ></button>
+                </li>
+              </ul>
+            </figure>
+
+            <!-- The cards. Under the photo and scrollable on a phone; the
+                 same eight cards become the tooltips above the breakpoint. -->
+            <ul class="plan__rail" data-plan-rail data-anim="rise" style="--d: 620ms">
+              <li class="plan__slot" id="dev-media" data-device="media">
+                <article class="card device plan__card">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="plan.media.room">Living room</span>
+                      <span class="device__name" data-i18n="plan.media.name">TV &amp; sound</span>
+                    </div>
+                    <span class="icon-plate plan__plate"
+                      ><svg class="icon icon--sm"><use href="#i-speaker" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading device__reading--state" data-i18n="plan.media.state">
+                    Standby
+                  </div>
+                  <div class="plan__foot">
+                    <span class="status status--online"
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-i18n="plan.media.note"
+                      >One tap for cinema</span
+                    >
+                  </div>
+                </article>
+              </li>
+
+              <li class="plan__slot" id="dev-hub" data-device="hub">
+                <article class="card device plan__card">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="plan.hub.room">Hallway</span>
+                      <span class="device__name" data-i18n="plan.hub.name">Hub</span>
+                    </div>
+                    <span class="icon-plate plan__plate"
+                      ><svg class="icon icon--sm"><use href="#i-hub" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading device__reading--state" data-i18n="plan.hub.state">
+                    Online
+                  </div>
+                  <div class="plan__foot">
+                    <span class="status status--online"
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-i18n="plan.hub.note"
+                      >12 devices · 4 rooms</span
+                    >
+                  </div>
+                </article>
+              </li>
+
+              <li class="plan__slot" id="dev-climate" data-device="climate">
+                <article class="card device plan__card">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="plan.climate.room">Living room</span>
+                      <span class="device__name" data-i18n="plan.climate.name">Climate</span>
+                    </div>
+                    <span class="icon-plate plan__plate"
+                      ><svg class="icon icon--sm"><use href="#i-thermostat" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading">
+                    <span data-i18n="plan.climate.value">21.8</span
+                    ><span class="device__unit">°C</span>
+                  </div>
+                  <div class="plan__foot">
+                    <span class="status status--online"
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-i18n="plan.climate.note"
+                      >Holding 22.0 °C</span
+                    >
+                  </div>
+                </article>
+              </li>
+
+              <li class="plan__slot" id="dev-lights" data-device="lights">
+                <article class="card device plan__card">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="plan.lights.room">Living room</span>
+                      <span class="device__name" data-i18n="plan.lights.name"
+                        >Ceiling lights</span
+                      >
+                    </div>
+                    <span class="icon-plate plan__plate"
+                      ><svg class="icon icon--sm"><use href="#i-bulb" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading">
+                    40<span class="device__unit">%</span>
+                  </div>
+                  <div class="meter"><span class="meter__fill" style="--v: 40%"></span></div>
+                  <div class="plan__foot">
+                    <span class="status status--online"
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-i18n="plan.lights.note"
+                      >Evening scene · 2700 K</span
+                    >
+                  </div>
+                </article>
+              </li>
+
+              <li class="plan__slot" id="dev-lock" data-device="lock">
+                <article class="card device plan__card">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="plan.lock.room">Entry</span>
+                      <span class="device__name" data-i18n="plan.lock.name">Smart lock</span>
+                    </div>
+                    <span class="icon-plate plan__plate"
+                      ><svg class="icon icon--sm"><use href="#i-lock" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading device__reading--state" data-i18n="plan.lock.state">
+                    Locked
+                  </div>
+                  <div class="plan__foot">
+                    <span class="status status--online"
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-i18n="plan.lock.note"
+                      >Locks behind you</span
+                    >
+                  </div>
+                </article>
+              </li>
+
+              <li class="plan__slot" id="dev-presence" data-device="presence">
+                <article class="card device plan__card">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="plan.presence.room">Hallway</span>
+                      <span class="device__name" data-i18n="plan.presence.name"
+                        >Presence sensor</span
+                      >
+                    </div>
+                    <span class="icon-plate plan__plate"
+                      ><svg class="icon icon--sm"><use href="#i-wifi" /></svg
+                    ></span>
+                  </div>
+                  <div
+                    class="device__reading device__reading--state"
+                    data-i18n="plan.presence.state"
+                  >
+                    Clear
+                  </div>
+                  <div class="plan__foot">
+                    <span class="status status--online"
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-i18n="plan.presence.note"
+                      >The light finds you</span
+                    >
+                  </div>
+                </article>
+              </li>
+
+              <li class="plan__slot" id="dev-leak" data-device="leak">
+                <article class="card device plan__card">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="plan.leak.room">Kitchen</span>
+                      <span class="device__name" data-i18n="plan.leak.name">Leak sensor</span>
+                    </div>
+                    <span class="icon-plate plan__plate"
+                      ><svg class="icon icon--sm"><use href="#i-drop" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading device__reading--state" data-i18n="plan.leak.state">
+                    Dry
+                  </div>
+                  <div class="plan__foot">
+                    <span class="status status--online"
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-i18n="plan.leak.note"
+                      >The valve closes on its own</span
+                    >
+                  </div>
+                </article>
+              </li>
+
+              <li class="plan__slot" id="dev-shades" data-device="shades">
+                <article class="card device plan__card">
+                  <div class="device__head">
+                    <div class="device__meta">
+                      <span class="label" data-i18n="plan.shades.room">Dining area</span>
+                      <span class="device__name" data-i18n="plan.shades.name">Shades</span>
+                    </div>
+                    <span class="icon-plate plan__plate"
+                      ><svg class="icon icon--sm"><use href="#i-sliders" /></svg
+                    ></span>
+                  </div>
+                  <div class="device__reading">
+                    70<span class="device__unit">%</span>
+                  </div>
+                  <div class="meter"><span class="meter__fill" style="--v: 70%"></span></div>
+                  <div class="plan__foot">
+                    <span class="status status--online"
+                      ><span class="status__dot"></span
+                    ></span>
+                    <span class="caption" data-i18n="plan.shades.note"
+                      >Closing at sunset</span
+                    >
+                  </div>
+                </article>
+              </li>
+            </ul>
+          </div>
+
+          <p class="plan__note" data-anim="rise" style="--d: 1120ms">
+            <span class="label" data-i18n="plan.note"
+              >Two-bedroom loft · installed in one visit</span
+            >
+            <span class="mono">8 / 12</span>
+          </p>
+        </div>
+      </section>
     </main>
 
     <script src="js/i18n.js"></script>
     <script src="js/reveal.js"></script>
     <script src="js/problem.js"></script>
+    <script src="js/plan.js"></script>
     <script src="js/hero.js"></script>
   </body>
 </html>
