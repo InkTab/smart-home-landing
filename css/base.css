@@ -1,6 +1,4 @@
-/* ==========================================================================
-   BASE — reset, typography, the paper, drafting primitives.
-   ========================================================================== */
+/* BASE — reset, typography, the paper, drafting primitives. */
 
 *,
 *::before,
@@ -59,10 +57,7 @@ a {
   border-radius: var(--radius-xs);
 }
 
-/* --------------------------------------------------------------------------
-   The paper. Plain off-white by default; the blueprint grid is opt-in via
-   .grid-on on <body>, for checking alignment or for a page that wants it.
-   -------------------------------------------------------------------------- */
+/* ---- The paper: off-white; .grid-on on <body> adds the blueprint grid ---- */
 
 .paper {
   position: fixed;
@@ -100,9 +95,7 @@ body.grid-on .paper {
   opacity: 1;
 }
 
-/* --------------------------------------------------------------------------
-   Typography
-   -------------------------------------------------------------------------- */
+/* ---- Typography --------------------------------------------------------- */
 
 .display-1,
 .display-2,
@@ -179,8 +172,7 @@ body.grid-on .paper {
   color: var(--text-subtle);
 }
 
-/* The drafting label: every technical annotation on the sheet uses this.
-   Jura's caps are the technical voice of the system. */
+/* The drafting label — every technical annotation on the sheet, in Jura caps. */
 .label {
   font-family: var(--font-display);
   font-size: var(--text-xs);
@@ -207,9 +199,7 @@ body.grid-on .paper {
   color: var(--steel-700);
 }
 
-/* --------------------------------------------------------------------------
-   Drafting primitives — reusable technical detailing
-   -------------------------------------------------------------------------- */
+/* ---- Drafting primitives — reusable technical detailing ----------------- */
 
 /* Corner crosshairs. Eight gradient layers = four "+" marks, no extra markup. */
 .ticks {
@@ -309,9 +299,7 @@ body.grid-on .paper {
   background: none;
 }
 
-/* --------------------------------------------------------------------------
-   Layout helpers
-   -------------------------------------------------------------------------- */
+/* ---- Layout helpers ----------------------------------------------------- */
 
 .container {
   width: 100%;

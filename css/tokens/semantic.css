@@ -1,11 +1,4 @@
-/* ==========================================================================
-   SEMANTIC TOKENS — what the palette is for, plus the scales components use.
-   This is the only token layer components should reference.
-
-   The system: off-white paper, steel-blue ink, soft (neumorphic) depth by
-   default. Hairline geometry is the exception, kept for drawn objects —
-   device cards, annotations, and the optional blueprint grid.
-   ========================================================================== */
+/* SEMANTIC TOKENS — the only layer components reference. Paper, steel ink, soft depth. */
 
 :root {
   /* ---- Surfaces --------------------------------------------------------- */
@@ -28,8 +21,7 @@
   --signal-alert: var(--rust-600);
   --signal-offline: var(--stone-400);
 
-  /* ---- Lines : the drawn vocabulary --------------------------------------
-     All --steel-600 (58,117,152) at increasing alpha.                    */
+  /* ---- Lines: --steel-600 (58,117,152) at increasing alpha -------------- */
   --line-hair: rgba(58, 117, 152, 0.16); /* 1px structural hairline      */
   --line-soft: rgba(58, 117, 152, 0.28); /* visible divider              */
   --line: rgba(58, 117, 152, 0.46); /* component border             */
@@ -107,15 +99,12 @@
   --shadow-lg: 0 24px 48px -22px rgba(45, 40, 32, 0.2);
   --shadow-focus: 0 0 0 3px rgba(72, 141, 180, 0.32);
 
-  /* ---- Soft light : the default surface treatment -------------------------
-     One light source, top-left. Both halves must sit on --paper-000 — on
-     pure white the highlight disappears and only the shade reads.        */
+  /* ---- Soft light: one top-left source. Needs --paper-000, not white ---- */
   --soft-light: var(--light-highlight);
   --soft-shade: var(--light-shade);
   --soft-shade-strong: var(--light-shade-strong);
 
-  /* Subtle by default — these sit on nearly every surface, so they have to
-     survive being repeated fifty times down a page. */
+  /* Subtle: these repeat on nearly every surface down the page. */
   --shadow-soft-sm: 2px 2px 5px var(--soft-shade), -2px -2px 5px var(--soft-light);
   --shadow-soft: 4px 4px 10px var(--soft-shade), -3px -3px 8px var(--soft-light);
   --shadow-soft-lg: 10px 10px 24px var(--soft-shade),
@@ -124,17 +113,14 @@
     inset -2px -2px 5px var(--soft-light);
   --shadow-soft-inset-deep: inset 4px 4px 9px var(--soft-shade-strong),
     inset -3px -3px 7px var(--soft-light);
-  /* Lift sized for controls — the same light as --shadow-soft-lg, scaled so
-     a 44px button does not float off the page. */
+  /* --shadow-soft-lg scaled down, so a 44px button does not float off the page. */
   --shadow-soft-lift: 6px 6px 16px var(--soft-shade),
     -5px -5px 12px var(--soft-light);
   /* Pressed = inset, and slightly tighter than the resting state. */
   --shadow-soft-press: inset 3px 3px 7px var(--soft-shade),
     inset -3px -3px 7px var(--soft-light);
 
-  /* The lit sheen: the light source read as a highlight, not just a shadow.
-     Translucent overlays rather than color ramps, so a 700px-wide button and
-     a 34px chip get the same read instead of a stretched gradient. */
+  /* The sheen. Translucent, not a color ramp, so a chip and a wide button match. */
   --lit-paper: linear-gradient(
     160deg,
     rgba(255, 255, 255, 0.95) 0%,

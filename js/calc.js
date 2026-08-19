@@ -1,27 +1,4 @@
-/* ==========================================================================
-   Calc — the cost calculator, and the mailto: it ends in.
-
-   Three questions, disclosed one at a time: what the visitor wants solved,
-   how much house there is, and — only for the goals actually chosen — the one
-   count per goal that moves the price. Nobody is asked to inventory a window.
-
-   The section only becomes a wizard once this runs. data-calc="live" is set
-   here and never in the markup, so with no script the three panels are simply
-   a readable form, the progress and the nav buttons stay hidden, and the
-   mailto: line under the console is the way out — the same arrangement
-   section 03 has with its rail.
-
-   The estimate is a range because the hardware is: a lock is $80 on an
-   interior-grade door and $280 on a front door, and a camera is $50 or $220
-   depending on where it has to survive. So the two figures are the same bill
-   of devices costed twice — everything at its floor, then everything at its
-   ceiling — rather than one figure with a margin of error painted around it.
-
-   All copy is the dictionary's. Anything written into the DOM here is built
-   out of Halo.i18n.t at the moment it is written, and the whole result is
-   rendered again on halo:langchange, because the estimate is the one piece of
-   text on the page that i18n.apply cannot reach: it has no key of its own.
-   ========================================================================== */
+/* Calc — three disclosed questions costed into a price range, ending in a mailto:. */
 
 (function (window, document) {
   "use strict";
@@ -42,15 +19,9 @@
   var MAIL = "hello@yoursmarthome.com";
   var STEPS = 3;
 
-  /* ---- The price list ----------------------------------------------------
-     Hardware, per device, before tax. A single figure means the device costs
-     what it costs; a pair is the floor and the ceiling of the same line, and
-     those pairs are the whole reason the answer is a range.
+  /* ---- The price list ------------------------------------------------------ */
 
-     Watering is two lines rather than one: the controller that runs it, and
-     a valve per zone it runs. How many zones a garden has is the one thing
-     the footprint guesses at — see `zones` below. */
-
+  /* Hardware per device before tax, as [floor, ceiling]; the pairs make it a range. */
   var PRICES = {
     hub: [180, 180], /* one per home, always */
     contact: [30, 30], /* door and window sensor */
@@ -71,13 +42,9 @@
   var WORK = 0.3;
   var ROUND_TO = 10;
 
-  /* ---- What is in a home -------------------------------------------------
-     Everything the footprint can answer on the visitor's behalf, so that step
-     three only ever has to ask what the footprint genuinely cannot know.
+  /* ---- What is in a home ---------------------------------------------------- */
 
-     `doors`, `temp` and `lights` are the three sliders' starting points and
-     move with the home until one is set by hand; the rest are never asked. */
-
+  /* What the footprint answers for the visitor. doors/temp/lights seed the sliders. */
   var HOMES = {
     flat: {
       doors: 1, temp: 2, lights: 3,
@@ -97,12 +64,10 @@
   /* The lawn is the one question the footprint asks rather than a goal. */
   var LAWN_HOME = "house";
 
-  /* Order is the markup's, not the order they were clicked — the package
-     name has to read the same way twice for the same three answers. */
+  /* Markup order, not click order: the same answers must name the package the same. */
   var GOAL_ORDER = ["security", "climate", "light"];
 
-  /* Which slider belongs to which goal, so a goal nobody picked takes its
-     question off the page with it. */
+  /* Slider per goal, so a goal nobody picked takes its question off the page. */
   var GOAL_REFINE = {
     security: "doors",
     climate: "temp",
@@ -148,9 +113,7 @@
 
   var view = 1; /* 1, 2, 3 — or "result" */
   var home = null;
-  /* Which sliders the visitor has moved. Until one is touched it follows the
-     home, so picking a house re-answers the counts the way a house would. */
-  var touched = {};
+  var touched = {}; /* sliders moved by hand; the rest still follow the home */
 
   function goals() {
     var picked = [];
@@ -174,12 +137,9 @@
     return home === LAWN_HOME && !!lawnInput && lawnInput.checked;
   }
 
-  /* ---- The bill -----------------------------------------------------------
-     One list of devices and how many of each, built out of the three answers.
-     The two figures on the page and the four lines under them are the same
-     list read twice, so a device can never be in the price without being in
-     the list underneath it. */
+  /* ---- The bill ------------------------------------------------------------- */
 
+  /* Both figures and the printed lines read this one list, so they cannot disagree. */
   function bill() {
     var plan = HOMES[home] || HOMES.flat;
     var lines = [{ item: "hub", n: 1 }];
@@ -213,8 +173,7 @@
     return lines;
   }
 
-  /* Everything at its floor, then everything at its ceiling, and the work on
-     top of both — the same percentage, so the two ends stay in proportion. */
+  /* Every line at its floor, then at its ceiling, with the same work % on both. */
   function estimate() {
     var lines = bill();
     var low = 0;
@@ -236,15 +195,12 @@
     return Math.round(value / ROUND_TO) * ROUND_TO;
   }
 
-  /* One currency in both languages: the figure is in dollars, and the email
-     it ends up in has to read the same whichever language wrote it. */
+  /* Dollars in both languages — the email must read the same whichever wrote it. */
   function money(value) {
     return "$" + String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  /* The range as one string, for the letter. A job with nothing ranged in it
-     — a thermostat and a few sensors are all fixed-price — has one figure,
-     and "$620–$620" is not a range, it is a number written twice. */
+  /* The range as one string. An all-fixed-price job is one figure, not "$620–$620". */
   function range() {
     var sum = estimate();
     return sum.low === sum.high
@@ -269,9 +225,7 @@
 
   /* ---- The letter --------------------------------------------------------- */
 
-  /* The whole answer, written into a mailto: — subject, body and all. Nothing
-     is posted anywhere: the visitor's own client is the form, and they get to
-     read and edit every word of it before it is sent. */
+  /* Subject and body in a mailto:; nothing is posted, the mail client is the form. */
   function letter() {
     var span = range();
 
@@ -292,9 +246,7 @@
     );
   }
 
-  /* The dictionary holds the sentence; this puts the answers into it. Keeping
-     the placeholders in the string is what lets the Russian sentence put them
-     in a different order without the script knowing about it. */
+  /* Named placeholders, so a translation can reorder them without touching this. */
   function fill(template, values) {
     return String(template).replace(/\{(\w+)\}/g, function (whole, key) {
       return Object.prototype.hasOwnProperty.call(values, key)
@@ -309,10 +261,7 @@
     var done = view === "result";
     var step = done ? STEPS : view;
 
-    /* The counter is a reading of a journey still being made. Once the
-       estimate is up there is nowhere left to be, and a full rail says so on
-       its own — leaving it would also put "Your estimate" on the console
-       twice, once here and once over the number it belongs to. */
+    /* On the result the full rail says it; the counter would only repeat the title. */
     if (counter) counter.hidden = done;
     if (stepOut) stepOut.textContent = fill(t("calc.step"), { n: step, of: STEPS });
     if (leftOut) leftOut.textContent = t("calc.left." + (STEPS - step));
@@ -333,10 +282,7 @@
     }
   }
 
-  /* Only the goals that were picked get a question. A goal nobody chose has
-     no critical multiplier — asking anyway is the tedious inventory the whole
-     step exists to avoid. The lawn is the exception that proves the rule: it
-     is a question about the plot, so it is the footprint that asks it. */
+  /* A question per chosen goal only. The lawn is about the plot, so the home asks it. */
   function paintRefines() {
     for (var i = 0; i < GOAL_ORDER.length; i++) {
       var row = console_.querySelector(
@@ -385,8 +331,7 @@
           billLine(t("calc.item." + lines[i].item), "× " + lines[i].n)
         );
       }
-      /* The work is the last line of the bill rather than a footnote, and it
-         carries the one figure the hardware lines do not: what it adds. */
+      /* The work is the last bill line, and the one that shows a % rather than a count. */
       var work = billLine(
         t("calc.item.work"),
         "+" + Math.round(WORK * 100) + "%"
@@ -428,10 +373,7 @@
     if (moved) focusPanel();
   }
 
-  /* The panel that arrives takes the focus, or a keyboard is left standing on
-     a button that has just moved out from under it. Only ever on a step the
-     visitor asked for: taking it on the first paint would drag the page down
-     to the calculator the moment it loads. */
+  /* The arriving panel takes focus — but only on a move, or load would jump here. */
   function focusPanel() {
     var panel = panels[String(view)];
     if (!panel) return;
@@ -456,8 +398,7 @@
     }
   }
 
-  /* A count nobody has touched follows the home, so choosing a house answers
-     the counts the way a house would and the visitor can skip the step. */
+  /* Untouched counts follow the home, so the footprint can answer step three. */
   function seedCounts() {
     if (!home) return;
     for (var i = 0; i < sliders.length; i++) {
@@ -480,8 +421,7 @@
     homeInputs[h].addEventListener("change", function (event) {
       home = event.target.getAttribute("data-home");
       seedCounts();
-      /* A lawn answered on a house and then taken back to a flat is not an
-         answer any more — the question is not even asked at that footprint. */
+      /* A flat is never asked about a lawn, so an earlier answer is not one any more. */
       if (home !== LAWN_HOME && lawnInput) lawnInput.checked = false;
       paintNav();
     });
@@ -512,14 +452,12 @@
     });
   }
 
-  /* The estimate is the one piece of copy with no key of its own, so it is
-     the one thing i18n.apply cannot translate — it gets rebuilt here instead,
-     and so does the mailto: the button is pointing at. */
+  /* The estimate and its mailto: have no i18n key, so they are rebuilt by hand. */
   document.addEventListener("halo:langchange", function () {
     paint();
   });
 
-  /* Everything the calculator needs a script for comes on together. */
+  /* All the script-only parts come on together; without one it stays a plain form. */
   if (progress) progress.hidden = false;
   if (nav) nav.hidden = false;
   console_.setAttribute("data-calc", "live");

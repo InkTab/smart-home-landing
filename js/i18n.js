@@ -1,15 +1,4 @@
-/* ==========================================================================
-   i18n — two languages, one dictionary.
-
-   The page starts in the system language and can be switched by hand; the
-   choice is remembered. Markup carries the keys:
-
-     data-i18n="key"                 -> textContent
-     data-i18n-aria-label="key"      -> aria-label
-
-   Anything the script writes back into the DOM later (the door state) goes
-   through Halo.i18n.apply(node) so it stays translated.
-   ========================================================================== */
+/* i18n — data-i18n sets textContent, data-i18n-aria-label sets aria-label. */
 
 (function (window, document) {
   "use strict";
@@ -77,9 +66,7 @@
       "problem.b.stat": "47",
       "problem.b.statNote": "tabs — 0 in the cart",
 
-      /* The other side of every cell: the same wall, the same table, the
-         same question — once somebody has installed it. Only the toggle's
-         accessible name is copy here; the button itself is an arrow. */
+      /* The far face of each cell. Only the toggle's accessible name is copy. */
       "problem.a.flipPhoto": "The wall by the front door, with Halo",
       "problem.a.flipQuote": "The porch light, with Halo",
       "problem.a.flipStat": "The switches, with Halo",
@@ -98,9 +85,7 @@
       "problem.b.statAfter": "4h",
       "problem.b.statNoteAfter": "one visit, start to handover",
 
-      /* Section 03 — the same apartment, finished. Every device is written
-         once here and read twice: by the point on the photograph and by the
-         card that belongs to it. */
+      /* Section 03 — each device is written once and read by its point and its card. */
       "plan.eyebrow": "Once it’s in",
       "plan.title": "The hardware disappears.",
       "plan.lede":
@@ -157,9 +142,7 @@
       "plan.shades.name": "Shades",
       "plan.shades.note": "Closing at sunset",
 
-      /* Section 04 — the same system, on the day it was four devices. The
-         readings match section 03; what changes is how much of the house is
-         in it, which is the whole point of the section. */
+      /* Section 04 — the same system at four devices; readings match section 03. */
       "grow.eyebrow": "Start small",
       "grow.title": "Nobody starts with the whole house.",
       "grow.lede":
@@ -189,10 +172,7 @@
       "grow.aside.body":
         "Cameras, blinds, plugs, a sensor for the boiler — each one pairs itself to the hub that is already there. Nothing has to be bought twice.",
 
-      /* Section 05 — the calculator. Three questions, a range, and the letter
-         it ends in. The subject and the body carry {placeholders} the script
-         fills in rather than sentences it stitches together, which is what
-         lets the Russian letter put the same answers in a different order. */
+      /* Section 05 — the calculator. {placeholders} let a translation reorder them. */
       "calc.eyebrow": "What it costs",
       "calc.title": "A number before anyone comes round.",
       "calc.lede":
@@ -245,9 +225,7 @@
       "calc.result.note":
         "This is an estimate. We create your personalized list before starting a project where you can remove or add items.",
 
-      /* The bill under the two figures — one line per kind of device, and the
-         work last, because it is the only line that is a percentage of the
-         rest rather than a count of anything. */
+      /* The bill: one line per kind of device, then the work, the one line in %. */
       "calc.item.hub": "Hub",
       "calc.item.contact": "Door and window sensors",
       "calc.item.lock": "Smart locks",
@@ -265,8 +243,7 @@
       "calc.cta": "Email the Professional",
       "calc.again": "Adjust answers",
 
-      /* The package is the goals, in the order the step asks them; all three
-         of them stop being a list and become the whole house. */
+      /* The goals, in the order step one asks them; all three become one name. */
       "calc.pkg.security": "Security",
       "calc.pkg.climate": "Climate",
       "calc.pkg.light": "Light",
@@ -284,10 +261,7 @@
       "calc.unique": "Have a unique project?",
       "calc.unique.link": "Email us",
 
-      /* Section 06 — the process, in the order it happens. Two of the three
-         timings are the installer's own: a fortnight for delivery, and four
-         to eight hours on site. "About an hour" for the consultation is an
-         assumption, and this is the one key that carries it. */
+      /* Section 06 — the process. "About an hour" is an assumption, unlike the rest. */
       "flow.eyebrow": "How it goes",
       "flow.title": "Three steps, about two weeks.",
       "flow.lede":
@@ -318,11 +292,7 @@
       "flow.done.title": "And that is all.",
       "flow.done.body": "A house that works, and nothing left on your list.",
 
-      /* Section 07 — the objections the price raises. The first two are
-         repeats of sections 03 and 04, deliberately said again now that
-         there is a number on the page; the year is the only new claim.
-         What it covers is narrow on purpose, and nothing here says what
-         happens after the twelfth month. */
+      /* Section 07 — the year of support is the only new claim, and narrow on purpose. */
       "adapt.eyebrow": "After handover",
       "adapt.title": "Nothing here is set in stone.",
       "adapt.lede":
@@ -342,8 +312,7 @@
       "adapt.year.body":
         "Not a call center. The person who set your system up, on the other end of it.",
 
-      /* Each line is a lead-in and a sentence, and they are two keys rather
-         than one string with markup in it: the dictionary holds text. */
+      /* Lead-in and sentence are two keys: the dictionary holds text, not markup. */
       "adapt.year.a.lead": "Anything you add, we set up.",
       "adapt.year.a.body":
         "Buy a device later and we pair it, name it and put it into the routines that already run.",
@@ -704,8 +673,7 @@
     return Object.prototype.hasOwnProperty.call(table, key) ? table[key] : key;
   }
 
-  /* Translate a subtree in place. Called on load, on every switch, and by
-     anything that rewrites a key at runtime. */
+  /* Translate a subtree in place: on load, on a switch, and after any runtime write. */
   function apply(root) {
     var scope = root || document;
 

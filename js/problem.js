@@ -1,14 +1,4 @@
-/* ==========================================================================
-   Problem — turning a cell over.
-
-   Each cell in the board carries two faces: how it is now, and how it is once
-   somebody has installed it. Clicking anywhere on the cell turns it; the
-   toggle in the corner is the real control, so the same thing happens from
-   the keyboard, and aria-pressed is what says which side is up.
-
-   The hidden face is hidden from CSS only, which a screen reader does not
-   see — so the aria-hidden pair is kept in step here.
-   ========================================================================== */
+/* Problem — click a cell to flip its two faces; the corner toggle is the real control. */
 
 (function (window, document) {
   "use strict";
@@ -19,6 +9,7 @@
   var cells = section.querySelectorAll("[data-flip]");
   if (!cells.length) return;
 
+  /* CSS hides the far face visually only, so the aria pair is kept in step here. */
   function paint(cell, on) {
     cell.classList.toggle("is-flipped", on);
 
@@ -40,8 +31,7 @@
   for (var i = 0; i < cells.length; i++) {
     paint(cells[i], false);
 
-    /* One listener per cell. The toggle's own click bubbles up to here, so
-       the button and the card cannot disagree about the state. */
+    /* One listener per cell; the toggle's click bubbles here, so the two cannot disagree. */
     cells[i].addEventListener("click", function (event) {
       if (selecting()) return;
       var cell = event.currentTarget;

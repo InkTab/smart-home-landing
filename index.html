@@ -11,16 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- The fonts are asked for at the weights the stylesheets actually set
-         and no others: Jura 400-500-600, Inter 400-500-600, and the mono at
-         400, which is the only weight anything ever sets it in.
-
-         Fetched without holding the render. display=swap means the copy is
-         drawn in the fallback stack and swapped when the faces arrive, so a
-         stylesheet that blocks paint buys nothing — it only delays the same
-         two-stage render. The swap to a real stylesheet is what the onload
-         is for, and the noscript is the same request for a browser that
-         cannot run it. -->
+    <!-- Only the weights the stylesheets set. Non-blocking: display=swap renders twice anyway. -->
     <link
       rel="preload"
       as="style"
@@ -31,21 +22,14 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" />
     </noscript>
 
-    <!-- These do hold the render, and should: they are what the first paint
-         looks like. Load order matters: palette, then semantic, then
-         everything else. -->
+    <!-- These hold the render, and should. Order: palette, semantic, then the rest. -->
     <link rel="stylesheet" href="css/tokens/palette.css" />
     <link rel="stylesheet" href="css/tokens/semantic.css" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/components.css" />
     <link rel="stylesheet" href="css/sections.css" />
 
-    <!-- Deferred, so none of them holds the render, and in the head so they
-         are fetched alongside the stylesheets rather than after the last of
-         the markup. defer keeps them in the order written and runs them once
-         the document is parsed, which is what every one of them assumes: they
-         all read the DOM the moment they run, and i18n.js has to have put
-         window.Halo up before the rest of them go looking for it. -->
+    <!-- Deferred but in the head: fetched early, run in order once the DOM is parsed. -->
     <script src="js/i18n.js" defer></script>
     <script src="js/reveal.js" defer></script>
     <script src="js/problem.js" defer></script>
@@ -183,10 +167,7 @@
       </div>
     </header>
 
-    <!-- ======================================================================
-         01 — HERO
-         The headline lands first; the system assembles itself around it.
-         ====================================================================== -->
+    <!-- ===== 01 — HERO: the headline lands, the system assembles around it ===== -->
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div class="container">
@@ -381,12 +362,7 @@
         </div>
       </section>
 
-      <!-- ==================================================================
-           02 — PROBLEM
-           The tension, not the answer. Two anxieties, one per row, and the
-           rows are mirrors of each other: photo, quote, stat — then stat,
-           photo, quote. Nothing here resolves; section 03 does that.
-           ================================================================== -->
+      <!-- ===== 02 — PROBLEM: two anxieties, one per row, the rows mirrored ===== -->
       <section
         class="problem"
         id="problem"
@@ -426,9 +402,7 @@
           </header>
 
           <div class="problem__board">
-            <!-- Row 1 — the switches you already own. Photo leads.
-                 Every cell carries two faces: how it is now, and how it is once
-                 somebody has installed it. Clicking a cell turns it over. -->
+            <!-- Row 1 — the switches you own. Photo leads; each cell turns over. -->
             <div class="problem__row problem__row--a">
               <div
                 class="problem__cell problem__cell--photo problem__flip"
@@ -565,8 +539,7 @@
               </div>
             </div>
 
-            <!-- Row 2 — the setup you have not started. The stat leads and the
-                 photo moves to the middle: the same row, mirrored. -->
+            <!-- Row 2 — the setup you have not started. Mirrored: the stat leads. -->
             <div class="problem__row problem__row--b">
               <div
                 class="problem__cell problem__cell--stat problem__flip"
@@ -706,19 +679,7 @@
         </div>
       </section>
 
-      <!-- ==================================================================
-           03 — PLAN
-           The answer to section 02: the apartment with the hardware marked
-           on it. Every device is a point on the photograph and a card of the
-           same live readings the hero shows. Above the pinned breakpoint the
-           card opens at its point; below it the cards drop into a rail under
-           the photo and the point lights up for whichever card is centered.
-
-           The rail is the layout the page has without JavaScript. js/plan.js
-           is what sets data-plan="live", and only then does the tooltip
-           layout take over — so nothing is ever hidden behind a hover that
-           cannot happen.
-           ================================================================== -->
+      <!-- ===== 03 — PLAN: every device is a point and a card; js/plan.js pairs them ===== -->
       <section class="plan" id="plan" aria-labelledby="plan-title" data-reveal>
         <div class="container">
           <header class="plan__head">
@@ -752,8 +713,7 @@
               simply behaves.
             </p>
 
-            <!-- One line, two readings of it: the pointer version and the
-                 touch version trade places at the pinned breakpoint. -->
+            <!-- One line, two readings: pointer and touch trade places at the breakpoint. -->
             <p class="plan__hint" data-anim="rise" style="--d: 400ms">
               <span class="label plan__hint--pointer" data-i18n="plan.hint.pointer"
                 >Hover a point to see what is there</span
@@ -777,9 +737,7 @@
                 alt="Open-plan apartment: living room, kitchen and dining area by a wall of windows"
               />
 
-              <!-- The points. Each one carries its place on the photograph as
-                   a percentage, and js/plan.js copies that onto the matching
-                   card — the coordinates are written once, here. -->
+              <!-- Each point carries its place as a percentage; plan.js copies it to the card. -->
               <ul class="plan__pins">
                 <li
                   class="plan__pin"
@@ -907,8 +865,7 @@
                   ></button>
                 </li>
 
-                <!-- The other edge of the photograph, so this one hangs its
-                     card off the point too — see the media pin. -->
+                <!-- The other edge of the photograph, so this hangs its card off the point too. -->
                 <li
                   class="plan__pin"
                   data-device="shades"
@@ -929,8 +886,7 @@
               </ul>
             </figure>
 
-            <!-- The cards. Under the photo and scrollable on a phone; the
-                 same eight cards become the tooltips above the breakpoint. -->
+            <!-- The cards: a rail under the photo, the tooltips above the breakpoint. -->
             <ul class="plan__rail" data-plan-rail data-anim="rise" style="--d: 620ms">
               <li class="plan__slot" id="dev-media" data-device="media">
                 <article class="card device plan__card">
@@ -1153,26 +1109,7 @@
         </div>
       </section>
 
-      <!-- ==================================================================
-           04 — GROW
-           The reassurance section 03 owes: nobody has to do the whole house.
-           One chain of drawn device cards, laid out as a plan rather than a
-           row — the hub lands first and every device after it arrives on its
-           own beat, joined by a dashed hairline. Dashed, because nothing
-           here is wired: a device pairs itself to the hub over the air.
-
-           The section has a second beat too: five seconds after the last
-           device has landed the chain closes up, the four devices come
-           together into one object, and the only link left is the one holding
-           the empty card. It is switched off for now — one block at the foot
-           of the section in sections.css is all that holds it back — so what
-           runs today is the chain drawing itself and then staying drawn.
-
-           Both beats are declared here and nowhere else. Every card carries
-           its own --d, and so does the link that reaches it; --gather on the
-           chain is the one beat they all move on. There is no script — the
-           whole section is the entrance choreography.
-           ================================================================== -->
+      <!-- ===== 04 — GROW: a chain of drawn cards, dashed because devices pair over air ===== -->
       <section class="grow" id="grow" aria-labelledby="grow-title" data-reveal>
         <div class="container">
           <header class="grow__head">
@@ -1206,14 +1143,7 @@
             </p>
           </header>
 
-          <!-- A node is a place on the plan and the card is what stands there,
-               because the two move on different beats: the card arrives, the
-               place closes up. The link that reaches a node is written with
-               it, so the hub — the one device nothing has to reach — has none.
-
-               --gather is the beat the whole chain closes on. The nodes have
-               no --d of their own and inherit it; every card and link shadows
-               it with the delay of its own arrival. -->
+          <!-- Node and card move on different beats; the link to a node is written with it. -->
           <div class="grow__chain" style="--gather: 7200ms">
             <div class="grow__node grow__node--hub" data-anim="gather">
               <article
@@ -1358,10 +1288,7 @@
               </article>
             </div>
 
-            <!-- The room left over. It moves with the chain but keeps its
-                 own gap, so when the chain closes up it is the only one still
-                 on a line. Dashed, smaller than a device, and not a control:
-                 there is nothing here to press. -->
+            <!-- The room left over: it moves with the chain but keeps its gap, and is no control. -->
             <div class="grow__node grow__node--more" data-anim="gather">
               <span
                 class="grow__wire grow__wire--x"
@@ -1381,9 +1308,7 @@
               </div>
             </div>
 
-            <!-- Last in the markup, and in the empty corner of the plan above
-                 the breakpoint — an annotation on the chain, not a step in it,
-                 so it stays where it is when the chain closes up. -->
+            <!-- An annotation on the chain, not a step in it, so it stays put when it closes. -->
             <div class="grow__aside" data-anim="rise" style="--d: 1800ms">
               <p class="label label--accent" data-i18n="grow.aside.label">
                 Room to grow
@@ -1403,32 +1328,7 @@
         </div>
       </section>
 
-      <!-- ==================================================================
-           05 — CALC
-           The cost calculator, and the only place on the page that asks the
-           visitor for anything. Progressive disclosure, three questions:
-           what they want solved, how much house there is, and — only for the
-           goals they actually picked — the one count that moves the price.
-
-           Nobody is asked to inventory their windows. The footprint is the
-           question, and the refinement step asks one critical multiplier per
-           goal: exterior doors for security, rooms for climate, rooms for
-           light. Everything else — windows, cameras, leak sensors, garage
-           doors, blinds — is what the footprint is for. A single family home
-           gets one question nothing else does: the lawn.
-
-           The answer is a range, not a price, and it is a range because the
-           hardware is: a lock is $80 or $280 depending on the door it goes
-           on. The way out of it is a mailto: with the answers already written
-           into the subject and the body — no form, no field, no account.
-           Everything after "Email the Professional" happens in the visitor's
-           own mail client.
-
-           Progress and the two nav buttons are hidden in the markup and
-           unhidden by js/calc.js, so with no script the console is a plain
-           three-part form nobody can get stuck inside, and the line under it
-           is the way out. The stepping only exists once data-calc="live".
-           ================================================================== -->
+      <!-- ===== 05 — CALC: three questions, a range, and a mailto: out ===== -->
       <section class="calc" id="calc" aria-labelledby="calc-title" data-reveal>
         <div class="container">
           <header class="calc__head">
@@ -1469,8 +1369,7 @@
             data-anim="pop"
             style="--d: 420ms"
           >
-            <!-- Where you are, and how much is left. Both readings are the
-                 script's; the markup carries the English fallback only. -->
+            <!-- Where you are, and how much is left; the markup carries only the fallback. -->
             <div class="calc__progress" data-calc-progress hidden>
               <div class="calc__count" data-calc-count>
                 <p class="label label--accent" data-calc-step>Step 1 of 3</p>
@@ -1493,8 +1392,7 @@
             </div>
 
             <div class="calc__stage">
-              <!-- Step 1 — the vision. Many, because most homes have more
-                   than one thing wrong with them. -->
+              <!-- Step 1 — the vision. Many, since most homes have more than one thing wrong. -->
               <div
                 class="calc__panel"
                 data-calc-panel="1"
@@ -1650,13 +1548,7 @@
                 </div>
               </div>
 
-              <!-- Step 3 — the refinement. One question per goal picked, and
-                   nothing that could be guessed from the footprint. Every row
-                   is in the markup; the script takes away the ones whose goal
-                   was not chosen, so with no script all of them are readable.
-
-                   The lawn is the one row that hangs off the footprint rather
-                   than off a goal: it is only ever asked of a house. -->
+              <!-- Step 3 — one question per goal picked; the script removes the rest. -->
               <div
                 class="calc__panel"
                 data-calc-panel="3"
@@ -1678,10 +1570,7 @@
                   </p>
                 </div>
 
-                <!-- The track's fill is a custom property the script keeps
-                     in step with the value; it is written here as well so a
-                     slider that no script ever reaches is not drawn half full
-                     with its thumb at one end. -->
+                <!-- Written here too, so a slider no script reaches is not drawn half full. -->
                 <div class="calc__refines">
                   <div class="calc__refine" data-refine="doors">
                     <div class="calc__refine-head">
@@ -1768,10 +1657,7 @@
                 </div>
               </div>
 
-              <!-- The answer. A range read as a dimension line, because that
-                   is what the drafting kit is for — the bill of what is in it
-                   underneath, and the mailto: that carries the whole thing
-                   into the visitor's mail client. -->
+              <!-- The answer: a range read as a dimension line, its bill, and the mailto:. -->
               <div
                 class="calc__panel calc__result"
                 data-calc-panel="result"
@@ -1790,10 +1676,7 @@
                   </h3>
                 </div>
 
-                <!-- Two figures and the distance between them — except when
-                     there is no distance: a job made only of fixed-price
-                     hardware has one price, and the script takes the second
-                     figure and the line away rather than printing it twice. -->
+                <!-- An all-fixed-price job has one price, so the script drops the second figure. -->
                 <p class="dimension calc__range" aria-live="polite">
                   <span class="calc__range-value" data-calc-low>$0</span>
                   <span class="visually-hidden" data-calc-to data-i18n="calc.result.to"
@@ -1815,9 +1698,7 @@
                   </div>
                 </dl>
 
-                <!-- What the two figures are made of. Counts only: the price
-                     of a lock is the survey's business, not the landing
-                     page's — what belongs here is the shape of the job. -->
+                <!-- Counts only: what a lock costs is the survey's business, not this page's. -->
                 <ul class="calc__bill" data-calc-bill></ul>
 
                 <p class="caption calc__disclaimer" data-i18n="calc.result.note">
@@ -1850,17 +1731,14 @@
               >
                 Back
               </button>
-              <!-- The forward label is the script's: it reads Continue on
-                   the first two steps and See my estimate on the last, so it
-                   has no key of its own to carry here. -->
+              <!-- The forward label is the script's: Continue, then See my estimate. -->
               <button class="btn btn--primary" type="button" data-calc-next>
                 Continue
               </button>
             </div>
           </div>
 
-          <!-- The way out of the calculator for anyone it does not fit: a
-               plain mailto with nothing written into it. -->
+          <!-- The way out for anyone the calculator does not fit: a plain, empty mailto. -->
           <p class="calc__unique" data-anim="rise" style="--d: 560ms">
             <span data-i18n="calc.unique">Have a unique project?</span>
             <a href="mailto:hello@yoursmarthome.com" data-i18n="calc.unique.link"
@@ -1871,28 +1749,7 @@
       </section>
 
 
-      <!-- ==================================================================
-           06 — FLOW
-           What actually happens once somebody says yes, and when. Section
-           05 puts a number on the page, and the first thing a number wants
-           is to know what it buys and how long it takes — so this answers
-           that before section 07 gets to what happens afterwards. The
-           plainest section on the page: three steps, named for what they
-           are, on one rail.
-
-           The rail is the section. It is solid wherever somebody is doing
-           something and dashed through the two weeks the hardware is in
-           transit, and that stretch is the one place with no card on it —
-           the shape of the schedule is legible before a word of it is read.
-
-           Nothing here is interactive. A step is a title, what happens in
-           it and how long it takes, and there is no more of it to ask for —
-           so there is no script either: the whole section is the entrance
-           choreography, held by data-reveal until it is on screen.
-
-           Over 1000px the rail turns and runs across, the steps side by
-           side under it. Only the axis changes.
-           ================================================================== -->
+      <!-- ===== 06 — FLOW: three steps on one rail · 1000px turns it · no script ===== -->
       <section class="flow" id="flow" aria-labelledby="flow-title" data-reveal>
         <div class="container">
           <header class="flow__head">
@@ -1926,11 +1783,7 @@
             </p>
           </header>
 
-          <!-- Every row is the same two parts — the rail, and what hangs off
-               it — so a segment drawn on one row meets the one before it
-               without anything being measured. A segment belongs to the row
-               it leaves rather than to the row it reaches: a run of the clock
-               starts at a step, it does not arrive at one. -->
+          <!-- A segment belongs to the row it leaves, so segments meet without measuring. -->
           <div class="flow__track">
             <article class="flow__row flow__step flow__step--consult">
               <span
@@ -2005,9 +1858,7 @@
               </div>
             </article>
 
-            <!-- The fortnight, drawn rather than described. No card, because
-                 nothing is asked of anybody here and nobody is on site: the
-                 row is distance and a dashed rail through it. -->
+            <!-- The fortnight, drawn not described: no card, because nobody is on site. -->
             <div class="flow__row flow__wait">
               <span
                 class="flow__seg"
@@ -2063,9 +1914,7 @@
               </div>
             </article>
 
-            <!-- The end of the line: the one filled mark on the rail, and a
-                 line that sits straight on the paper rather than in a card.
-                 Nothing follows it, so it carries no segment. -->
+            <!-- The end of the line: the one filled mark, and no segment after it. -->
             <div class="flow__row flow__done">
               <span
                 class="flow__mark flow__mark--done"
@@ -2088,28 +1937,7 @@
         </div>
       </section>
 
-      <!-- ==================================================================
-           07 — ADAPT
-           The objections the price raises, answered on the far side of it
-           and of the schedule section 06 lays out. Sections 03 and 04
-           already said the system grows and that nobody has to do the whole
-           house at once — but they said it before there was a number on the
-           page. Here it is said again, and the one thing the page has never
-           said is added: every install carries a year of support with it.
-
-           Two claims and one panel. The claims are compact on purpose: they
-           are a reminder, not the argument, and the argument was made two
-           sections ago. The panel is the page's one dark surface, which is
-           what gives the new information the weight the repeats do not need.
-
-           What the year covers is deliberately narrow — what you add, the
-           batteries, and a look at the system from here. It does not claim
-           to rewrite your automations, and nothing here says what happens
-           after month twelve.
-
-           No script. The whole section is the entrance choreography, held by
-           data-reveal until it is on screen.
-           ================================================================== -->
+      <!-- ===== 07 — ADAPT: two compact repeats, and the year of support ===== -->
       <section class="adapt" id="adapt" aria-labelledby="adapt-title" data-reveal>
         <div class="container">
           <header class="adapt__head">
@@ -2143,8 +1971,7 @@
             </p>
           </header>
 
-          <!-- The two repeats. Soft cards, because both of these are things
-               the visitor can act on: buy one more device, or move house. -->
+          <!-- The two repeats. Soft cards, because both are things the visitor can act on. -->
           <div class="adapt__claims">
             <article class="card adapt__claim" data-anim="pop" style="--d: 400ms">
               <span class="icon-plate adapt__plate"
@@ -2174,18 +2001,13 @@
             </article>
           </div>
 
-          <!-- The new information, and the only dark surface on the page.
-               The year is read as a dimension line for the same reason the
-               estimate in section 05 is: two ends and the distance between
-               them is what the drafting kit is for. -->
+          <!-- The new information, and the page's only dark surface. -->
           <div
             class="card card--ink adapt__panel"
             data-anim="pop"
             style="--d: 700ms"
           >
-            <!-- The year first: two ends and the distance between them, run
-                 across the head of the panel so the span is read before the
-                 promise rather than as a footnote to it. -->
+            <!-- The year runs across the head of the panel, so the span is read first. -->
             <div
               class="dimension adapt__span"
               data-anim="rise"

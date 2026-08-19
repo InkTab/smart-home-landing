@@ -25,9 +25,7 @@
   <body>
     <div class="paper" aria-hidden="true"></div>
 
-    <!-- ===================================================================
-         ICON SPRITE — 24px grid, 1.5 stroke, round caps
-         =================================================================== -->
+    <!-- ===== ICON SPRITE — 24px grid, 1.5 stroke, round caps ===== -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <defs>
         <symbol id="i-hub" viewBox="0 0 24 24">
@@ -180,9 +178,7 @@
     </svg>
 
     <div class="sheet">
-      <!-- =================================================================
-           INDEX RAIL
-           ================================================================= -->
+      <!-- ===== INDEX RAIL ===== -->
       <aside class="rail">
         <div class="rail__brand">
           <span class="brandmark"
@@ -224,9 +220,7 @@
       </aside>
 
       <main>
-        <!-- ===============================================================
-             TITLE BLOCK
-             =============================================================== -->
+        <!-- ===== TITLE BLOCK ===== -->
         <header class="titleblock">
           <div class="titleblock__eyebrow">
             <span class="label label--accent">Sheet 01</span>
@@ -271,9 +265,7 @@
           </div>
         </header>
 
-        <!-- ===============================================================
-             00 PRINCIPLES
-             =============================================================== -->
+        <!-- ===== 00 PRINCIPLES ===== -->
         <section class="section" id="principles">
           <div class="section__head">
             <div>
@@ -322,9 +314,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             01 COLOR
-             =============================================================== -->
+        <!-- ===== 01 COLOR ===== -->
         <section class="section" id="color">
           <div class="section__head">
             <div>
@@ -422,9 +412,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             02 TYPOGRAPHY
-             =============================================================== -->
+        <!-- ===== 02 TYPOGRAPHY ===== -->
         <section class="section" id="type">
           <div class="section__head">
             <div>
@@ -587,9 +575,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             03 SPACE & GRID
-             =============================================================== -->
+        <!-- ===== 03 SPACE & GRID ===== -->
         <section class="section" id="space">
           <div class="section__head">
             <div>
@@ -669,9 +655,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             04 LINE & FORM
-             =============================================================== -->
+        <!-- ===== 04 LINE & FORM ===== -->
         <section class="section" id="geometry">
           <div class="section__head">
             <div>
@@ -749,9 +733,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             05 ICONS
-             =============================================================== -->
+        <!-- ===== 05 ICONS ===== -->
         <section class="section" id="icons">
           <div class="section__head">
             <div>
@@ -809,9 +791,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             06 BUTTONS
-             =============================================================== -->
+        <!-- ===== 06 BUTTONS ===== -->
         <section class="section" id="buttons">
           <div class="section__head">
             <div>
@@ -914,9 +894,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             07 CONTROLS
-             =============================================================== -->
+        <!-- ===== 07 CONTROLS ===== -->
         <section class="section" id="forms">
           <div class="section__head">
             <div>
@@ -1018,9 +996,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             08 STATUS
-             =============================================================== -->
+        <!-- ===== 08 STATUS ===== -->
         <section class="section" id="status">
           <div class="section__head">
             <div>
@@ -1086,9 +1062,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             09 CARDS
-             =============================================================== -->
+        <!-- ===== 09 CARDS ===== -->
         <section class="section" id="cards">
           <div class="section__head">
             <div>
@@ -1276,9 +1250,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             10 MEDIA FRAMES
-             =============================================================== -->
+        <!-- ===== 10 MEDIA FRAMES ===== -->
         <section class="section" id="media">
           <div class="section__head">
             <div>
@@ -1366,9 +1338,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             11 DATA DISPLAY
-             =============================================================== -->
+        <!-- ===== 11 DATA DISPLAY ===== -->
         <section class="section" id="data">
           <div class="section__head">
             <div>
@@ -1468,9 +1438,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             12 NAVIGATION
-             =============================================================== -->
+        <!-- ===== 12 NAVIGATION ===== -->
         <section class="section" id="nav">
           <div class="section__head">
             <div>
@@ -1498,8 +1466,7 @@
               >
                 <svg class="icon" data-toggle-icon><use href="#i-menu" /></svg>
               </button>
-              <!-- display:contents above the breakpoint, so the bar keeps its
-                   three-part layout; a real box below it. -->
+              <!-- display:contents above the breakpoint keeps the bar three-part; a box below. -->
               <div class="navbar__menu" id="navbar-demo-menu">
                 <ul class="navbar__links">
                   <li><a href="#nav" aria-current="page">Services</a></li>
@@ -1547,9 +1514,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             13 DRAFTING KIT
-             =============================================================== -->
+        <!-- ===== 13 DRAFTING KIT ===== -->
         <section class="section" id="drafting">
           <div class="section__head">
             <div>
@@ -1618,9 +1583,7 @@
           </div>
         </section>
 
-        <!-- ===============================================================
-             14 SOFT SURFACES
-             =============================================================== -->
+        <!-- ===== 14 SOFT SURFACES ===== -->
         <section class="section" id="soft">
           <div class="section__head">
             <div>
@@ -1785,9 +1748,7 @@
       </main>
     </div>
 
-    <!-- The index again, pinned, for when the rail has scrolled away. Its
-         list is cloned from the rail at runtime, so there is one source of
-         truth for the section order. -->
+    <!-- The pinned index. Its list is cloned from the rail, so the order lives once. -->
     <div class="jump" id="jump">
       <button
         class="jump__toggle btn btn--icon btn--secondary"
