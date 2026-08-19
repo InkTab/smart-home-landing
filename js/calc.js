@@ -374,11 +374,15 @@
   }
 
   /* The arriving panel takes focus — but only on a move, or load would jump here. */
+  /* Focus after the paint: focusing a just-unhidden panel forces a synchronous reflow. */
   function focusPanel() {
     var panel = panels[String(view)];
     if (!panel) return;
     var title = panel.querySelector(".calc__panel-title");
-    if (title) title.focus();
+    if (!title) return;
+    window.setTimeout(function () {
+      title.focus();
+    }, 0);
   }
 
   /* ---- Sliders ------------------------------------------------------------ */
