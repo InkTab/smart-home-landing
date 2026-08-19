@@ -649,6 +649,35 @@
 .card--ink .label {
   color: var(--steel-300);
 }
+.card--ink .card__foot {
+  border-top-color: rgba(255, 255, 255, 0.16);
+}
+
+/* A badge is a raised paper chip, and the soft shadow it is raised with needs
+   the paper under it: on ink the highlight reads as a halo around the chip
+   rather than as light falling on it. So on a dark card it stops being raised
+   and becomes a tint of the ground it is on. */
+.card--ink .badge {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+  color: var(--steel-100);
+}
+/* The solid one keeps its fill — steel on ink is a contrast the ground can
+   carry. It only loses the light. */
+.card--ink .badge--solid {
+  background: var(--steel-600);
+  color: var(--text-inverse);
+}
+
+/* A checked list on ink, the same way a drawn card takes its controls back
+   to hairlines: the list is set for paper, so the card that changes the
+   ground under it is what has to say so. */
+.card--ink .list-check {
+  color: var(--steel-200);
+}
+.card--ink .list-check .icon {
+  color: var(--steel-400);
+}
 .card--flush {
   padding: 0;
   overflow: hidden;

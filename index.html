@@ -52,6 +52,11 @@
           />
           <path d="M9.5 19h5M10.5 21.5h3" />
         </symbol>
+        <symbol id="i-plug" viewBox="0 0 24 24">
+          <path d="M9 3v6M15 3v6" />
+          <path d="M6 9h12v2a6 6 0 0 1-12 0Z" />
+          <path d="M12 17v4" />
+        </symbol>
         <symbol id="i-drop" viewBox="0 0 24 24">
           <path d="M12 3.2c3.4 4 5.2 6.8 5.2 9.3a5.2 5.2 0 0 1-10.4 0c0-2.5 1.8-5.3 5.2-9.3Z" />
           <path d="M9.4 13.6a2.6 2.6 0 0 0 2.6 2.6" />
@@ -1830,6 +1835,190 @@
               >Email us</a
             >
           </p>
+        </div>
+      </section>
+
+
+      <!-- ==================================================================
+           06 — ADAPT
+           The objections the price raises, answered on the far side of it.
+           Sections 03 and 04 already said the system grows and that nobody
+           has to do the whole house at once — but they said it before there
+           was a number on the page. Here it is said again, and the one thing
+           the page has never said is added: every install carries a year of
+           support with it.
+
+           Two claims and one panel. The claims are compact on purpose: they
+           are a reminder, not the argument, and the argument was made two
+           sections ago. The panel is the page's one dark surface, which is
+           what gives the new information the weight the repeats do not need.
+
+           What the year covers is deliberately narrow — what you add, the
+           batteries, and a look at the system from here. It does not claim
+           to rewrite your automations, and nothing here says what happens
+           after month twelve.
+
+           No script. The whole section is the entrance choreography, held by
+           data-reveal until it is on screen.
+           ================================================================== -->
+      <section class="adapt" id="adapt" aria-labelledby="adapt-title" data-reveal>
+        <div class="container">
+          <header class="adapt__head">
+            <p
+              class="label label--accent"
+              data-anim="rise"
+              style="--d: 60ms"
+              data-i18n="adapt.eyebrow"
+            >
+              After handover
+            </p>
+
+            <h2
+              class="display-3 adapt__title"
+              id="adapt-title"
+              data-anim="rise"
+              style="--d: 160ms"
+              data-i18n="adapt.title"
+            >
+              Nothing here is set in stone.
+            </h2>
+
+            <p
+              class="lede adapt__lede"
+              data-anim="rise"
+              style="--d: 280ms"
+              data-i18n="adapt.lede"
+            >
+              You can add to it, you can take it with you — and for the first
+              year we keep it running so you do not have to think about it.
+            </p>
+          </header>
+
+          <!-- The two repeats. Soft cards, because both of these are things
+               the visitor can act on: buy one more device, or move house. -->
+          <div class="adapt__claims">
+            <article class="card adapt__claim" data-anim="pop" style="--d: 400ms">
+              <span class="icon-plate adapt__plate"
+                ><svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg
+              ></span>
+              <h3 class="card__title" data-i18n="adapt.add.title">
+                Add whatever comes next
+              </h3>
+              <p class="card__body" data-i18n="adapt.add.body">
+                A camera, blinds, a sensor for the boiler. Each one pairs
+                itself to the hub that is already there, in any order,
+                whenever it suits you — and nothing already installed has to
+                be bought again.
+              </p>
+            </article>
+
+            <article class="card adapt__claim" data-anim="pop" style="--d: 520ms">
+              <span class="icon-plate adapt__plate"
+                ><svg class="icon" aria-hidden="true"><use href="#i-plug" /></svg
+              ></span>
+              <h3 class="card__title" data-i18n="adapt.move.title">It unplugs</h3>
+              <p class="card__body" data-i18n="adapt.move.body">
+                Nothing is chased into a wall and nothing is drilled. The
+                system comes off in an afternoon and goes back up at the next
+                address: the same hub, the same devices, the same routines.
+              </p>
+            </article>
+          </div>
+
+          <!-- The new information, and the only dark surface on the page.
+               The year is read as a dimension line for the same reason the
+               estimate in section 05 is: two ends and the distance between
+               them is what the drafting kit is for. -->
+          <div
+            class="card card--ink adapt__panel"
+            data-anim="pop"
+            style="--d: 700ms"
+          >
+            <!-- The year first: two ends and the distance between them, run
+                 across the head of the panel so the span is read before the
+                 promise rather than as a footnote to it. -->
+            <div
+              class="dimension adapt__span"
+              data-anim="rise"
+              style="--d: 820ms"
+            >
+              <span class="dimension__value" data-i18n="adapt.dim.from"
+                >Handover</span
+              >
+              <span class="dimension__line"></span>
+              <span class="dimension__value" data-i18n="adapt.dim.to"
+                >12 months</span
+              >
+            </div>
+
+            <div class="adapt__panel-copy">
+              <div class="adapt__panel-head">
+                <p class="label" data-i18n="adapt.year.label">
+                  Lifestyle adaptation
+                </p>
+                <span class="badge badge--tint badge--pill" data-i18n="adapt.year.badge"
+                  >Included · first year</span
+                >
+              </div>
+
+              <h3 class="heading-3 adapt__panel-title" data-i18n="adapt.year.title">
+                12 months of support included.
+              </h3>
+
+              <p class="card__body" data-i18n="adapt.year.body">
+                Not a call center. The person who set your system up, on the
+                other end of it.
+              </p>
+            </div>
+
+            <div class="adapt__panel-cover">
+              <ul class="list-check adapt__covers">
+                <li data-anim="rise" style="--d: 900ms">
+                  <svg class="icon icon--sm" aria-hidden="true">
+                    <use href="#i-check" />
+                  </svg>
+                  <span>
+                    <span class="adapt__lead" data-i18n="adapt.year.a.lead"
+                      >Anything you add, we set up.</span
+                    >
+                    <span data-i18n="adapt.year.a.body"
+                      >Buy a device later and we pair it, name it and put it
+                      into the routines that already run.</span
+                    >
+                  </span>
+                </li>
+                <li data-anim="rise" style="--d: 1000ms">
+                  <svg class="icon icon--sm" aria-hidden="true">
+                    <use href="#i-check" />
+                  </svg>
+                  <span>
+                    <span class="adapt__lead" data-i18n="adapt.year.b.lead"
+                      >Batteries before they die.</span
+                    >
+                    <span data-i18n="adapt.year.b.body"
+                      >We watch which sensors are getting low and change them,
+                      so you never meet a dead one.</span
+                    >
+                  </span>
+                </li>
+                <li data-anim="rise" style="--d: 1100ms">
+                  <svg class="icon icon--sm" aria-hidden="true">
+                    <use href="#i-check" />
+                  </svg>
+                  <span>
+                    <span class="adapt__lead" data-i18n="adapt.year.c.lead"
+                      >A message, not a ticket.</span
+                    >
+                    <span data-i18n="adapt.year.c.body"
+                      >If something is behaving oddly we look at the system
+                      from here, and usually fix it without coming round.</span
+                    >
+                  </span>
+                </li>
+              </ul>
+
+            </div>
+          </div>
         </div>
       </section>
 
