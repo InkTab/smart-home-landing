@@ -83,6 +83,9 @@
           <path d="M12 3.5 2.8 20h18.4Z" />
           <path d="M12 10v4M12 17h.01" />
         </symbol>
+        <symbol id="i-plus" viewBox="0 0 24 24">
+          <path d="M12 5v14M5 12h14" />
+        </symbol>
         <symbol id="i-arrow-right" viewBox="0 0 24 24">
           <path d="M4 12h15.5M13.5 6l6 6-6 6" />
         </symbol>
@@ -1084,6 +1087,256 @@
             >
             <span class="mono">8 / 12</span>
           </p>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           04 — GROW
+           The reassurance section 03 owes: nobody has to do the whole house.
+           One chain of drawn device cards, laid out as a plan rather than a
+           row — the hub lands first and every device after it arrives on its
+           own beat, joined by a dashed hairline. Dashed, because nothing
+           here is wired: a device pairs itself to the hub over the air.
+
+           The section has a second beat too: five seconds after the last
+           device has landed the chain closes up, the four devices come
+           together into one object, and the only link left is the one holding
+           the empty card. It is switched off for now — one block at the foot
+           of the section in sections.css is all that holds it back — so what
+           runs today is the chain drawing itself and then staying drawn.
+
+           Both beats are declared here and nowhere else. Every card carries
+           its own --d, and so does the link that reaches it; --gather on the
+           chain is the one beat they all move on. There is no script — the
+           whole section is the entrance choreography.
+           ================================================================== -->
+      <section class="grow" id="grow" aria-labelledby="grow-title" data-reveal>
+        <div class="container">
+          <header class="grow__head">
+            <p
+              class="label label--accent"
+              data-anim="rise"
+              style="--d: 60ms"
+              data-i18n="grow.eyebrow"
+            >
+              Start small
+            </p>
+
+            <h2
+              class="display-3 grow__title"
+              id="grow-title"
+              data-anim="rise"
+              style="--d: 160ms"
+              data-i18n="grow.title"
+            >
+              Nobody starts with the whole house.
+            </h2>
+
+            <p
+              class="lede grow__lede"
+              data-anim="rise"
+              style="--d: 280ms"
+              data-i18n="grow.lede"
+            >
+              The hub goes in first. Everything after it is a decision you make
+              later — one room at a time, in any order, whenever it suits you.
+            </p>
+          </header>
+
+          <!-- A node is a place on the plan and the card is what stands there,
+               because the two move on different beats: the card arrives, the
+               place closes up. The link that reaches a node is written with
+               it, so the hub — the one device nothing has to reach — has none.
+
+               --gather is the beat the whole chain closes on. The nodes have
+               no --d of their own and inherit it; every card and link shadows
+               it with the delay of its own arrival. -->
+          <div class="grow__chain" style="--gather: 7200ms">
+            <div class="grow__node grow__node--hub" data-anim="gather">
+              <article
+                class="card card--drawn device grow__card ticks"
+                data-anim="pop"
+                style="--d: 400ms"
+              >
+                <div class="device__head">
+                  <div class="device__meta">
+                    <span class="label" data-i18n="grow.hub.room">Hallway</span>
+                    <span class="device__name" data-i18n="grow.hub.name">Hub</span>
+                  </div>
+                  <span class="icon-plate icon-plate--drawn grow__plate"
+                    ><svg class="icon icon--sm"><use href="#i-hub" /></svg
+                  ></span>
+                </div>
+                <div
+                  class="device__reading device__reading--state"
+                  data-i18n="grow.hub.state"
+                >
+                  Online
+                </div>
+                <div class="grow__foot">
+                  <span class="status status--online"
+                    ><span class="status__dot"></span
+                  ></span>
+                  <span class="caption" data-i18n="grow.hub.note"
+                    >One room · four devices</span
+                  >
+                </div>
+              </article>
+            </div>
+
+            <div class="grow__node grow__node--lights" data-anim="gather">
+              <span
+                class="grow__wire grow__wire--x"
+                data-anim="draw"
+                style="--d: 580ms"
+                aria-hidden="true"
+              ></span>
+              <article
+                class="card card--drawn device grow__card"
+                data-anim="pop"
+                style="--d: 700ms"
+              >
+                <div class="device__head">
+                  <div class="device__meta">
+                    <span class="label" data-i18n="grow.lights.room">Living room</span>
+                    <span class="device__name" data-i18n="grow.lights.name"
+                      >Ceiling lights</span
+                    >
+                  </div>
+                  <span class="icon-plate icon-plate--drawn grow__plate"
+                    ><svg class="icon icon--sm"><use href="#i-bulb" /></svg
+                  ></span>
+                </div>
+                <div class="device__reading">
+                  40<span class="device__unit">%</span>
+                </div>
+                <div class="grow__foot">
+                  <span class="status status--online"
+                    ><span class="status__dot"></span
+                  ></span>
+                  <span class="caption" data-i18n="grow.lights.note"
+                    >Evening scene · 2700 K</span
+                  >
+                </div>
+              </article>
+            </div>
+
+            <div class="grow__node grow__node--climate" data-anim="gather">
+              <span
+                class="grow__wire grow__wire--y"
+                data-anim="draw"
+                style="--d: 880ms"
+                aria-hidden="true"
+              ></span>
+              <article
+                class="card card--drawn device grow__card"
+                data-anim="pop"
+                style="--d: 1000ms"
+              >
+                <div class="device__head">
+                  <div class="device__meta">
+                    <span class="label" data-i18n="grow.climate.room">Living room</span>
+                    <span class="device__name" data-i18n="grow.climate.name">Climate</span>
+                  </div>
+                  <span class="icon-plate icon-plate--drawn grow__plate"
+                    ><svg class="icon icon--sm"><use href="#i-thermostat" /></svg
+                  ></span>
+                </div>
+                <div class="device__reading">
+                  <span data-i18n="grow.climate.value">21.8</span
+                  ><span class="device__unit">°C</span>
+                </div>
+                <div class="grow__foot">
+                  <span class="status status--online"
+                    ><span class="status__dot"></span
+                  ></span>
+                  <span class="caption" data-i18n="grow.climate.note"
+                    >Holding 22.0 °C</span
+                  >
+                </div>
+              </article>
+            </div>
+
+            <div class="grow__node grow__node--lock" data-anim="gather">
+              <span
+                class="grow__wire grow__wire--x"
+                data-anim="draw"
+                style="--d: 1180ms"
+                aria-hidden="true"
+              ></span>
+              <article
+                class="card card--drawn device grow__card"
+                data-anim="pop"
+                style="--d: 1300ms"
+              >
+                <div class="device__head">
+                  <div class="device__meta">
+                    <span class="label" data-i18n="grow.lock.room">Entry</span>
+                    <span class="device__name" data-i18n="grow.lock.name">Smart lock</span>
+                  </div>
+                  <span class="icon-plate icon-plate--drawn grow__plate"
+                    ><svg class="icon icon--sm"><use href="#i-lock" /></svg
+                  ></span>
+                </div>
+                <div
+                  class="device__reading device__reading--state"
+                  data-i18n="grow.lock.state"
+                >
+                  Locked
+                </div>
+                <div class="grow__foot">
+                  <span class="status status--online"
+                    ><span class="status__dot"></span
+                  ></span>
+                  <span class="caption" data-i18n="grow.lock.note"
+                    >Locks behind you</span
+                  >
+                </div>
+              </article>
+            </div>
+
+            <!-- The room left over. It moves with the chain but keeps its
+                 own gap, so when the chain closes up it is the only one still
+                 on a line. Dashed, smaller than a device, and not a control:
+                 there is nothing here to press. -->
+            <div class="grow__node grow__node--more" data-anim="gather">
+              <span
+                class="grow__wire grow__wire--x"
+                data-anim="draw"
+                style="--d: 1480ms"
+                aria-hidden="true"
+              ></span>
+              <div
+                class="card card--drawn grow__card grow__card--more"
+                data-anim="pop"
+                style="--d: 1600ms"
+              >
+                <span class="icon-plate icon-plate--drawn grow__plus"
+                  ><svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg
+                ></span>
+                <span class="label" data-i18n="grow.more">Whatever comes next</span>
+              </div>
+            </div>
+
+            <!-- Last in the markup, and in the empty corner of the plan above
+                 the breakpoint — an annotation on the chain, not a step in it,
+                 so it stays where it is when the chain closes up. -->
+            <div class="grow__aside" data-anim="rise" style="--d: 1800ms">
+              <p class="label label--accent" data-i18n="grow.aside.label">
+                Room to grow
+              </p>
+              <p class="body-sm" data-i18n="grow.aside.body">
+                Cameras, blinds, plugs, a sensor for the boiler — each one pairs
+                itself to the hub that is already there. Nothing has to be
+                bought twice.
+              </p>
+              <div class="dimension">
+                <span class="dimension__value">4</span>
+                <span class="dimension__line"></span>
+                <span class="dimension__value">12</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
