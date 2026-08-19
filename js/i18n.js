@@ -155,7 +155,39 @@
       "plan.shades.pin": "Shades, dining area",
       "plan.shades.room": "Dining area",
       "plan.shades.name": "Shades",
-      "plan.shades.note": "Closing at sunset"
+      "plan.shades.note": "Closing at sunset",
+
+      /* Section 04 — the same system, on the day it was four devices. The
+         readings match section 03; what changes is how much of the house is
+         in it, which is the whole point of the section. */
+      "grow.eyebrow": "Start small",
+      "grow.title": "Nobody starts with the whole house.",
+      "grow.lede":
+        "The hub goes in first. Everything after it is a decision you make later — one room at a time, in any order, whenever it suits you.",
+
+      "grow.hub.room": "Hallway",
+      "grow.hub.name": "Hub",
+      "grow.hub.state": "Online",
+      "grow.hub.note": "One room · four devices",
+
+      "grow.lights.room": "Living room",
+      "grow.lights.name": "Ceiling lights",
+      "grow.lights.note": "Evening scene · 2700 K",
+
+      "grow.climate.room": "Living room",
+      "grow.climate.name": "Climate",
+      "grow.climate.value": "21.8",
+      "grow.climate.note": "Holding 22.0 °C",
+
+      "grow.lock.room": "Entry",
+      "grow.lock.name": "Smart lock",
+      "grow.lock.state": "Locked",
+      "grow.lock.note": "Locks behind you",
+
+      "grow.more": "Whatever comes next",
+      "grow.aside.label": "Room to grow",
+      "grow.aside.body":
+        "Cameras, blinds, plugs, a sensor for the boiler — each one pairs itself to the hub that is already there. Nothing has to be bought twice."
     },
 
     ru: {
@@ -289,7 +321,36 @@
       "plan.shades.pin": "Шторы, столовая",
       "plan.shades.room": "Столовая",
       "plan.shades.name": "Шторы",
-      "plan.shades.note": "Закроются на закате"
+      "plan.shades.note": "Закроются на закате",
+
+      "grow.eyebrow": "Начните с малого",
+      "grow.title": "Никто не начинает со всего дома.",
+      "grow.lede":
+        "Сначала ставится хаб. Всё остальное — решения, которые можно принять потом: по одной комнате, в любом порядке и тогда, когда вам удобно.",
+
+      "grow.hub.room": "Прихожая",
+      "grow.hub.name": "Хаб",
+      "grow.hub.state": "На связи",
+      "grow.hub.note": "Одна комната · четыре устройства",
+
+      "grow.lights.room": "Гостиная",
+      "grow.lights.name": "Потолочный свет",
+      "grow.lights.note": "Вечерний сценарий · 2700 K",
+
+      "grow.climate.room": "Гостиная",
+      "grow.climate.name": "Климат",
+      "grow.climate.value": "21,8",
+      "grow.climate.note": "Держит 22,0 °C",
+
+      "grow.lock.room": "Вход",
+      "grow.lock.name": "Умный замок",
+      "grow.lock.state": "Заперто",
+      "grow.lock.note": "Закроется за вами",
+
+      "grow.more": "Что появится потом",
+      "grow.aside.label": "Есть куда расти",
+      "grow.aside.body":
+        "Камеры, шторы, розетки, датчик у котла — каждое само подключается к уже стоящему хабу. Ничего не придётся покупать дважды."
     }
   };
 

@@ -22,7 +22,8 @@ consumes the same stylesheets.
 
 ```
 index.html                  the landing page — header, section 01 (hero),
-                            section 02 (the problem) and section 03 (the plan)
+                            section 02 (the problem), section 03 (the plan)
+                            and section 04 (starting small)
 assets/
   appartment.webp           the apartment section 03 marks the hardware on
 css/
@@ -41,6 +42,7 @@ js/
   hero.js                   the hero's door beat
   problem.js                turning a cell of section 02 over
   plan.js                   pairing a point of section 03 with its card
+                            (section 04 has no script — it is choreography)
 design-system/
   design-system.html        the visual playground — every token and component
   design-system.css         layout for the playground sheet only
@@ -279,3 +281,123 @@ ground under them and a point or a card sitting on a photo has not got it, so
 those two use the cast-shadow scale instead — the exception section 14 of the
 design system sheet documents. On the rail, where the cards are back on paper,
 they go back to the soft shadow.
+
+## Section 04 — start small
+
+The reassurance section 03 owes: nobody has to do the whole house at once.
+Four drawn device cards and one empty one, laid out as a plan rather than a
+row, and the section makes its point twice — first the chain draws itself one
+device at a time, then it closes up into a single object with the empty card
+left out on the end of a line.
+
+| card | reads | arrives |
+| --- | --- | --- |
+| hub, hallway | Online | 400 ms |
+| ceiling lights, living room | 40 % | 700 ms |
+| climate, living room | 21.8 °C | 1000 ms |
+| smart lock, entry | Locked | 1300 ms |
+| the empty one | — | 1600 ms |
+
+The readings are section 03's, unchanged. What is different is how much of the
+house is in them: the hub says *one room · four devices* where section 03's
+says *12 devices · 4 rooms*, and the annotation in the corner dimensions the
+distance between the two — `4 ———— 12`.
+
+These are the one place on the page where `.card--drawn` is the whole set
+rather than the exception: a chain of hardware on a plan is exactly what the
+hairline language is for, and it also keeps the section from reading as a
+fourth row of the same soft cards.
+
+### A place and the thing standing on it
+
+Every device is two elements. `.grow__node` is the place on the plan — it owns
+the link that reaches it and it is what moves when the chain closes up.
+`.grow__card` is the hardware standing there, and it owns the arrival. They
+are split because an element can only be playing one animation of a property
+at a time, and these two beats are minutes apart in the section's story: the
+same reason the hero's jump lives on the card and the entrance on the wrapper.
+
+### The links
+
+A link lives on the node it arrives at, absolutely positioned into the gap on
+the side it comes from, so its length **is** the gap — `--gap-x` and `--gap-y`
+are declared once on the chain and used by both. A device and the link that
+reaches it are written together in the markup, and the hub, which nothing has
+to reach, simply has none.
+
+They are dashed because nothing here is wired: a device pairs itself to the
+hub over the air, which is also why the chain can be added to in any order.
+Each one is drawn out of its own length rather than scaled into place — a
+scaled dash stretches, and these are dashes.
+
+### Closing up — written, and held back
+
+**This beat is switched off at the moment.** One block at the foot of section
+04 in `sections.css` holds it back; deleting that block is what turns it back
+on, and nothing else has to change. What runs today is the chain drawing
+itself and then staying drawn, links and all. The rest of this section
+describes what comes back when it does.
+
+Five seconds after the last device has landed — `--gather: 7200ms`, declared
+once on the chain in the markup — the four devices come together into one
+object. Everything moves to the hub, so the hub is the one card that does not
+move at all, and the drafting kit's corner ticks on it are what say so once
+the entrance is over.
+
+| | before | after |
+| --- | --- | --- |
+| between devices | `--gap-x` / `--gap-y` | `--gap-tight` |
+| the links between them | drawn | faded out |
+| the empty card | one gap off the chain | one gap off the chain |
+
+The three links between devices are drawn and then taken away again, which is
+two beats on one element, so those wires are the only place the `[data-anim]`
+shorthand is written out in full: the draw runs on the link's own `--d`, the
+fade on the chain's `--gather`.
+
+The empty card travels with the card in front of it rather than closing up on
+it. That is the whole trick of the last beat — every other link goes, its link
+stays, and what is left on the page is one system and somewhere for the next
+device to go.
+
+Where a node ends up is a pair of custom properties on the node, `--gx` and
+`--gy`, so one keyframe serves both layouts and the markup only has to say
+when. A node is one column wide even when the card standing on it is not,
+which is what lets a move be written as "one column left" — `-100%` of the
+node — instead of a measurement.
+
+There is still no script. Both beats are the entrance choreography in
+`sections.css`, held by `data-reveal` until the section is on screen.
+
+Two things have to be called off together, which is why the switch is one
+block rather than one line: the move, and the fade that takes the links away.
+Calling off the move on its own would strip the links at 7200 ms from cards
+that never moved. And when the beat comes back, so does the exception it needs
+under `prefers-reduced-motion` — the global rule in `base.css` only flattens
+durations, so the delay still fires and would land the move as a jump, which
+is the one thing that preference is asking not to see.
+
+### Two layouts, one breakpoint
+
+The same 900px section 03 uses.
+
+| | the chain | the links | the empty card |
+| --- | --- | --- | --- |
+| under 900px | one column, top to bottom | all vertical | narrower than a device, centred |
+| over 900px | four columns, two rows | horizontal, except the drop | at the head of the fourth column |
+
+Over the breakpoint the chain steps right, down and right again, and closes up
+into a 2 × 2 block in the corner it started from; the annotation takes the
+corner the stagger leaves empty. It is last in the markup and placed into that
+corner by `grid-area`, because in one column it belongs after the chain rather
+than in the middle of it — and it stays where it is when the chain closes,
+being an annotation on the chain rather than a step in it.
+
+The cards stretch to their row, so every horizontal link meets its neighbour
+at the same height without anything being measured. The empty card is the one
+exception — it is centred rather than stretched, which keeps it smaller than a
+device and, because the row's centre is also the other cards' centre, keeps
+its link level with the rest.
+
+Nothing in the section is interactive. The empty card is a place, not a
+control: there is nothing to press, only somewhere for the next device to go.
