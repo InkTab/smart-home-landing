@@ -260,18 +260,10 @@
      leak notification firing at someone reading section 8 is a bug. The hero
      has to be properly in view, not just clipping the edge of it. */
   var running = null;
-  var queued = false;
-
-  function onScreen() {
-    var box = hero.getBoundingClientRect();
-    var seen =
-      Math.min(box.bottom, window.innerHeight) - Math.max(box.top, 0);
-    return seen > Math.min(box.height, window.innerHeight) * 0.4;
-  }
+  var showing = false; /* is the hero properly in view */
 
   function sync() {
-    queued = false;
-    var next = !document.hidden && onScreen();
+    var next = !document.hidden && showing;
     if (next === running) return;
     running = next;
     hero.setAttribute("data-beats", next ? "on" : "off");
@@ -281,15 +273,66 @@
     }
   }
 
-  function syncSoon() {
-    if (queued) return;
-    queued = true;
-    window.requestAnimationFrame(sync);
+  /* Whether the hero is in view is answered by an observer rather than by
+     measuring it on every scroll frame.
+
+     The beats are changing the DOM on their own timers the whole time — a
+     card jumps, a strip drops, a notification appears — so a measurement
+     taken on scroll lands on style that has just been invalidated, and the
+     browser has to compute the layout then and there to answer it. That is
+     the forced reflow, and it is paid on every frame of every scroll past
+     the hero. The rectangles an observer hands back it measured itself, at a
+     moment of its own choosing, so reading them costs nothing.
+
+     The question is the one it was before: is more than 40% of the hero — or
+     of the screen, when the hero is taller than the screen — actually
+     showing. Answering it from the entry's own three rectangles keeps the
+     threshold identical to the one this used to compute by hand. */
+  function judge(entry) {
+    if (!entry.rootBounds) return;
+    showing =
+      entry.intersectionRect.height >
+      Math.min(entry.boundingClientRect.height, entry.rootBounds.height) * 0.4;
+    sync();
   }
 
   document.addEventListener("visibilitychange", sync);
-  window.addEventListener("scroll", syncSoon, { passive: true });
-  window.addEventListener("resize", syncSoon);
+
+  if ("IntersectionObserver" in window) {
+    /* An observer only reports on the thresholds it was given, and the one
+       that matters here moves with the height of the screen — so it is given
+       a ladder of them rather than a single figure. */
+    var rungs = [];
+    for (var step = 0; step < 1; step += 0.05) rungs.push(step);
+    rungs.push(1);
+
+    new window.IntersectionObserver(function (entries) {
+      judge(entries[entries.length - 1]);
+    }, { threshold: rungs }).observe(hero);
+  } else {
+    /* No observer to ask, so the hero measures itself the way it used to.
+       Batched into a frame, which is the most that can be done about it. */
+    var queued = false;
+
+    var measure = function () {
+      queued = false;
+      var box = hero.getBoundingClientRect();
+      var seen =
+        Math.min(box.bottom, window.innerHeight) - Math.max(box.top, 0);
+      showing = seen > Math.min(box.height, window.innerHeight) * 0.4;
+      sync();
+    };
+
+    var measureSoon = function () {
+      if (queued) return;
+      queued = true;
+      window.requestAnimationFrame(measure);
+    };
+
+    window.addEventListener("scroll", measureSoon, { passive: true });
+    window.addEventListener("resize", measureSoon);
+    measure();
+  }
 
   /* Only the temperature needs re-rendering by hand: everything else is
      keyed, so the dictionary pass picks it up. */

@@ -178,7 +178,18 @@ reordering the `script.push` calls, and nothing else.
 
 Nothing runs unless the hero is on screen and the tab is in the foreground; a
 leak notification firing at someone reading section 8 is a bug. `data-beats`
-on the section says which state it is in. The script also stands down under
+on the section says which state it is in.
+
+Whether it is on screen is an `IntersectionObserver`'s answer rather than a
+measurement taken on every scroll frame. The beats are changing the DOM on
+their own timers the whole time, so a `getBoundingClientRect()` on scroll
+lands on style that has just been invalidated and forces the layout to be
+computed on the spot — 57 ms of it across a page load, which is what
+Lighthouse reports as a forced reflow. An observer's rectangles are ones it
+measured itself, so reading them is free. The threshold is unchanged: more
+than 40% of the hero, or of the screen when the hero is the taller of the
+two. A browser without the observer measures the old way, batched into a
+frame. The script also stands down under
 `prefers-reduced-motion: reduce`; the readings keep drifting, since a number
 changing is not motion.
 
