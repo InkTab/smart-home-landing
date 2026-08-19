@@ -23,8 +23,8 @@ consumes the same stylesheets.
 ```
 index.html                  the landing page — header, section 01 (hero),
                             section 02 (the problem), section 03 (the plan),
-                            section 04 (starting small) and section 05 (what
-                            it costs)
+                            section 04 (starting small), section 05 (what it
+                            costs) and section 06 (what happens after)
 assets/
   appartment.webp           the apartment section 03 marks the hardware on
 css/
@@ -558,3 +558,70 @@ leave a hole under the shortest.
 | --- | --- | --- |
 | over 760px | three columns, the plate above the name | two figures with a dimension line between them, `+ tax` beside the upper one |
 | under it | one column, the plate beside the name | the line turns, and the range is read down the page |
+
+## Section 06 — nothing here is set in stone
+
+Section 05 puts a number on the page, and a number is where the objections
+start: what if I need more later, what if I move, and what happens once you
+have gone. The first two were already answered — the plan grows in section 03
+and the chain starts at four devices in section 04 — but they were answered
+before there was a price to argue with. So they are made again here, on the
+far side of it, and the one thing the page has never said is added to them:
+every install carries a year of support.
+
+Two soft claim cards and one ink panel:
+
+| piece | what it is | why that treatment |
+| --- | --- | --- |
+| add whatever comes next | `.card`, `i-plus` | a repeat, so it is compact — the argument was made two sections ago |
+| it unplugs | `.card`, `i-plug` | the same, and the plug is the claim: nothing is drilled |
+| the year | `.card--ink` | the only new information on the page, and the page's only dark surface |
+
+The year is deliberately narrow. It covers what the visitor adds, the
+batteries, and a look at the system from wherever we are — and it does **not**
+claim to rewrite automations, which is a bigger promise than a landing page
+should make on an installer's behalf. Nothing in the copy says what happens
+after the twelfth month either: the year is included in the install, and the
+sentence that would explain month thirteen is a sentence about a subscription.
+
+The panel reads the year as a dimension line, `Handover ———— 12 months`, for
+the same reason the estimate in section 05 is one: two ends and the distance
+between them is what the drafting kit is for. It runs across the head of the
+panel, above both columns and above the title — the span is what the panel is
+about, so it is read before the promise rather than as a footnote to it, and
+it is the only rule in there: nothing else is divided off.
+
+### What the ink cost
+
+`--surface-ink` takes the paper ground away, and everything standing on it was
+drawn for paper. What the card itself owns went into `components.css` beside
+the `.card--ink` rules that were already there:
+
+| | on paper | on ink |
+| --- | --- | --- |
+| `.list-check` | `--text-muted` | `--steel-200`, ticks at `--steel-400` |
+| `.badge` | a raised paper chip | flat, a 10% white tint of the ground — the soft shadow's highlight reads as a *halo* around a chip on a dark card. The solid badge keeps its steel fill and only loses the light. |
+| `.card__foot` | a `--paper-300` hairline | white at 16% — not used by this section, but the sheet had been carrying it as an inline `border-color` since it was written, so the gap was filled while it was open |
+
+The line is this section's own composition, so it stayed in `sections.css`:
+`.dimension` is `--steel-400` on `--steel-600`, which is right on paper and
+nearly invisible on ink, so `.adapt__span` takes the same two steps of the ramp
+from the other end — `--steel-500` and `--steel-300`.
+
+Section 08 of the design system sheet has the badges on ink beside the ones on
+paper, so the difference is visible rather than only written down here.
+
+### Two layouts, one breakpoint
+
+The 900px sections 03 and 04 share. Over it the claims are two columns and the
+panel puts its copy beside what the year covers, 5fr to 6fr — the list is the
+longer half, and the copy is the half that must not run to a full measure. The
+measurement spans both columns, since it is of the year rather than of either
+half. Under the breakpoint everything stacks in source order, so the line is
+still read first and the panel's heading still arrives before the list it
+heads.
+
+Nothing here is interactive, so there is no script: the section is the
+entrance choreography, held by `data-reveal` until it is on screen. The three
+covered lines arrive one after another rather than with the panel, which is
+what keeps a dark rectangle from landing on the page fully written.

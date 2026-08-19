@@ -282,7 +282,46 @@
         "Hi team, I just used the calculator on your site. I'm interested in the {package} package for my {home}. The estimated range was {range}. I'd love to get a detailed breakdown and hardware list. Let me know the next steps!",
 
       "calc.unique": "Have a unique project?",
-      "calc.unique.link": "Email us"
+      "calc.unique.link": "Email us",
+
+      /* Section 06 — the objections the price raises. The first two are
+         repeats of sections 03 and 04, deliberately said again now that
+         there is a number on the page; the year is the only new claim.
+         What it covers is narrow on purpose, and nothing here says what
+         happens after the twelfth month. */
+      "adapt.eyebrow": "After handover",
+      "adapt.title": "Nothing here is set in stone.",
+      "adapt.lede":
+        "You can add to it, you can take it with you — and for the first year we keep it running so you do not have to think about it.",
+
+      "adapt.add.title": "Add whatever comes next",
+      "adapt.add.body":
+        "A camera, blinds, a sensor for the boiler. Each one pairs itself to the hub that is already there, in any order, whenever it suits you — and nothing already installed has to be bought again.",
+
+      "adapt.move.title": "It unplugs",
+      "adapt.move.body":
+        "Nothing is chased into a wall and nothing is drilled. The system comes off in an afternoon and goes back up at the next address: the same hub, the same devices, the same routines.",
+
+      "adapt.year.label": "Lifestyle adaptation",
+      "adapt.year.badge": "Included · first year",
+      "adapt.year.title": "12 months of support included.",
+      "adapt.year.body":
+        "Not a call center. The person who set your system up, on the other end of it.",
+
+      /* Each line is a lead-in and a sentence, and they are two keys rather
+         than one string with markup in it: the dictionary holds text. */
+      "adapt.year.a.lead": "Anything you add, we set up.",
+      "adapt.year.a.body":
+        "Buy a device later and we pair it, name it and put it into the routines that already run.",
+      "adapt.year.b.lead": "Batteries before they die.",
+      "adapt.year.b.body":
+        "We watch which sensors are getting low and change them, so you never meet a dead one.",
+      "adapt.year.c.lead": "A message, not a ticket.",
+      "adapt.year.c.body":
+        "If something is behaving oddly we look at the system from here, and usually fix it without coming round.",
+
+      "adapt.dim.from": "Handover",
+      "adapt.dim.to": "12 months"
     },
 
     ru: {
@@ -531,7 +570,39 @@
         "Здравствуйте! Пользуюсь калькулятором на вашем сайте. Интересует пакет «{package}» для варианта «{home}». Оценка получилась {range}. Хочу получить подробный расчёт и список оборудования. Подскажите, какие дальше шаги!",
 
       "calc.unique": "Нестандартный проект?",
-      "calc.unique.link": "Напишите нам"
+      "calc.unique.link": "Напишите нам",
+
+      "adapt.eyebrow": "После сдачи",
+      "adapt.title": "Здесь ничто не сделано навсегда.",
+      "adapt.lede":
+        "Систему можно дополнить, её можно забрать с собой — а первый год мы сами следим за тем, чтобы она работала, и думать об этом не придётся.",
+
+      "adapt.add.title": "Добавьте то, что появится потом",
+      "adapt.add.body":
+        "Камера, шторы, датчик у котла. Каждое устройство само подключается к уже стоящему хабу — в любом порядке и тогда, когда вам удобно, — а то, что уже стоит, покупать заново не нужно.",
+
+      "adapt.move.title": "Она снимается",
+      "adapt.move.body":
+        "Ничего не спрятано в стену и ничего не просверлено. Система снимается за вечер и поднимается на новом адресе: тот же хаб, те же устройства, те же сценарии.",
+
+      "adapt.year.label": "Адаптация под жизнь",
+      "adapt.year.badge": "Включено · первый год",
+      "adapt.year.title": "12 месяцев поддержки включены.",
+      "adapt.year.body":
+        "Никакого колл-центра. На связи тот же человек, который собрал вашу систему.",
+
+      "adapt.year.a.lead": "Всё, что вы добавите, настроим мы.",
+      "adapt.year.a.body":
+        "Купите устройство позже — мы его подключим, назовём и впишем в сценарии, которые уже работают.",
+      "adapt.year.b.lead": "Батарейки — до того, как они сядут.",
+      "adapt.year.b.body":
+        "Мы видим, у каких датчиков заряд на исходе, и меняем батарейки сами: разряженный датчик вам не встретится.",
+      "adapt.year.c.lead": "Сообщение, а не заявка.",
+      "adapt.year.c.body":
+        "Если что-то ведёт себя странно, мы посмотрим систему отсюда и обычно починим, не приезжая.",
+
+      "adapt.dim.from": "Сдача",
+      "adapt.dim.to": "12 месяцев"
     }
   };
 

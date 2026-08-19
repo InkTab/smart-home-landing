@@ -1972,3 +1972,158 @@
     width: 100%;
   }
 }
+
+/* --------------------------------------------------------------------------
+   06 — Adapt
+
+   The objections a price raises, answered on the far side of it: what if I
+   need more later, what if I move, and what happens once you have gone.
+
+   Two soft claim cards and one ink panel. The claims are repeats — sections
+   03 and 04 already made both arguments — so they are compact and read as a
+   reminder. The panel is the page's only dark surface, which is what gives
+   the one piece of new information here the weight the repeats do not need.
+
+   The panel puts its copy and what the year covers side by side over the
+   900px the plan and the chain share, and stacks them under it. The year
+   itself is a dimension line, for the same reason the estimate in section 05
+   is one: two ends and the distance between them.
+
+   The soft shadows need the paper ground under them, and the panel has taken
+   that ground away — so everything inside it that was drawn for paper is set
+   again here: the list, the plate, and the dimension line's own two grays.
+
+   Nothing is interactive, so there is no script.
+   -------------------------------------------------------------------------- */
+
+.adapt {
+  padding-block: var(--space-16) var(--space-24);
+}
+
+.adapt__head {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+.adapt__title {
+  margin-top: var(--space-4);
+  text-wrap: balance;
+}
+.adapt__lede {
+  margin-top: var(--space-5);
+  text-wrap: pretty;
+}
+
+/* ---- The two repeats ---------------------------------------------------- */
+
+.adapt__claims {
+  display: grid;
+  gap: var(--space-6);
+}
+.adapt__claim {
+  gap: var(--space-4);
+}
+.adapt__plate {
+  width: 42px;
+  height: 42px;
+  color: var(--steel-600);
+}
+
+/* ---- The year ----------------------------------------------------------- */
+
+.adapt__panel {
+  margin-top: var(--space-6);
+  gap: var(--space-8);
+  padding: var(--space-10);
+}
+
+.adapt__panel-copy {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+.adapt__panel-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.adapt__panel-title {
+  text-wrap: balance;
+}
+/* The card's own body color is right for a paragraph; the panel's opening
+   line is doing the work of a lede, so it is a step up from it. */
+.adapt__panel .card__body {
+  font-size: var(--text-md);
+  color: var(--steel-100);
+}
+
+.adapt__panel-cover {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+.adapt__covers {
+  gap: var(--space-4);
+}
+.adapt__covers li > span {
+  display: block;
+}
+/* The lead-in and its sentence are two keys, not one string with markup in
+   it — the dictionary holds text and never HTML. The break between them is
+   this rule's business rather than the copy's. */
+.adapt__lead {
+  display: block;
+  font-weight: var(--weight-semibold);
+  color: var(--paper-000);
+}
+
+/* The measurement runs across the head of the panel, before either column
+   starts — it is the span the whole panel is about, not an annotation on one
+   half of it, and there is no rule under it: the line is the rule.
+
+   It is drawn for paper, where --steel-400 reads as a hairline and
+   --steel-600 as a value. On ink both go under, so these are the same two
+   steps of the ramp taken from the other end. */
+.adapt__span {
+  color: var(--steel-500);
+}
+.adapt__span .dimension__value {
+  color: var(--steel-300);
+}
+
+/* ---- Over the breakpoint: two columns, twice ---------------------------- */
+
+@media (min-width: 900px) {
+  .adapt__claims {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+  .adapt__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-8) var(--space-12);
+    align-items: start;
+  }
+  /* The measurement is of the year, not of either column, so it runs across
+     both of them. */
+  .adapt__span {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .adapt {
+    padding-block: var(--space-12) var(--space-16);
+  }
+  .adapt__head {
+    margin-bottom: var(--space-8);
+  }
+  .adapt__lede {
+    font-size: var(--text-lg);
+  }
+  .adapt__panel {
+    padding: var(--space-6);
+  }
+}
