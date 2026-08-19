@@ -10,16 +10,48 @@
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- The fonts are asked for at the weights the stylesheets actually set
+         and no others: Jura 400-500-600, Inter 400-500-600, and the mono at
+         400, which is the only weight anything ever sets it in.
+
+         Fetched without holding the render. display=swap means the copy is
+         drawn in the fallback stack and swapped when the faces arrive, so a
+         stylesheet that blocks paint buys nothing — it only delays the same
+         two-stage render. The swap to a real stylesheet is what the onload
+         is for, and the noscript is the same request for a browser that
+         cannot run it. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
-    <!-- Load order matters: palette, then semantic, then everything else. -->
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" />
+    </noscript>
+
+    <!-- These do hold the render, and should: they are what the first paint
+         looks like. Load order matters: palette, then semantic, then
+         everything else. -->
     <link rel="stylesheet" href="css/tokens/palette.css" />
     <link rel="stylesheet" href="css/tokens/semantic.css" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/components.css" />
     <link rel="stylesheet" href="css/sections.css" />
+
+    <!-- Deferred, so none of them holds the render, and in the head so they
+         are fetched alongside the stylesheets rather than after the last of
+         the markup. defer keeps them in the order written and runs them once
+         the document is parsed, which is what every one of them assumes: they
+         all read the DOM the moment they run, and i18n.js has to have put
+         window.Halo up before the rest of them go looking for it. -->
+    <script src="js/i18n.js" defer></script>
+    <script src="js/reveal.js" defer></script>
+    <script src="js/problem.js" defer></script>
+    <script src="js/plan.js" defer></script>
+    <script src="js/hero.js" defer></script>
+    <script src="js/calc.js" defer></script>
   </head>
   <body>
     <div class="paper"></div>
@@ -1840,13 +1872,230 @@
 
 
       <!-- ==================================================================
-           06 — ADAPT
-           The objections the price raises, answered on the far side of it.
-           Sections 03 and 04 already said the system grows and that nobody
-           has to do the whole house at once — but they said it before there
-           was a number on the page. Here it is said again, and the one thing
-           the page has never said is added: every install carries a year of
-           support with it.
+           06 — FLOW
+           What actually happens once somebody says yes, and when. Section
+           05 puts a number on the page, and the first thing a number wants
+           is to know what it buys and how long it takes — so this answers
+           that before section 07 gets to what happens afterwards. The
+           plainest section on the page: three steps, named for what they
+           are, on one rail.
+
+           The rail is the section. It is solid wherever somebody is doing
+           something and dashed through the two weeks the hardware is in
+           transit, and that stretch is the one place with no card on it —
+           the shape of the schedule is legible before a word of it is read.
+
+           Nothing here is interactive. A step is a title, what happens in
+           it and how long it takes, and there is no more of it to ask for —
+           so there is no script either: the whole section is the entrance
+           choreography, held by data-reveal until it is on screen.
+
+           Over 1000px the rail turns and runs across, the steps side by
+           side under it. Only the axis changes.
+           ================================================================== -->
+      <section class="flow" id="flow" aria-labelledby="flow-title" data-reveal>
+        <div class="container">
+          <header class="flow__head">
+            <p
+              class="label label--accent"
+              data-anim="rise"
+              style="--d: 60ms"
+              data-i18n="flow.eyebrow"
+            >
+              How it goes
+            </p>
+
+            <h2
+              class="display-3 flow__title"
+              id="flow-title"
+              data-anim="rise"
+              style="--d: 160ms"
+              data-i18n="flow.title"
+            >
+              Three steps, about two weeks.
+            </h2>
+
+            <p
+              class="lede flow__lede"
+              data-anim="rise"
+              style="--d: 280ms"
+              data-i18n="flow.lede"
+            >
+              One conversation to decide what goes in, one payment to order
+              it, one visit to put it up. The only waiting is the shipping.
+            </p>
+          </header>
+
+          <!-- Every row is the same two parts — the rail, and what hangs off
+               it — so a segment drawn on one row meets the one before it
+               without anything being measured. A segment belongs to the row
+               it leaves rather than to the row it reaches: a run of the clock
+               starts at a step, it does not arrive at one. -->
+          <div class="flow__track">
+            <article class="flow__row flow__step flow__step--consult">
+              <span
+                class="flow__seg"
+                data-anim="unroll"
+                style="--d: 580ms"
+                aria-hidden="true"
+              ></span>
+
+              <span class="flow__mark" data-anim="pop" style="--d: 420ms">
+                <span class="mono" aria-hidden="true">01</span>
+              </span>
+
+              <div
+                class="card flow__card"
+                data-anim="rise"
+                style="--d: 480ms"
+              >
+                <h3 class="card__title" data-i18n="flow.s1.title">
+                  Consultation
+                </h3>
+
+                <p class="card__body" data-i18n="flow.s1.body">
+                  We go through the place together and come out with one list
+                  of devices that fits the house, the way you live in it and
+                  what you want to spend. The range from the calculator
+                  becomes a list and a number.
+                </p>
+
+                <div class="card__foot">
+                  <span class="label" data-i18n="flow.s1.footLabel">Takes</span>
+                  <span class="mono flow__time" data-i18n="flow.s1.footValue"
+                    >about an hour</span
+                  >
+                </div>
+              </div>
+            </article>
+
+            <article class="flow__row flow__step">
+              <span
+                class="flow__seg"
+                data-anim="unroll"
+                style="--d: 880ms"
+                aria-hidden="true"
+              ></span>
+
+              <span class="flow__mark" data-anim="pop" style="--d: 720ms">
+                <span class="mono" aria-hidden="true">02</span>
+              </span>
+
+              <div
+                class="card flow__card"
+                data-anim="rise"
+                style="--d: 780ms"
+              >
+                <h3 class="card__title" data-i18n="flow.s2.title">
+                  Prepayment
+                </h3>
+
+                <p class="card__body" data-i18n="flow.s2.body">
+                  Nothing sits waiting in a warehouse: every kit is ordered for
+                  its own project, so the hardware is paid for up front. That
+                  is what puts the order in.
+                </p>
+
+                <div class="card__foot">
+                  <span class="label" data-i18n="flow.s2.footLabel">Then</span>
+                  <span class="mono flow__time" data-i18n="flow.s2.footValue"
+                    >ordered the same day</span
+                  >
+                </div>
+              </div>
+            </article>
+
+            <!-- The fortnight, drawn rather than described. No card, because
+                 nothing is asked of anybody here and nobody is on site: the
+                 row is distance and a dashed rail through it. -->
+            <div class="flow__row flow__wait">
+              <span
+                class="flow__seg"
+                data-anim="unroll"
+                style="--d: 980ms"
+                aria-hidden="true"
+              ></span>
+
+              <div class="flow__wait-copy" data-anim="rise" style="--d: 1080ms">
+                <span class="mono flow__wait-value" data-i18n="flow.wait.value"
+                  >≈ 2 weeks</span
+                >
+                <p class="body-sm" data-i18n="flow.wait.body">
+                  Delivery. Nothing is needed from you in here — we tell you
+                  the day it lands and book the install around your week.
+                </p>
+              </div>
+            </div>
+
+            <article class="flow__row flow__step flow__step--install">
+              <span
+                class="flow__seg"
+                data-anim="unroll"
+                style="--d: 1400ms"
+                aria-hidden="true"
+              ></span>
+
+              <span class="flow__mark" data-anim="pop" style="--d: 1240ms">
+                <span class="mono" aria-hidden="true">03</span>
+              </span>
+
+              <div
+                class="card flow__card"
+                data-anim="rise"
+                style="--d: 1300ms"
+              >
+                <h3 class="card__title" data-i18n="flow.s3.title">
+                  Installation
+                </h3>
+
+                <p class="card__body" data-i18n="flow.s3.body">
+                  One visit. Everything is mounted, paired, named and tested,
+                  and then we walk you through it — four hours for an
+                  apartment, up to eight for a house.
+                </p>
+
+                <div class="card__foot">
+                  <span class="label" data-i18n="flow.s3.footLabel">On site</span>
+                  <span class="mono flow__time" data-i18n="flow.s3.footValue"
+                    >4–8 hours</span
+                  >
+                </div>
+              </div>
+            </article>
+
+            <!-- The end of the line: the one filled mark on the rail, and a
+                 line that sits straight on the paper rather than in a card.
+                 Nothing follows it, so it carries no segment. -->
+            <div class="flow__row flow__done">
+              <span
+                class="flow__mark flow__mark--done"
+                data-anim="pop"
+                style="--d: 1520ms"
+              >
+                <svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>
+              </span>
+
+              <div class="flow__done-copy" data-anim="rise" style="--d: 1580ms">
+                <p class="heading-3 flow__done-title" data-i18n="flow.done.title">
+                  And that is all.
+                </p>
+                <p class="body-sm" data-i18n="flow.done.body">
+                  A house that works, and nothing left on your list.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           07 — ADAPT
+           The objections the price raises, answered on the far side of it
+           and of the schedule section 06 lays out. Sections 03 and 04
+           already said the system grows and that nobody has to do the whole
+           house at once — but they said it before there was a number on the
+           page. Here it is said again, and the one thing the page has never
+           said is added: every install carries a year of support with it.
 
            Two claims and one panel. The claims are compact on purpose: they
            are a reminder, not the argument, and the argument was made two
@@ -2023,12 +2272,5 @@
       </section>
 
     </main>
-
-    <script src="js/i18n.js"></script>
-    <script src="js/reveal.js"></script>
-    <script src="js/problem.js"></script>
-    <script src="js/plan.js"></script>
-    <script src="js/hero.js"></script>
-    <script src="js/calc.js"></script>
   </body>
 </html>

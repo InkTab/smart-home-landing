@@ -24,7 +24,8 @@ consumes the same stylesheets.
 index.html                  the landing page — header, section 01 (hero),
                             section 02 (the problem), section 03 (the plan),
                             section 04 (starting small), section 05 (what it
-                            costs) and section 06 (what happens after)
+                            costs), section 06 (how it goes) and section 07
+                            (what happens after)
 assets/
   appartment.webp           the apartment section 03 marks the hardware on
 css/
@@ -46,6 +47,8 @@ js/
                             (section 04 has no script — it is choreography)
   calc.js                   section 05: the three questions, the sum, and the
                             mailto: the answer is written into
+                            (sections 06 and 07 have no script — they are
+                            choreography)
 design-system/
   design-system.html        the visual playground — every token and component
   design-system.css         layout for the playground sheet only
@@ -70,6 +73,39 @@ http://localhost:4173/design-system/design-system.html
 Fonts (Jura, Inter, IBM Plex Mono) load from Google Fonts, so the page needs a
 network connection to look right; it falls back to system sans and mono stacks
 offline.
+
+## What holds the render
+
+Five things block the first paint, and they are the five stylesheets — they
+are what the first paint looks like, so they should. Nothing else in the head
+does.
+
+The fonts do not. `display=swap` means the copy is drawn in the fallback stack
+and swapped when the faces arrive, so a font stylesheet that blocks paint buys
+nothing at all: it delays the same two-stage render rather than avoiding it.
+So it is fetched as a `preload` and promoted to a stylesheet on load, with the
+same request repeated inside a `<noscript>` for a browser that cannot do the
+promoting. The one caveat is that the promotion is an inline `onload`
+handler — a Content-Security-Policy without `unsafe-inline` would leave the
+page on its fallback stack.
+
+The request asks for the weights the stylesheets actually set and no others:
+
+| face | asked for | why |
+| --- | --- | --- |
+| Jura | 400–600 | 400 on the readings and the brandmark, 500 on the display sizes, 600 on headings and labels |
+| Inter | 400, 500, 600 | body, the medium in controls, and the semibold in titles |
+| IBM Plex Mono | 400 | nothing anywhere sets mono to any other weight |
+
+The scripts do not block either. They are `defer`red and sit in the head, so
+they are fetched alongside the stylesheets rather than after the last of the
+markup, and run in the order written once the document is parsed. Every one of
+them assumes exactly that: they all read the DOM the moment they run, and
+`i18n.js` has to have put `window.Halo` up before the rest go looking for it.
+
+There is no build step, so the five stylesheets stay five requests. Bundling
+them is the only lever left in the head, and it costs the thing that makes
+them readable — a file per layer, in load order.
 
 ## Soft vs drawn
 
@@ -559,15 +595,88 @@ leave a hole under the shortest.
 | over 760px | three columns, the plate above the name | two figures with a dimension line between them, `+ tax` beside the upper one |
 | under it | one column, the plate beside the name | the line turns, and the range is read down the page |
 
-## Section 06 — nothing here is set in stone
+## Section 06 — how it goes
 
-Section 05 puts a number on the page, and a number is where the objections
-start: what if I need more later, what if I move, and what happens once you
-have gone. The first two were already answered — the plan grows in section 03
-and the chain starts at four devices in section 04 — but they were answered
-before there was a price to argue with. So they are made again here, on the
-far side of it, and the one thing the page has never said is added to them:
-every install carries a year of support.
+Section 05 puts a number on the page, and the first thing a number wants is
+to know what it buys and how long it takes. So this is the plainest section
+on the page: what actually happens once somebody says yes, and when. Three
+steps, named for what they are, on one rail.
+
+| step | what it is | and when |
+| --- | --- | --- |
+| 01 | consultation — the two of you settle the device list | about an hour |
+| 02 | prepayment — the kit is ordered for this project | ordered the same day |
+| — | *the wait* — the hardware is in transit | ≈ 2 weeks |
+| 03 | installation — mounted, paired, named, tested | 4–8 hours |
+| ◉ | and that is all | — |
+
+Two of those timings are the installer's: a fortnight for delivery, and four
+to eight hours on site depending on the size of the home. **About an hour for
+the consultation is an assumption**, and it lives in one key — `flow.s1.footValue`
+— so changing it is a one-line edit in each language.
+
+### The wait is drawn, not described
+
+The rail is the section's one idea. It is solid wherever somebody is doing
+something and dashed through the fortnight the hardware is in transit, and
+that stretch is the one place on the rail with no card against it. The shape
+of the schedule is therefore legible before a word of it is read: two beats, a
+long empty one, a last beat, done. Dashed for the same reason section 04's
+links are — nothing is happening along that length — and the note beside it
+says the one thing worth saying about a wait, which is that nothing is wanted
+from the visitor during it.
+
+The end of the line is the only filled mark on it, lit from the same top-left
+source the primary button is. It is not a step, so it is not a card either:
+the closing line sits straight on the paper.
+
+### Two layouts, one breakpoint
+
+1000px, and it is this section's own — three steps side by side need more
+width across than the plan does at 900px, the same way the calculator's three
+tiles needed their own 760px.
+
+| | the rail | the steps | the end of the line |
+| --- | --- | --- | --- |
+| under 1000px | runs down the page | one per row, beside the rail | on the rail, under the last step |
+| over it | runs across | side by side under it | under the whole schedule, centered |
+
+Only the axis changes: the rows, the marks, the segments and the cards are the
+same objects either way, and a row of the vertical layout is a column of the
+horizontal one. Which way the segments uncover is the layout's business, so
+the sideways keyframe is picked up at the breakpoint exactly as section 04
+picks the axis of its links.
+
+Two things are the horizontal layout's alone. The columns stretch to the
+tallest of them, so three steps with different amounts to say still read as
+one row of cards; and the number stands in the middle of its step rather than
+at the head of it, so the rail crosses each column and passes behind the
+marks on the way. Only the two ends of it stop at a mark — the schedule starts at the first
+step and finishes at the last, and there is nothing either side of those to
+reach. A mark is lifted over the run it stands on, because a segment is
+positioned and would otherwise paint across the disc.
+
+A segment is drawn by uncovering rather than by scaling. The wait's is
+dashed, and a scaled dash stretches — the thing section 04's links animate
+their own length to avoid — so one keyframe that touches no geometry serves
+the solid runs and the dashed one alike.
+
+Nothing here is interactive, and nothing is folded away behind a press: a step
+is a title, what happens in it, and how long it takes, which is the whole of
+what anybody needs before they can say yes. So there is no script either — the
+section is the entrance choreography, held by `data-reveal` until it is on
+screen.
+
+## Section 07 — nothing here is set in stone
+
+A price is where the objections start: what if I need more later, what if I
+move, and what happens once you have gone. Section 06 has just walked through
+the install and left on the last line of it, which is exactly where the third
+of those is asked. The first two were already answered — the plan grows in
+section 03 and the chain starts at four devices in section 04 — but they were
+answered before there was a price to argue with. So they are made again here,
+on the far side of it, and the one thing the page has never said is added to
+them: every install carries a year of support.
 
 Two soft claim cards and one ink panel:
 
