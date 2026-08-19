@@ -1,15 +1,6 @@
-/* ==========================================================================
-   SECTIONS — page-level composition. Components stay in components.css;
-   this file only arranges them and owns the entrance choreography.
-   ========================================================================== */
+/* SECTIONS — page-level composition and the entrance choreography. */
 
-/* --------------------------------------------------------------------------
-   Entrance choreography
-
-   data-anim picks the keyframe and --d sets the delay, so a section's order
-   is readable from its markup. Fill mode `both`: nothing is hidden by
-   default, so the copy survives a stylesheet that loads late.
-   -------------------------------------------------------------------------- */
+/* ---- Entrance: data-anim picks the keyframe, --d sets the delay --------- */
 
 @keyframes rise {
   from {
@@ -33,6 +24,7 @@
   }
 }
 
+/* fill:both and no default hiding, so the copy survives a late stylesheet. */
 [data-anim] {
   animation-duration: 760ms;
   animation-timing-function: var(--ease);
@@ -47,16 +39,12 @@
   animation-duration: 620ms;
 }
 
-/* A section below the fold would play its entrance to an empty room, so it
-   holds every [data-anim] until it scrolls in. js/reveal.js writes the state,
-   never the markup: with no script, or reduced motion, nothing pauses. */
+/* A section below the fold holds its [data-anim] until it scrolls in; see reveal.js. */
 [data-reveal="out"] [data-anim] {
   animation-play-state: paused;
 }
 
-/* --------------------------------------------------------------------------
-   Site header
-   -------------------------------------------------------------------------- */
+/* ---- Site header -------------------------------------------------------- */
 
 .site-head {
   padding-top: var(--space-6);
@@ -80,16 +68,12 @@
   letter-spacing: var(--tracking-wide);
 }
 
-/* --------------------------------------------------------------------------
-   01 — Hero
+/* ---- 01 — Hero · --hero-bp --------------------------------------------- */
 
-   One centered column of copy. Above --hero-bp the widgets are placed in the
-   margins; below it they collapse into a grid under the call to action.
-   -------------------------------------------------------------------------- */
+/* One centered column; over --hero-bp the widgets move out into the margins. */
 
 .hero {
-  /* The copy has to give up width as the viewport narrows, or the widgets in
-     the margins run into it just above the breakpoint. */
+  /* The copy gives up width as the viewport narrows, or the widgets run into it. */
   --hero-copy: clamp(460px, 46vw, 600px);
   --hero-widget: 232px;
   padding-block: var(--space-12) var(--space-20);
@@ -133,8 +117,7 @@
   width: 100%;
 }
 
-/* The wrapper is the grid item; the card inside has to fill it so a row of
-   widgets lines up along the bottom as well as the top. */
+/* The card must fill the wrapper, so a row of widgets lines up top and bottom. */
 .hero__widget {
   display: grid;
 }
@@ -173,8 +156,7 @@
   border-radius: var(--radius-md);
 }
 
-/* A reading that changes on its own fades through the swap rather than
-   snapping to the new number. */
+/* A reading that changes on its own fades through the swap, never snaps. */
 .hero__device .device__reading {
   transition: opacity var(--dur) var(--ease);
 }
@@ -257,8 +239,7 @@
 
 /* ---- The basement leak notification ------------------------------------ */
 
-/* It sits in a band of its own above the cluster, and that band is always
-   there — reserving the height is what keeps the page still when it fires. */
+/* Its band is always there: reserving the height keeps the page still when it fires. */
 .hero__widget--leak {
   grid-column: 1 / -1;
   align-content: center;
@@ -293,8 +274,7 @@
 
 /* ---- The door: opens, then closes again -------------------------------- */
 
-/* The jump lives on the card, not the wrapper — the wrapper owns the
-   entrance animation, and one element can only run one of them. */
+/* The jump is on the card, not the wrapper — the wrapper is running the entrance. */
 @keyframes door-jump {
   0% {
     transform: translateY(0);
@@ -346,8 +326,7 @@
     width: var(--hero-widget);
     pointer-events: auto;
   }
-  /* Vertical placement is proportional; the horizontal stagger is in pixels,
-     so the clearance to the copy never depends on the viewport. */
+  /* Vertical placement is proportional; the stagger is px, so clearance is fixed. */
   .hero__widget--climate {
     left: 0;
     top: 2%;
@@ -385,8 +364,7 @@
 }
 
 @media (max-width: 1119px) {
-  /* Odd one out — the hub carries no reading, so it takes the full row and
-     the other five pair off above it, leaving no gaps. */
+  /* The hub carries no reading, so it takes the full row and the rest pair off. */
   .hero__widget--hub {
     grid-column: 1 / -1;
   }
@@ -421,8 +399,7 @@
   .hero__device .device__reading {
     font-size: var(--text-2xl);
   }
-  /* Two cards to a row leaves ~70px for the room name — the wide drafting
-     tracking is what breaks it, so it comes in at this width only. */
+  /* Two to a row leaves ~70px for the room name, which the wide tracking breaks. */
   .hero__device .label {
     font-size: var(--text-2xs);
     letter-spacing: var(--tracking-wide);
@@ -437,14 +414,9 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   02 — Problem
+/* ---- 02 — Problem ------------------------------------------------------ */
 
-   Two rows, one anxiety each, mirrored: the wide photo opens row 1 and sits
-   in the middle of row 2. The photo sets the row's height and the cards
-   stretch to it, so a row reads as one board. Photo recessed, stat raised,
-   quote on ink. README: "Section 02 — the problem".
-   -------------------------------------------------------------------------- */
+/* Two mirrored rows; the wide photo sets the height and the cards stretch to it. */
 
 .problem {
   padding-block: var(--space-16) var(--space-24);
@@ -472,8 +444,7 @@
   gap: var(--space-5);
 }
 
-/* Six of twelve for the photo, three each for the cards. Moving the wide
-   column from first to second is the entire mirror. */
+/* Six of twelve for the photo; moving the wide column to second is the mirror. */
 .problem__row {
   display: grid;
   gap: var(--space-5);
@@ -485,8 +456,7 @@
 
 /* ---- The flip: how it is now, and how it is once it is installed -------- */
 
-/* The cell is the stage; the pair of faces turns inside it. The toggle is a
-   sibling of the pair, not a child, so it stays facing the reader. */
+/* The cell is the stage. The toggle is a sibling of the pair, so it never turns. */
 .problem__flip {
   position: relative;
   perspective: 1400px;
@@ -504,8 +474,7 @@
 .problem__face {
   backface-visibility: hidden;
 }
-/* The front stays in flow: it is what gives the photo cell a height, and the
-   photo cell is what gives the row one. The back borrows that box. */
+/* The front stays in flow — it gives the cell its height; the back borrows the box. */
 .problem__face--front {
   height: 100%;
 }
@@ -515,9 +484,7 @@
   transform: rotateY(180deg);
 }
 
-/* An arrow, not a word: naming the answer on six cards spends the section's
-   tension before it is felt. The full sentence stays as the accessible
-   name. */
+/* An arrow, not a word: naming the answer spends the tension. Sentence stays as label. */
 .problem__toggle {
   position: absolute;
   top: var(--space-3);
@@ -527,14 +494,12 @@
 .problem__toggle .icon {
   transition: transform var(--dur-slow) var(--ease);
 }
-/* Turned back on itself once the far side is showing: the same arrow now
-   points the way home. */
+/* Turned back on itself once the far side is up: the arrow now points home. */
 .problem__toggle[aria-pressed="true"] .icon {
   transform: rotate(180deg);
 }
 
-/* The whole cell is the hit area, so hovering anywhere on it should light
-   the corner up — otherwise a bare arrow on a bare card is a guess. */
+/* The whole cell is the hit area, so hovering anywhere lights the corner. */
 .problem__flip:hover .btn--ghost.problem__toggle {
   background-color: var(--paper-000);
   background-image: var(--lit-paper);
@@ -546,8 +511,7 @@
   background-color: rgba(255, 255, 255, 0.12);
 }
 
-/* Pressed is the flipped state, and on a card with no chrome the only way to
-   show it is to give the button some. */
+/* Pressed is the flipped state; on a chromeless card the button has to show it. */
 .problem__flip .problem__toggle[aria-pressed="true"] {
   background-color: var(--paper-000);
   background-image: none;
@@ -567,15 +531,11 @@
   flex-direction: column;
   gap: var(--space-2);
 }
-/* The photo sets the row's height, so the crop is how the row is sized. 25:9
-   is wider than any ratio in the sheet and nothing else wants it, so it is
-   declared here rather than added to the frame's own set. */
+/* The crop sizes the row. 25:9 is used nowhere else, so it is declared here. */
 .problem__cell--photo .frame {
   aspect-ratio: 25 / 9;
 }
-/* On the floor of the cell: if a long quote ever out-grows the photo and
-   stretches the row, the slack opens under the frame rather than leaving the
-   two rows' captions sitting at different heights. */
+/* Slack from a long quote opens under the frame, keeping both captions level. */
 .problem__caption {
   margin-top: auto;
   display: flex;
@@ -583,13 +543,11 @@
   justify-content: space-between;
   gap: var(--space-3);
 }
-/* The label may wrap; the dimension may not — a size that breaks across two
-   lines stops reading as one value. */
+/* The label may wrap; a dimension broken over two lines stops reading as a value. */
 .problem__caption .mono {
   white-space: nowrap;
 }
-/* A brief, not a caption: it reads as a card sitting in the frame, so it
-   wraps before the edges. Russian runs a fifth longer and sets this width. */
+/* A brief, not a caption — it wraps before the edges. Russian sets this width. */
 .problem__cell--photo .frame__note {
   max-width: 84%;
   text-align: center;
@@ -612,8 +570,7 @@
   justify-content: center;
   gap: var(--space-4);
 }
-/* Sized against the number, not against a feature card's heading — a full
-   48px plate next to a 48px numeral makes the card read as two headlines. */
+/* Sized against the number: a 48px plate by a 48px numeral reads as two headlines. */
 .problem__plate {
   width: 38px;
   height: 38px;
@@ -648,8 +605,7 @@
 }
 
 @media (max-width: 1023px) {
-  /* The photo takes its whole row and the two cards pair off underneath.
-     The mirror survives the drop: the photo caps row 1 and floors row 2. */
+  /* Photo takes its row, cards pair underneath — it still caps row 1, floors row 2. */
   .problem__row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -675,9 +631,7 @@
 }
 
 @media (max-width: 639px) {
-  /* One column, source order, so all of row 1 comes before any of row 2. Row 1
-     ends on a stat and row 2 opens on one, so the break between them has to
-     be wider than the gap inside a row or the two read as one list. */
+  /* Source order, so row 1 finishes before row 2 starts; wider break between them. */
   .problem__board {
     gap: var(--space-10);
   }
@@ -702,8 +656,7 @@
   .problem__lede {
     font-size: var(--text-lg);
   }
-  /* The shot note is a full drafting label; at this width it stops fitting
-     on one line inside the frame before it stops being readable. */
+  /* The shot note stops fitting on one line inside the frame before this width. */
   .problem__cell--photo .frame__note {
     letter-spacing: var(--tracking-wide);
   }
@@ -711,9 +664,7 @@
     top: var(--space-2);
     right: var(--space-2);
   }
-  /* The frame is only ~118px tall here, so a corner button and a two-line shot
-     note cannot both live in it. On the photo cells the toggle drops out of
-     the frame and onto the end of the caption line. */
+  /* At ~118px tall the toggle cannot share the frame, so it joins the caption line. */
   .problem__cell--photo .problem__toggle {
     top: auto;
     right: 0;
@@ -724,21 +675,9 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   03 — Plan
+/* ---- 03 — Plan · 900px, declared here only · js/plan.js ---------------- */
 
-   One photograph with the hardware marked on it; every device is a point and
-   a card, written once in the markup.
-
-   900px is this file's to declare — js/plan.js reads the layout back off the
-   DOM rather than repeating the width. Under it the cards are a rail; over it
-   they are tooltips, and that half only comes on once the script sets
-   data-plan="live", so no card hides behind a hover that cannot happen.
-
-   Points and cards on the photo take the cast-shadow scale: neumorphic
-   shadows need the paper ground, and a photograph is not it.
-   README: "Section 03 — the plan".
-   -------------------------------------------------------------------------- */
+/* One photograph; every device is written once, as a point and as a card. */
 
 .plan {
   padding-block: var(--space-16) var(--space-24);
@@ -759,8 +698,7 @@
   text-wrap: pretty;
 }
 
-/* One line with two readings of it: which one shows is the breakpoint's
-   business, because "hover" and "swipe" are not the same instruction. */
+/* Two readings of one line: "hover" and "swipe" are not the same instruction. */
 .plan__hint {
   margin-top: var(--space-6);
   display: flex;
@@ -772,9 +710,7 @@
 
 /* ---- The photograph ----------------------------------------------------- */
 
-/* The positioning context the tooltip layer borrows. The layer is out of flow
-   above the breakpoint, so the stage is exactly as tall as the photo there,
-   which is what makes the layer's inset:0 land on it. */
+/* The layer is out of flow above the breakpoint, so the stage is photo-height. */
 .plan__stage {
   position: relative;
   display: grid;
@@ -793,8 +729,7 @@
   aspect-ratio: 11 / 6; /* the shot's own crop — 2816 × 1536 */
   object-fit: cover;
 }
-/* The photo sits *in* the paper, like the frames in section 02 — the recess
-   has to be drawn over the image, so it gets a layer of its own. */
+/* The photo sits *in* the paper, so the recess is drawn over it in its own layer. */
 .plan__figure::after {
   content: "";
   position: absolute;
@@ -816,8 +751,7 @@
   list-style: none;
 }
 
-/* Placed by its center. The offset is negative margins rather than a
-   translate, because the entrance keyframe owns the transform. */
+/* Placed by its center via negative margins: the entrance owns the transform. */
 .plan__pin {
   --dot: 32px;
   position: absolute;
@@ -843,8 +777,7 @@
   transition: transform var(--dur) var(--ease),
     box-shadow var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
-/* The mark itself. A point on a plan is small; the paper disc around it is
-   what makes it findable over a photograph. */
+/* The paper disc is what makes a small mark findable over a photograph. */
 .plan__dot::before {
   content: "";
   width: 10px;
@@ -891,9 +824,7 @@
 
 /* ---- The cards ---------------------------------------------------------- */
 
-/* One card centered, the rest waiting either side. The side padding is what
-   lets the first and last cards reach the center, measured from the rail's
-   own width — the container plus the two gutters it bleeds into. */
+/* Side padding lets the first and last cards reach the center of the rail. */
 .plan__rail {
   --slot: min(74vw, 264px);
   display: flex;
@@ -927,8 +858,7 @@
 .plan__card .device__reading {
   font-size: var(--text-3xl);
 }
-/* A word, not a number — it must not tower over the value cards. The
-   modifier is a component's, but a plan card outranks it on its own. */
+/* A word, not a number: it must not tower over the value cards. */
 .plan__card .device__reading--state {
   font-size: var(--text-2xl);
 }
@@ -943,8 +873,7 @@
   border-radius: var(--radius-md);
 }
 
-/* Which card is the centered one is only knowable with the script running, so
-   the card that is not it is only dimmed once the script says so. */
+/* Only the script knows which card is centered, so dimming waits for it. */
 [data-plan="live"] .plan__slot .plan__card {
   opacity: 0.62;
 }
@@ -971,8 +900,7 @@
     display: none;
   }
 
-  /* The rail becomes the tooltip layer, laid exactly over the photo. Only an
-     open card takes the pointer, so the rest of the photo stays hoverable. */
+  /* The rail becomes the tooltip layer; only an open card takes the pointer. */
   [data-plan="live"] .plan__rail {
     position: absolute;
     inset: 0;
@@ -985,9 +913,7 @@
     pointer-events: none;
   }
 
-  /* js/plan.js copies --x and --y across from the pin, so a device's place is
-     written once. --tx and --ty are how the card hangs off that point, and
-     --caret follows them. */
+  /* plan.js copies --x/--y from the pin; --tx/--ty hang the card off it, --caret follows. */
   [data-plan="live"] .plan__slot {
     --tx: -50%;
     --ty: calc(-100% - 18px);
@@ -1022,9 +948,7 @@
     transition-delay: 0s;
   }
 
-  /* Off the paper and onto the photograph: cast shadow, and no dimming, since
-     only one card ever shows. Same weight as the rule it undoes, so it has to
-     come after it. */
+  /* On the photograph, not paper: cast shadow, no dimming. Must follow the rule it undoes. */
   [data-plan="live"] .plan__slot .plan__card {
     opacity: 1;
     box-shadow: var(--shadow-lg);
@@ -1057,10 +981,7 @@
   .plan__lede {
     font-size: var(--text-lg);
   }
-  /* The photo is only ~190px tall here, so the points come down or the closest
-     pair touches. Only the centered card's point stays full size; the other
-     seven shrink to 60% and fade to half. The pin's box stays 26px, so a
-     point never moves as it fades — only its dot scales, from the center. */
+  /* At ~190px tall only the centered point stays full size; the rest shrink and fade. */
   .plan__pin {
     --dot: 26px;
   }
@@ -1084,20 +1005,9 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   04 — Grow
+/* ---- 04 — Grow · 900px · no script ------------------------------------- */
 
-   Four drawn device cards and one empty one, laid out as a plan. Two beats:
-   the chain draws itself, then five seconds later closes up. The second is
-   held back — see the foot of this section — so today it draws and stays.
-
-   Dashed, because nothing here is wired: a device pairs itself to the hub
-   over the air, which is why the chain takes any order.
-
-   900px, the same one section 03 uses — one column under it, four columns
-   and two rows over it. No script; both beats are the entrance choreography.
-   README: "Section 04 — start small".
-   -------------------------------------------------------------------------- */
+/* Five drawn cards as a plan. Dashed, because a device pairs over the air. */
 
 .grow {
   padding-block: var(--space-16) var(--space-24);
@@ -1120,9 +1030,7 @@
 
 /* ---- The chain ---------------------------------------------------------- */
 
-/* A link is exactly as long as the gap it crosses, and the chain closes to a
-   gap too, so writing the three sizes once keeps the links, the layout and
-   the gather in step. */
+/* A link is as long as the gap it crosses, so the three sizes are written once. */
 .grow__chain {
   --gap-x: var(--space-8);
   --gap-y: var(--space-10);
@@ -1133,10 +1041,7 @@
   margin-inline: auto;
 }
 
-/* A node is the place on the plan; the card is what stands there. They are
-   separate elements because they move on different beats — the card arrives,
-   the place closes up — and an element can only play one of those at a time.
-   The link that reaches a node hangs off the node, not the card. */
+/* Node and card are separate: they move on different beats, and a link hangs off the node. */
 .grow__node {
   position: relative;
   display: grid;
@@ -1164,9 +1069,7 @@
 
 /* ---- The links ---------------------------------------------------------- */
 
-/* Vertical is the default, because one column is. The link hangs in the gap
-   above its node and grows downwards, away from where it starts, so it reads
-   as drawn rather than pushed — and is taken away the same way. */
+/* Vertical by default. The link hangs in the gap and grows down, so it reads as drawn. */
 .grow__wire {
   position: absolute;
   top: calc(var(--gap-y) * -1);
@@ -1178,9 +1081,7 @@
   pointer-events: none;
 }
 
-/* Drawn out of its own length rather than scaled: a scaled dash stretches,
-   and these are dashes. Which axis is the layout's business, so the media
-   query picks the keyframe. */
+/* Drawn by length, not scale — a scaled dash stretches. The media query picks the axis. */
 @keyframes draw-x {
   from {
     width: 0;
@@ -1209,10 +1110,7 @@
   animation-duration: 420ms;
 }
 
-/* Every link but the last is drawn and then taken away — two beats on one
-   element, so its animations are written out rather than left to the
-   [data-anim] shorthand: the draw on the link's own --d, the fade on
-   the chain's --gather. */
+/* Two beats on one element, so the draw and the fade are written out separately. */
 .grow__node:not(.grow__node--more) .grow__wire {
   animation-name: draw-y, wire-out;
   animation-duration: 420ms, 520ms;
@@ -1221,9 +1119,7 @@
 
 /* ---- Coming together ---------------------------------------------------- */
 
-/* One beat, one keyframe: where a node ends up is a pair of custom properties
-   set per node below, so the same animation serves both layouts and the
-   markup only has to say when. */
+/* One keyframe; where a node lands is a pair of custom properties set per node. */
 @keyframes gather {
   to {
     transform: translate(var(--gx, 0px), var(--gy, 0px));
@@ -1235,8 +1131,7 @@
   animation-delay: var(--gather);
 }
 
-/* In one column every card closes the gaps above it, and the hub — the one
-   thing everything else is coming to — does not move at all. */
+/* In one column every card closes the gaps above it; the hub does not move. */
 .grow__node--lights {
   --gy: calc(var(--gap-tight) - var(--gap-y));
 }
@@ -1246,16 +1141,14 @@
 .grow__node--lock {
   --gy: calc((var(--gap-tight) - var(--gap-y)) * 3);
 }
-/* The empty one travels with the card in front of it rather than closing up
-   on it, which is what keeps its link — and only its link — on the page. */
+/* The empty one travels with the card in front, which keeps its link on the page. */
 .grow__node--more {
   --gy: calc((var(--gap-tight) - var(--gap-y)) * 3);
 }
 
 /* ---- The empty one ------------------------------------------------------ */
 
-/* Not a control: a place for the device nobody has bought yet. Narrower than
-   a device in one column, so it does not read as one missing its readings. */
+/* A place for the device nobody has bought yet, narrower so it reads as empty. */
 .grow__card--more {
   align-items: center;
   justify-content: center;
@@ -1288,16 +1181,12 @@
 @media (min-width: 900px) {
   .grow__chain {
     max-width: none;
-    /* Four equal columns. The empty card is smaller than a device, but its
-       node is not: a node has to be one column wide for the gather to be able
-       to say "one column left" as -100% of itself. */
+    /* A node must be one column wide for the gather to say "one column" as -100%. */
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-auto-rows: 1fr;
   }
 
-  /* The stagger, written as the plan it is, and where each node goes when it
-     closes up: right, up, or both. The cards stretch to their row, so every
-     horizontal link meets its neighbor at the same height. */
+  /* The stagger, and where each node goes when it closes up: right, up, or both. */
   .grow__node--hub {
     grid-area: 1 / 1;
   }
@@ -1325,8 +1214,7 @@
     --gy: calc(var(--gap-tight) - var(--gap-y));
   }
 
-  /* The empty card sits at the head of its node, so the link lands on the
-     card and not on the air beside it. */
+  /* The empty card sits at the head of its node, so the link lands on the card. */
   .grow__card--more {
     justify-self: start;
     align-self: center;
@@ -1369,14 +1257,7 @@
 
 /* ---- The second beat, held back ----------------------------------------- */
 
-/* The gather is switched off. The keyframe, the beat in the markup and the
-   --gx / --gy on every node are all above; deleting this block turns it back
-   on and nothing else has to change.
-
-   Both halves go together: calling off the move without the fade would strip
-   the links at 7200ms from cards that never moved. And it needs its
-   reduced-motion exception back with it — base.css only flattens durations,
-   so the delay would still fire and land the move as a jump. */
+/* Gather switched off. Delete this block to turn it back on; both halves go together. */
 [data-anim="gather"] {
   animation-name: none;
 }
@@ -1389,27 +1270,15 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   05 — Calc
+/* ---- 05 — Calc · 760px · js/calc.js ------------------------------------ */
 
-   Three panels in one console, one at a time, and a range at the end.
-
-   No form fields: both choice steps are a soft tile wrapped around a native
-   checkbox or radio, so keyboard, label and state come for free and this file
-   only has to press the tile in when its input is checked.
-
-   The stepping hangs off data-calc="live", which js/calc.js sets and the
-   markup never does — with no script all three panels are one readable form
-   and the mailto: line underneath is the way out. 760px is this section's
-   own breakpoint. README: "Section 05 — what it costs".
-   -------------------------------------------------------------------------- */
+/* Three panels in one console; the stepping hangs off data-calc="live". */
 
 .calc {
   padding-block: var(--space-16) var(--space-24);
 }
 
-/* Several things in here are hidden by attribute rather than by class, and
-   the blocks below would otherwise out-specify it. */
+/* Hidden by attribute, and the blocks below would otherwise out-specify it. */
 .calc [hidden] {
   display: none;
 }
@@ -1431,8 +1300,7 @@
 
 /* ---- The console -------------------------------------------------------- */
 
-/* Narrower than the container: a question with three answers reads worse the
-   wider it is set, and the panel is a control rather than a page. */
+/* Narrower than the container: three answers read worse the wider they are set. */
 .calc__console {
   display: grid;
   gap: var(--space-8);
@@ -1440,10 +1308,7 @@
   margin-inline: auto;
 }
 
-/* The stage keeps a floor under it, so stepping from three tiles to three
-   sliders does not drag the nav buttons up the page under the pointer. It is
-   the height of the two choice steps rather than of the tallest panel — a
-   floor set by the longest step would leave a hole under the shortest. */
+/* A floor under the stage, sized to the choice steps, so the nav does not jump. */
 .calc__stage {
   display: grid;
   gap: var(--space-10);
@@ -1476,9 +1341,7 @@
   gap: var(--space-2);
 }
 
-/* A recessed track that fills as the visitor gets through it. The step being
-   answered is the loudest; the ones already done step back rather than
-   competing with it, and the ones still to come are empty track. */
+/* A recessed track that fills as the visitor gets through it; the live step is loudest. */
 .calc__tick-bar {
   height: 8px;
   border-radius: var(--radius-pill);
@@ -1520,9 +1383,7 @@
   text-wrap: balance;
 }
 
-/* Panels are only swapped once the console is live, so the arrival is written
-   here rather than in the markup: display:none to grid restarts it, so
-   nothing has to be re-triggered. */
+/* Panels are only swapped once live, and display:none to grid restarts the arrival. */
 @keyframes calc-in {
   from {
     opacity: 0;
@@ -1539,17 +1400,14 @@
 
 /* ---- The choice tile ---------------------------------------------------- */
 
-/* One object for both choice steps: a soft tile around a native checkbox or
-   radio, so label, group role and keyboard are the browser's own and this
-   only has to press the tile in. */
+/* A soft tile around a native input, so label, role and keyboard come for free. */
 .calc__choices {
   display: grid;
   gap: var(--space-4);
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-/* .visually-hidden, not display:none — the input stays focusable, checkable
-   from the keyboard, and what the label is for. */
+/* .visually-hidden, not display:none: the input stays focusable and checkable. */
 .calc__choice {
   position: relative;
   display: grid;
@@ -1601,8 +1459,7 @@
   color: var(--steel-700);
 }
 
-/* The tick is the second reading of the same state: pressed in says it to
-   the eye that is looking at the whole row, the mark to the one on the tile. */
+/* A second reading of the same state — pressed in for the row, the tick for the tile. */
 .calc__choice-mark {
   position: absolute;
   top: var(--space-4);
@@ -1667,9 +1524,7 @@
   justify-content: space-between;
 }
 
-/* A yes or no rather than a count, so the switch instead of a slider. Top
-   aligned: the label is two lines and a centered 28px switch would sit below
-   the name it belongs to. */
+/* Yes or no, so a switch. Top aligned, since the label runs to two lines. */
 .calc__refine--switch {
   gap: 0;
 }
@@ -1694,15 +1549,11 @@
   text-align: center;
 }
 
-/* Two figures and the distance between them — the drafting kit's dimension,
-   at display size. The arms have to grow with the numerals or the line reads
-   as a rule with two prices parked on it. */
+/* The dimension line at display size; the arms grow with the numerals. */
 .calc__range {
   width: min(100%, 520px);
   gap: var(--space-5);
-  /* No effect while the line is there, since it is flex:1 and eats the row.
-     This is for the job with one price: with the line gone, the figure left
-     over would otherwise sit against the left edge of a row sized for two. */
+  /* For the one-price job: with the flex:1 line gone, the figure would sit left. */
   justify-content: center;
 }
 .calc__range-value {
@@ -1719,8 +1570,7 @@
   height: 19px;
 }
 
-/* Riding the cap-height of the figure it qualifies, and pulled back in out of
-   the range's own gap — it belongs to the number, not to the row. */
+/* Rides the cap-height and pulls back out of the gap: it belongs to the number. */
 .calc__range-tax {
   align-self: flex-start;
   margin-top: 0.3em;
@@ -1749,9 +1599,7 @@
   color: var(--steel-800);
 }
 
-/* What the two figures are made of, and the only place on the page where a
-   count is set against a name. Hairlines rather than cards: it is a bill,
-   and a bill is ruled. */
+/* What the figures are made of. Hairlines, not cards — a bill is ruled. */
 .calc__bill {
   display: grid;
   width: min(100%, 440px);
@@ -1779,8 +1627,7 @@
   color: var(--steel-700);
   white-space: nowrap;
 }
-/* The work is a percentage of everything above it rather than another line of
-   hardware, so it reads as the total's line and not as one more device. */
+/* The work is a percentage of the rest, so it reads as the total, not a device. */
 .calc__bill-work {
   margin-top: var(--space-1);
   border-top: var(--hair) solid var(--line-soft);
@@ -1805,8 +1652,7 @@
 
 /* ---- Getting about ------------------------------------------------------ */
 
-/* Back sits on the left of its own accord, so the row does not have to hold
-   an empty slot open on the first step. */
+/* Back sits left on its own, so the row holds no empty slot on the first step. */
 .calc__nav {
   display: flex;
   align-items: center;
@@ -1819,9 +1665,7 @@
   margin-right: auto;
 }
 
-/* The way out for anyone the three questions do not fit. It is on the paper
-   rather than inside the console, because it is an alternative to the whole
-   thing and not a fourth step of it. */
+/* The way out for anyone the three questions do not fit, so not a fourth step. */
 .calc__unique {
   margin-top: var(--space-6);
   text-align: center;
@@ -1839,8 +1683,7 @@
   .calc__choices {
     grid-template-columns: 1fr;
   }
-  /* In one column a tile is a row, so the plate goes beside the name instead
-     of above it and the tile stops being a 150px-tall band of paper. */
+  /* One column makes a tile a row, so the plate goes beside the name, not above. */
   .calc__choice-inner {
     grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
@@ -1877,8 +1720,7 @@
   .calc__panel-title {
     font-size: var(--text-xl);
   }
-  /* Two prices and a dimension line will not fit across a phone, so the line
-     turns and the range is read down the page instead of across it. */
+  /* Two prices and a dimension line will not fit across a phone, so the line turns. */
   .calc__range {
     flex-direction: column;
     gap: var(--space-3);
@@ -1901,8 +1743,7 @@
   .calc__range .dimension__line::after {
     bottom: 0;
   }
-  /* Stacked, the tax is a line of its own under the figure rather than a mark
-     riding beside it. */
+  /* Stacked, the tax is a line under the figure rather than a mark beside it. */
   .calc__range-tax {
     align-self: center;
     margin: calc(var(--space-2) * -1) 0 0;
@@ -1912,20 +1753,9 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   06 — Flow
+/* ---- 06 — Flow · 1000px · no script ------------------------------------ */
 
-   Three steps on one hairline rail. The rail is solid where there is work
-   being done and dashed through the fortnight in transit, and that stretch
-   carries no card — the shape of the schedule reads before the words do.
-
-   1000px is this section's own: three steps side by side need more width
-   across than the plan does at 900px. Only the axis changes — the rows, the
-   marks, the segments and the cards are the same objects either way.
-
-   Nothing is interactive, so there is no script.
-   README: "Section 06 — how it goes".
-   -------------------------------------------------------------------------- */
+/* Three steps on one rail: solid where there is work, dashed through the wait. */
 
 .flow {
   padding-block: var(--space-16) var(--space-24);
@@ -1948,11 +1778,7 @@
 
 /* ---- The rail ----------------------------------------------------------- */
 
-/* Down the page every row is the same two columns — the rail, and what stands
-   beside it — so segments meet without anything being measured. The rows
-   carry their own bottom padding rather than a grid gap: the rail runs
-   through that space, and a gap would be a hole in the line. 880px is the
-   calculator console's width, for the console's reason. */
+/* Two columns per row, so segments meet unmeasured. Row padding, not gap: the rail runs in it. */
 .flow__track {
   --rail: 36px;
   max-width: 880px;
@@ -1971,9 +1797,7 @@
   padding-bottom: 0;
 }
 
-/* A segment starts under the mark it leaves and runs to the floor of its own
-   row, which is where the next mark is standing. Solid, because a step is
-   time somebody is spending on the job. */
+/* A segment runs from its own mark to the floor of its row, where the next stands. */
 .flow__seg {
   position: absolute;
   top: var(--rail);
@@ -1984,9 +1808,7 @@
   pointer-events: none;
 }
 
-/* Drawn by uncovering rather than by scaling: the wait's segment is dashed
-   and a scaled dash stretches. Which axis it uncovers along is the layout's
-   business, so the sideways one is picked up at the breakpoint. */
+/* Uncovered, not scaled — the dashes would stretch. The breakpoint picks the axis. */
 @keyframes unroll-y {
   from {
     clip-path: inset(0 0 100% 0);
@@ -2010,9 +1832,7 @@
 
 /* ---- The marks ---------------------------------------------------------- */
 
-/* Raised, because a step is a thing that happens; the rail it stands on is a
-   hairline, because a measurement is drawn. The same pairing section 03 has
-   between its soft cards and the drawn plan under them. */
+/* Raised marks on a hairline rail: a step happens, a measurement is drawn. */
 .flow__mark {
   display: grid;
   place-items: center;
@@ -2028,8 +1848,7 @@
   color: inherit;
 }
 
-/* The end of the line is the one filled mark on it — lit from the same
-   top-left source the primary button is. */
+/* The end of the line is the one filled mark, lit from the top-left source. */
 .flow__mark--done {
   background-color: var(--steel-600);
   background-image: var(--lit-steel);
@@ -2042,23 +1861,18 @@
 
 /* ---- A step ------------------------------------------------------------- */
 
-/* A step is a title, what happens in it, and how long it takes. The card is
-   tighter than the system's default, because those three are one thought
-   rather than three. */
+/* Title, what happens, how long — tighter than default, since it is one thought. */
 .flow__card {
   gap: var(--space-3);
 }
-/* The foot is the step's own "and when": the label says what the value is,
-   and .card__foot has already set the two of them apart. */
+/* The foot is the step's "and when"; .card__foot has already spaced the pair. */
 .flow__time {
   color: var(--steel-600);
 }
 
 /* ---- The wait ----------------------------------------------------------- */
 
-/* The one row with no card in it — only distance, and a dashed rail. The
-   padding is the fortnight. No mark, so nothing took the first column before
-   the copy: the segment is out of flow and never was a grid item. */
+/* The one row with no card: only the padding, which is the fortnight, and a dashed rail. */
 .flow__wait {
   padding-block: var(--space-16);
 }
@@ -2078,8 +1892,7 @@
 
 /* ---- The end of the line ------------------------------------------------ */
 
-/* Not a step, so not a card: the closing line sits straight on the paper
-   beside the last mark. */
+/* Not a step, so not a card: the closing line sits on the paper by the last mark. */
 .flow__done-copy {
   display: grid;
   gap: var(--space-2);
@@ -2088,11 +1901,7 @@
   text-wrap: balance;
 }
 
-/* ---- Over the breakpoint: the rail turns ---------------------------------
-   Every row becomes a column and stacks its two parts, the mark on the rail
-   and the card under it. The wait keeps its job: no mark, no card, and the
-   dashed run through it is the fortnight.
-   -------------------------------------------------------------------------- */
+/* ---- Over the breakpoint: every row becomes a column, mark over card ---- */
 
 @media (min-width: 1000px) {
   .flow__track {
@@ -2104,9 +1913,7 @@
     max-width: none;
   }
 
-  /* One column of the track: the rail's own row, then whatever hangs off it.
-     Declaring the first row as the mark's height is what keeps the wait's
-     note level with the cards without it needing a mark of its own. */
+  /* Rail row, then what hangs off it. A fixed first row keeps the wait level. */
   .flow__row {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: var(--rail) auto;
@@ -2122,17 +1929,14 @@
     grid-row: 2;
   }
 
-  /* The number stands in the middle of its step, so the rail runs behind it —
-     and the mark has to be lifted over the run it stands on, since a segment
-     is positioned and would otherwise paint over the disc. */
+  /* The rail runs behind the number, so the mark is lifted over the positioned segment. */
   .flow__mark {
     position: relative;
     z-index: 1;
     justify-self: center;
   }
 
-  /* Sideways, a segment crosses its own column and carries on into the gap to
-     reach the next one, passing behind whatever mark is in the way. */
+  /* Sideways a segment crosses its column into the gap, behind any mark in the way. */
   .flow__seg {
     top: calc(var(--rail) / 2);
     bottom: auto;
@@ -2143,17 +1947,14 @@
     border-left: 0;
     border-top: var(--hair) solid var(--line-soft);
   }
-  /* The two ends of the rail are the only ones that stop at a mark instead of
-     crossing it: the schedule starts at the first step and finishes at the
-     last, and there is nothing either side of those to reach. */
+  /* Only the two ends stop at a mark: there is nothing beyond them to reach. */
   .flow__step--consult .flow__seg {
     left: calc(50% + var(--rail) / 2);
   }
   .flow__step--install .flow__seg {
     right: calc(50% + var(--rail) / 2);
   }
-  /* The dashed run has to be told the rail's height again: down the page it
-     starts at the top of its row rather than beside a mark. */
+  /* Told the rail height again: down the page the dashed run starts at the row top. */
   .flow__wait .flow__seg {
     top: calc(var(--rail) / 2);
     border-top-style: dashed;
@@ -2162,17 +1963,13 @@
     animation-name: unroll-x;
   }
 
-  /* The columns stretch to the tallest of them and the card fills its
-     column, so three steps with different amounts to say still read as one
-     row of cards rather than three cards of different sizes. */
+  /* The card fills its column, so three steps of different lengths read as one row. */
   .flow__card {
     padding: var(--space-5);
     height: 100%;
   }
 
-  /* Across, there is no room beside the last step for the end of the line, so
-     it closes the section instead: one centered line under the whole
-     schedule, with the filled mark still leading it. */
+  /* No room beside the last step, so the end of the line closes the section instead. */
   .flow__done {
     grid-column: 1 / -1;
     grid-template-columns: var(--rail) minmax(0, auto);
@@ -2213,20 +2010,9 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   07 — Adapt
+/* ---- 07 — Adapt · 900px · no script ------------------------------------ */
 
-   Two soft claim cards and one ink panel. The claims repeat sections 03 and
-   04, so they are compact; the panel is the page's only dark surface, which
-   is what gives the one new claim its weight.
-
-   --surface-ink takes the paper ground away, so everything inside the panel
-   that was drawn for paper is set again here: the list, the plate, and the
-   dimension line's own two grays.
-
-   900px. Nothing is interactive, so there is no script.
-   README: "Section 07 — nothing here is set in stone".
-   -------------------------------------------------------------------------- */
+/* Two paper claims and the page's only ink panel; --surface-ink resets its parts. */
 
 .adapt {
   padding-block: var(--space-16) var(--space-24);
@@ -2284,8 +2070,7 @@
 .adapt__panel-title {
   text-wrap: balance;
 }
-/* The card's own body color is right for a paragraph; the panel's opening
-   line is doing the work of a lede, so it is a step up from it. */
+/* The panel's opening line does the work of a lede, so it steps up from body. */
 .adapt__panel .card__body {
   font-size: var(--text-md);
   color: var(--steel-100);
@@ -2302,18 +2087,14 @@
 .adapt__covers li > span {
   display: block;
 }
-/* The lead-in and its sentence are two keys, not one string with markup in
-   it — the dictionary holds text and never HTML. The break between them is
-   this rule's business rather than the copy's. */
+/* Lead-in and sentence are two keys; the break between them is this rule's business. */
 .adapt__lead {
   display: block;
   font-weight: var(--weight-semibold);
   color: var(--paper-000);
 }
 
-/* The span the whole panel is about, so it runs across the head of it and is
-   the only rule in there. --steel-400 and --steel-600 go under on ink, so
-   these are the same two steps of the ramp taken from the other end. */
+/* --steel-400/600 go under on ink, so these are the same two steps from the other end. */
 .adapt__span {
   color: var(--steel-500);
 }

@@ -1,6 +1,4 @@
-/* ==========================================================================
-   DESIGN SYSTEM SHEET — layout for the playground page only.
-   ========================================================================== */
+/* DESIGN SYSTEM SHEET — layout for the playground page only. */
 
 .sheet {
   display: grid;
@@ -11,9 +9,7 @@
   padding: var(--space-8) var(--space-8) var(--space-32);
 }
 
-/* --------------------------------------------------------------------------
-   Index rail
-   -------------------------------------------------------------------------- */
+/* ---- Index rail --------------------------------------------------------- */
 
 .rail {
   position: sticky;
@@ -85,14 +81,7 @@
   gap: var(--space-3);
 }
 
-/* --------------------------------------------------------------------------
-   Jump menu — the index, pinned to the top corner.
-
-   Below 1100px the rail stops being sticky and sits at the top of the page,
-   so once it scrolls away there is no way back to the index without going
-   all the way up. This is that way back. It only exists below the
-   breakpoint, and only once the rail is actually off screen.
-   -------------------------------------------------------------------------- */
+/* ---- Jump menu: the way back to the index below 1100px, once the rail is gone -- */
 
 .jump {
   position: fixed;
@@ -126,8 +115,7 @@
   display: block;
 }
 
-/* The list is a copy of the rail's, so it keeps the rail's link styling —
-   only the padding and the touch target need adjusting. */
+/* A copy of the rail's list, so only padding and touch target need adjusting. */
 .jump__panel .rail__list {
   padding: 0;
 }
@@ -136,9 +124,7 @@
   font-size: var(--text-sm);
 }
 
-/* --------------------------------------------------------------------------
-   Title block — the drawing's header stamp
-   -------------------------------------------------------------------------- */
+/* ---- Title block — the drawing's header stamp --------------------------- */
 
 .titleblock {
   position: relative;
@@ -187,9 +173,7 @@
   color: var(--text);
 }
 
-/* --------------------------------------------------------------------------
-   Sections
-   -------------------------------------------------------------------------- */
+/* ---- Sections ----------------------------------------------------------- */
 
 .section {
   margin-bottom: var(--space-24);
@@ -307,9 +291,7 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   Color
-   -------------------------------------------------------------------------- */
+/* ---- Color -------------------------------------------------------------- */
 
 .swatches {
   display: grid;
@@ -402,9 +384,7 @@
   font-weight: var(--weight-medium);
 }
 
-/* --------------------------------------------------------------------------
-   Typography specimens
-   -------------------------------------------------------------------------- */
+/* ---- Typography specimens ----------------------------------------------- */
 
 .typerow {
   display: grid;
@@ -428,9 +408,7 @@
   white-space: nowrap;
 }
 
-/* --------------------------------------------------------------------------
-   Spacing scale
-   -------------------------------------------------------------------------- */
+/* ---- Spacing scale ------------------------------------------------------ */
 
 .spacerow {
   display: grid;
@@ -458,9 +436,7 @@
   border-radius: var(--radius-xs);
 }
 
-/* --------------------------------------------------------------------------
-   Small display cells (radii, elevation, lines, icons)
-   -------------------------------------------------------------------------- */
+/* ---- Small display cells (radii, elevation, lines, icons) --------------- */
 
 .cell {
   display: grid;
@@ -546,9 +522,7 @@
   color: var(--text-subtle);
 }
 
-/* --------------------------------------------------------------------------
-   Wall panel demo — the dial beside its controls
-   -------------------------------------------------------------------------- */
+/* ---- Wall panel demo — the dial beside its controls --------------------- */
 
 .wallpanel {
   grid-template-columns: 260px minmax(0, 1fr);
@@ -568,8 +542,7 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-/* The dial is a fixed 220px, so the two columns stop fitting well before the
-   sheet's own breakpoint. */
+/* The dial is a fixed 220px, so two columns stop fitting before the sheet does. */
 @media (max-width: 780px) {
   .wallpanel {
     grid-template-columns: minmax(0, 1fr);
@@ -608,9 +581,7 @@
   }
 }
 
-/* The cell rules assume one row. Below ~760px the five cells no longer fit
-   across, and a wrapped row would start with a vertical rule hanging in open
-   space — so the block stacks and the rules go horizontal instead. */
+/* Below ~760px a wrapped row would hang a vertical rule in space, so it stacks. */
 @media (max-width: 760px) {
   .titleblock__meta {
     grid-template-columns: minmax(0, 1fr);

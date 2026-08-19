@@ -1,6 +1,4 @@
-/* ==========================================================================
-   Design system sheet — small interactions only.
-   ========================================================================== */
+/* Design system sheet — small interactions only. */
 
 (function () {
   "use strict";
@@ -218,8 +216,7 @@
   }
 
   /* ---- Rail scroll spy -------------------------------------------------- */
-  /* Both copies of the index follow the scroll, so the pinned one opens on
-     the section you are actually in. */
+  /* Both copies of the index follow the scroll, so the pinned one stays in step. */
   const links = Array.from(document.querySelectorAll(".rail__list a"));
   const sections = Array.from(document.querySelectorAll("#rail-list a"))
     .map((link) => document.querySelector(link.getAttribute("href")))

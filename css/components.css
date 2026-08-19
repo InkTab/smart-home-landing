@@ -1,10 +1,6 @@
-/* ==========================================================================
-   COMPONENTS — everything the landing page will be assembled from.
-   ========================================================================== */
+/* COMPONENTS — everything the landing page will be assembled from. */
 
-/* --------------------------------------------------------------------------
-   Icons
-   -------------------------------------------------------------------------- */
+/* ---- Icons -------------------------------------------------------------- */
 
 .icon {
   width: 24px;
@@ -32,9 +28,7 @@
   stroke-width: 1;
 }
 
-/* --------------------------------------------------------------------------
-   Buttons
-   -------------------------------------------------------------------------- */
+/* ---- Buttons ------------------------------------------------------------ */
 
 .btn {
   --btn-height: 44px;
@@ -169,9 +163,7 @@
   text-underline-offset: 4px;
 }
 
-/* On ink -----------------------------------------------------------------
-   A cast shadow is invisible against a dark panel, so hover has to be carried
-   by the surface itself: it brightens, gains a light ring, and lifts 1px. */
+/* ---- On ink: a cast shadow is invisible, so hover is carried by the surface -- */
 .btn--inverse {
   background-color: var(--paper-200);
   background-image: var(--lit-paper);
@@ -263,9 +255,7 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   Badges, pills, status
-   -------------------------------------------------------------------------- */
+/* ---- Badges, pills, status ---------------------------------------------- */
 
 .badge {
   display: inline-flex;
@@ -344,9 +334,7 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   Form controls
-   -------------------------------------------------------------------------- */
+/* ---- Form controls ------------------------------------------------------ */
 
 .field {
   display: flex;
@@ -595,9 +583,7 @@
   transform: scale(1.14);
 }
 
-/* --------------------------------------------------------------------------
-   Cards
-   -------------------------------------------------------------------------- */
+/* ---- Cards -------------------------------------------------------------- */
 
 .card {
   position: relative;
@@ -625,8 +611,7 @@
   box-shadow: var(--shadow-soft);
 }
 
-/* Drawn — the hairline original. Kept for objects that represent hardware
-   on a plan: device cards, spec panels, anything annotated. */
+/* Drawn — the hairline original, for hardware on a plan: device and spec cards. */
 .card--drawn {
   background: var(--surface);
   border: var(--hair) solid var(--line-soft);
@@ -653,25 +638,19 @@
   border-top-color: rgba(255, 255, 255, 0.16);
 }
 
-/* A badge is a raised paper chip, and the soft shadow it is raised with needs
-   the paper under it: on ink the highlight reads as a halo around the chip
-   rather than as light falling on it. So on a dark card it stops being raised
-   and becomes a tint of the ground it is on. */
+/* On ink the raised highlight reads as a halo, so the chip becomes a flat tint. */
 .card--ink .badge {
   background: rgba(255, 255, 255, 0.1);
   box-shadow: none;
   color: var(--steel-100);
 }
-/* The solid one keeps its fill — steel on ink is a contrast the ground can
-   carry. It only loses the light. */
+/* The solid one keeps its fill; only the light comes off. */
 .card--ink .badge--solid {
   background: var(--steel-600);
   color: var(--text-inverse);
 }
 
-/* A checked list on ink, the same way a drawn card takes its controls back
-   to hairlines: the list is set for paper, so the card that changes the
-   ground under it is what has to say so. */
+/* The list is set for paper, so the card that darkens the ground has to say so. */
 .card--ink .list-check {
   color: var(--steel-200);
 }
@@ -743,8 +722,7 @@
   box-shadow: none;
 }
 
-/* Inside a drawn card the controls go back to hairlines too, so the card
-   reads as one object rather than a mix of two languages. */
+/* Controls inside a drawn card go hairline too, so the card reads as one object. */
 .card--drawn .switch input {
   width: 44px;
   height: 24px;
@@ -927,9 +905,7 @@
   flex: none;
 }
 
-/* --------------------------------------------------------------------------
-   Media frames — empty placeholders, dimensioned like a drawing
-   -------------------------------------------------------------------------- */
+/* ---- Media frames — empty placeholders, dimensioned like a drawing ------ */
 
 .frame {
   position: relative;
@@ -1004,9 +980,7 @@
   aspect-ratio: 1 / 1;
 }
 
-/* --------------------------------------------------------------------------
-   Table / spec sheet
-   -------------------------------------------------------------------------- */
+/* ---- Table / spec sheet ------------------------------------------------- */
 
 .table {
   width: 100%;
@@ -1046,9 +1020,7 @@
   white-space: nowrap;
 }
 
-/* Once the columns stop fitting the table scrolls inside its own box, rather
-   than crushing values until they break mid-token. Keep it focusable so the
-   region can be reached from the keyboard. */
+/* Scrolls in its own box rather than crushing values; focusable, so keyboards reach it. */
 .table-scroll {
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -1062,9 +1034,7 @@
   border-radius: var(--radius-sm);
 }
 
-/* --------------------------------------------------------------------------
-   Navigation
-   -------------------------------------------------------------------------- */
+/* ---- Navigation --------------------------------------------------------- */
 
 .navbar {
   position: relative;
@@ -1079,8 +1049,7 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-soft);
 }
-/* Above the breakpoint the menu is not a box: its children become direct
-   flex items, so the bar reads brand | links | actions. */
+/* Above the breakpoint the menu's children become flex items: brand | links | actions. */
 .navbar__menu {
   display: contents;
 }
@@ -1190,8 +1159,7 @@
   color: var(--steel-300);
 }
 
-/* The bar needs ~712px for five links and two buttons; below that it keeps
-   the brand and a toggle, and drops the rest into a panel underneath. */
+/* Five links and two buttons need ~712px; below that the rest drops into a panel. */
 @media (max-width: 800px) {
   .navbar {
     gap: var(--space-4);
@@ -1260,9 +1228,7 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   Callouts / notes
-   -------------------------------------------------------------------------- */
+/* ---- Callouts / notes --------------------------------------------------- */
 
 .note {
   display: flex;
@@ -1319,15 +1285,9 @@
   transform: translate(-50%, 0);
 }
 
-/* --------------------------------------------------------------------------
-   SOFT SURFACES — the neumorphic layer.
+/* ---- SOFT SURFACES: physical controls only; text stays hairline ---------- */
 
-   Rules of the house: soft shadows only on things that behave like physical
-   controls (panels, tiles, dials, toggles). Text containers stay hairline.
-   Everything here needs the off-white ground — on pure white the highlight
-   disappears and only the shade reads.
-   -------------------------------------------------------------------------- */
-
+/* All of it needs the off-white ground: on white only the shade reads. */
 .soft {
   background: var(--paper-000);
   border-radius: var(--radius-xl);

@@ -1,16 +1,4 @@
-/* ==========================================================================
-   Reveal — hold a section's entrance until it is on screen.
-
-   The load-time entrance in sections.css is right for the hero, which is
-   already in view. Anything further down the page would play to an empty
-   room, so a section marked `data-reveal` keeps every [data-anim] inside it
-   paused until it scrolls in, and then lets the order declared in the markup
-   run exactly as written.
-
-   The attribute's value is written here and never in the markup: with no
-   JavaScript, no IntersectionObserver, or under prefers-reduced-motion,
-   nothing is ever paused and the page behaves as it did before.
-   ========================================================================== */
+/* Reveal — hold a [data-reveal] section's [data-anim] entrance until it scrolls in. */
 
 (function (window, document) {
   "use strict";
@@ -29,11 +17,11 @@
         observer.unobserve(entries[i].target);
       }
     },
-    /* A sliver is not enough — the section has to be properly on screen, or
-       the entrance is half over by the time it is worth watching. */
+    /* A sliver is not enough: the entrance would be half over before it is worth seeing. */
     { threshold: 0.15 }
   );
 
+  /* Set here, never in markup: without JS or with reduced motion nothing pauses. */
   for (var i = 0; i < sections.length; i++) {
     sections[i].setAttribute("data-reveal", "out");
     observer.observe(sections[i]);

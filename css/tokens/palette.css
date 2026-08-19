@@ -1,11 +1,7 @@
-/* ==========================================================================
-   PALETTE — raw values only. Nothing in here knows what it is used for.
-   Components must never reference these directly; go through semantic.css.
-   ========================================================================== */
+/* PALETTE — raw values. Components must reference semantic.css, never these. */
 
 :root {
-  /* ---- Steel ink -------------------------------------------------------
-     Derived from #488DB4 — hsl(202, 43%, 49%) — by walking lightness.   */
+  /* ---- Steel ink: #488DB4 (hsl 202 43% 49%) walked through lightness ---- */
   --steel-950: #0d1f2b;
   --steel-900: #163041;
   --steel-800: #21475f;
@@ -33,15 +29,12 @@
   --stone-200: #e5e2dc;
   --stone-100: #f2f1ed;
 
-  /* ---- Signal ------------------------------------------------------------
-     Muted to sit with the warm paper; all ≥ 4.5:1 on --paper-000.        */
+  /* ---- Signal: muted for warm paper, all ≥ 4.5:1 on --paper-000 --------- */
   --green-600: #277c5d;
   --amber-700: #956b23;
   --rust-600: #b24934;
 
-  /* ---- Light ------------------------------------------------------------
-     The two colors the single top-left light source is made of: the
-     highlight, and the paper darkened warm.                              */
+  /* ---- Light: the top-left source — a highlight, and paper darkened warm - */
   --light-highlight: #ffffff;
   --light-shade: rgba(163, 153, 138, 0.32);
   --light-shade-strong: rgba(151, 141, 128, 0.46);

@@ -1,16 +1,4 @@
-/* ==========================================================================
-   Hero — the system, running.
-
-   The two readings drift on their own slow clocks. The three events share one
-   script and take turns, four seconds apart, so they are never on screen
-   together: the front door opens and closes, the basement reports a leak,
-   then the hub drops and recovers its link.
-
-   Nothing runs unless the hero is on screen and the tab is in the foreground —
-   `data-beats` on the section says which. The script also stands down under
-   prefers-reduced-motion; the readings keep drifting, since a number changing
-   is not motion.
-   ========================================================================== */
+/* Hero — drifting readings, plus door, leak and hub events taking turns on one script. */
 
 (function (window, document) {
   "use strict";
@@ -19,6 +7,7 @@
   if (!hero) return;
 
   var i18n = (window.Halo && window.Halo.i18n) || null;
+  /* Reduced motion drops the events; the readings drift on — a number is not motion. */
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
   var beats = [];
 
@@ -26,8 +15,7 @@
     return min + Math.random() * (max - min);
   }
 
-  /* The script: one event at a time, each followed by its own quiet gap.
-     Steps are pushed in the order they should play. */
+  /* One event at a time, each with its own gap. Pushed in the order they play. */
   var script = [];
   var FIRST = 5000; /* after the entrance has finished */
   var GAP = 4000; /* the quiet between one event ending and the next */
@@ -118,8 +106,7 @@
   }
 
   if (tempNode) {
-    /* The markup carries the English form, so the first paint has to happen
-       before the first drift or Russian shows a stray full stop. */
+    /* Markup carries the English form; paint before the first drift or ru shows "21.5". */
     paintTemp();
 
     tick({
@@ -256,9 +243,7 @@
 
   /* ---- Clocks ------------------------------------------------------------ */
 
-  /* Nothing runs unless the hero is both on screen and in the foreground — a
-     leak notification firing at someone reading section 8 is a bug. The hero
-     has to be properly in view, not just clipping the edge of it. */
+  /* Beats run only when the hero is properly in view and the tab is in front. */
   var running = null;
   var showing = false; /* is the hero properly in view */
 
@@ -273,21 +258,7 @@
     }
   }
 
-  /* Whether the hero is in view is answered by an observer rather than by
-     measuring it on every scroll frame.
-
-     The beats are changing the DOM on their own timers the whole time — a
-     card jumps, a strip drops, a notification appears — so a measurement
-     taken on scroll lands on style that has just been invalidated, and the
-     browser has to compute the layout then and there to answer it. That is
-     the forced reflow, and it is paid on every frame of every scroll past
-     the hero. The rectangles an observer hands back it measured itself, at a
-     moment of its own choosing, so reading them costs nothing.
-
-     The question is the one it was before: is more than 40% of the hero — or
-     of the screen, when the hero is taller than the screen — actually
-     showing. Answering it from the entry's own three rectangles keeps the
-     threshold identical to the one this used to compute by hand. */
+  /* Showing = over 40% of the hero, or of the screen when the hero is the taller one. */
   function judge(entry) {
     if (!entry.rootBounds) return;
     showing =
@@ -299,9 +270,7 @@
   document.addEventListener("visibilitychange", sync);
 
   if ("IntersectionObserver" in window) {
-    /* An observer only reports on the thresholds it was given, and the one
-       that matters here moves with the height of the screen — so it is given
-       a ladder of them rather than a single figure. */
+    /* Observer, not scroll math (forced reflow); a ladder tracks the moving threshold. */
     var rungs = [];
     for (var step = 0; step < 1; step += 0.05) rungs.push(step);
     rungs.push(1);
@@ -310,8 +279,7 @@
       judge(entries[entries.length - 1]);
     }, { threshold: rungs }).observe(hero);
   } else {
-    /* No observer to ask, so the hero measures itself the way it used to.
-       Batched into a frame, which is the most that can be done about it. */
+    /* No observer: measure by hand, batched into a frame. */
     var queued = false;
 
     var measure = function () {
@@ -334,8 +302,7 @@
     measure();
   }
 
-  /* Only the temperature needs re-rendering by hand: everything else is
-     keyed, so the dictionary pass picks it up. */
+  /* Only the temperature needs a manual repaint; everything else is keyed for i18n. */
   document.addEventListener("halo:langchange", paintTemp);
 
   sync();
