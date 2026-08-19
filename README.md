@@ -22,13 +22,14 @@ consumes the same stylesheets.
 
 ```
 index.html                  the landing page — header, section 01 (hero),
-                            section 02 (the problem), section 03 (the plan)
-                            and section 04 (starting small)
+                            section 02 (the problem), section 03 (the plan),
+                            section 04 (starting small) and section 05 (what
+                            it costs)
 assets/
   appartment.webp           the apartment section 03 marks the hardware on
 css/
   tokens/
-    palette.css             raw values — colour ramps and the two light colours
+    palette.css             raw values — color ramps and the two light colors
     semantic.css            roles + scales: surfaces, text, lines, type, space,
                             radius, shadow, motion, layout
   base.css                  reset, typography, the paper, drafting primitives
@@ -43,6 +44,8 @@ js/
   problem.js                turning a cell of section 02 over
   plan.js                   pairing a point of section 03 with its card
                             (section 04 has no script — it is choreography)
+  calc.js                   section 05: the three questions, the sum, and the
+                            mailto: the answer is written into
 design-system/
   design-system.html        the visual playground — every token and component
   design-system.css         layout for the playground sheet only
@@ -159,7 +162,7 @@ Two anxieties, one per row, and the rows are mirrors of each other:
 The photo is six of twelve columns and the two cards are three each, so
 moving the wide column from first to second is the whole mirror. The photo
 also sets the row's height and the cards stretch to meet it, which is what
-makes a row read as one board rather than three neighbours.
+makes a row read as one board rather than three neighbors.
 
 Three treatments, three jobs, all of them from the design system:
 
@@ -240,10 +243,10 @@ card of the same live readings the hero shows.
 | leak sensor | kitchen | Dry |
 | shades | dining area | 70 % |
 
-The points are placed in per cent of the photo, on the pin and nowhere else —
+The points are placed in percent of the photo, on the pin and nowhere else —
 `js/plan.js` copies `--x` and `--y` across to the card, so a device's place is
 written once. `data-place` and `data-align` say which way its card hangs off
-the point: centred and above unless the point is too near an edge for that,
+the point: centered and above unless the point is too near an edge for that,
 which is why the leftmost and rightmost cards hang off their point instead.
 Every card is inside the photo at every width from 900px up.
 
@@ -256,11 +259,11 @@ mode" — and never repeats the width itself.
 
 | | the cards | the points |
 | --- | --- | --- |
-| under 900px | a rail under the photo, one card centred, snapping | the centred card's point is lit |
+| under 900px | a rail under the photo, one card centered, snapping | the centered card's point is lit |
 | over 900px | tooltips that open at their own point | the open card's point is lit |
 
 Under the breakpoint a point is a shortcut rather than a tooltip: tapping one
-brings its card to the centre of the rail. The rail is scrolled by hand rather
+brings its card to the center of the rail. The rail is scrolled by hand rather
 than with `scrollIntoView`, which would drag the page down to it and take the
 photograph off the screen.
 
@@ -383,7 +386,7 @@ The same 900px section 03 uses.
 
 | | the chain | the links | the empty card |
 | --- | --- | --- | --- |
-| under 900px | one column, top to bottom | all vertical | narrower than a device, centred |
+| under 900px | one column, top to bottom | all vertical | narrower than a device, centered |
 | over 900px | four columns, two rows | horizontal, except the drop | at the head of the fourth column |
 
 Over the breakpoint the chain steps right, down and right again, and closes up
@@ -393,11 +396,165 @@ corner by `grid-area`, because in one column it belongs after the chain rather
 than in the middle of it — and it stays where it is when the chain closes,
 being an annotation on the chain rather than a step in it.
 
-The cards stretch to their row, so every horizontal link meets its neighbour
+The cards stretch to their row, so every horizontal link meets its neighbor
 at the same height without anything being measured. The empty card is the one
-exception — it is centred rather than stretched, which keeps it smaller than a
-device and, because the row's centre is also the other cards' centre, keeps
+exception — it is centered rather than stretched, which keeps it smaller than a
+device and, because the row's center is also the other cards' center, keeps
 its link level with the rest.
 
 Nothing in the section is interactive. The empty card is a place, not a
 control: there is nothing to press, only somewhere for the next device to go.
+
+## Section 05 — what it costs
+
+The one place on the page that asks the visitor for anything, so it asks for
+as little as it can: three questions, disclosed one at a time, and a range
+rather than a price. There is no form, no field and no endpoint — the way out
+is a `mailto:` with the answers already written into it.
+
+| step | question | answer |
+| --- | --- | --- |
+| 1 · vision | what do you want to solve today? | any of three goals |
+| 2 · scale | how much house are we covering? | one of three footprints |
+| 3 · details | one question per goal picked | a slider each, optional |
+
+| goal | what is in it |
+| --- | --- |
+| security | door and window sensors, locks, cameras, leak sensors, garage doors |
+| climate | a thermostat, and a temperature sensor per room |
+| light | switches, color bulbs and LED strips, blind controllers |
+
+Step 2 is the whole reason the section is short. Nobody is asked to inventory
+their windows: the footprint answers for them, and step 3 then asks the one
+critical multiplier per goal and nothing else — **exterior doors** for
+security, **rooms with their own reading** for climate, **rooms with light
+control** for light. A goal nobody chose has no question, which is why the step
+is written with every row in the markup and the script takes away the ones that
+were not earned. Chase a single goal and step 3 is one slider.
+
+The lawn is the exception that proves the rule: it is a question about the
+plot rather than about a goal, so it is the **footprint** that asks it, and
+only of a single family home. It is a switch rather than a slider, because it
+is a yes or a no.
+
+### The bill
+
+The estimate is a range because the hardware is: a lock is $80 on one door and
+$280 on another. So the two figures are one bill of devices costed twice —
+everything at its floor, then everything at its ceiling — rather than one
+figure with a margin painted around it. A job made only of fixed-price parts
+therefore has no range at all, and the result shows a single figure and drops
+the dimension line rather than printing the same number twice.
+
+| line | each | how many |
+| --- | --- | --- |
+| hub | $180 | one, always |
+| door and window sensor | $30 | exterior doors + the footprint's windows |
+| smart lock | $80–280 | one per exterior door |
+| camera | $50–220 | the footprint |
+| leak sensor | $22 | the footprint |
+| garage door controller | $40 | the footprint |
+| thermostat | $250 | one per home |
+| temperature sensor | $22 | rooms asked for |
+| light switch | $50–120 | rooms asked for |
+| color bulb / LED strip | $25–150 | rooms asked for |
+| blind controller | $50 | the footprint |
+| watering controller | $50 | one, if the lawn is on |
+| water valve | $80 | one per zone |
+
+Then **+30% for the work**, applied to both ends so they stay in proportion,
+and the total rounded to the nearest 10. Tax is not in it, and the range says
+so: a small `+ tax` rides beside the upper figure.
+
+What the footprint answers on the visitor's behalf, and what the three sliders
+start at:
+
+| | flat | town | house |
+| --- | --- | --- | --- |
+| exterior doors *(slider)* | 1 | 2 | 3 |
+| rooms with a reading *(slider)* | 2 | 3 | 5 |
+| rooms with light control *(slider)* | 3 | 5 | 8 |
+| windows | 4 | 7 | 11 |
+| cameras | 1 | 2 | 4 |
+| leak sensors | 2 | 3 | 4 |
+| garage doors | 0 | 1 | 2 |
+| blinds | 3 | 5 | 8 |
+| watering zones | — | — | 4 |
+
+A slider that has not been touched follows the home, so picking a house
+re-answers step 3 the way a house would and the step can be skipped entirely.
+It stops following the moment it is moved by hand.
+
+The result lists the bill under the two figures — one line per kind of device
+and the count against it, with the work as the last line. Counts only: what a
+lock costs is the survey's business, what belongs on a landing page is the
+shape of the job.
+
+### The letter
+
+The estimate is a range, and the whole of it goes into a `mailto:` URL:
+
+```
+To       hello@yoursmarthome.com
+Subject  Quote Request: $3,820–$7,510 Smart Home
+Body     Hi team, I just used the calculator on your site. I'm interested
+         in the Whole Home package for my 3+ Bedroom Home. …
+```
+
+The package name is the goals in the order step 1 asks them — *Security &
+Light* — and all three of them stop being a list and become *Whole Home*. The
+subject and the body live in the dictionary with `{placeholders}` in them
+rather than being stitched together from fragments, which is what lets the
+Russian letter put the same three answers in a different order. Both are run
+through `encodeURIComponent`, and nothing is posted anywhere: the visitor's own
+mail client is the form, and they read and edit every word before it is sent.
+
+Under the console, and outside it, is the plain `mailto:` with nothing written
+into it — *Have a unique project? Email us* — for anyone the three questions do
+not fit.
+
+### One object, two steps
+
+Both choice steps are the same thing: a soft tile wrapped around a native
+checkbox or radio. The input is the system's own `.visually-hidden`, so it is
+still focusable, still checkable from the keyboard, and still what the label is
+for — and the stylesheet only has to press the tile in when its input is
+checked, which is what a tile on the wall panel already means. Step 3 is the
+system's sliders and its switch, unchanged.
+
+### Without a script
+
+`data-calc="live"` is set by `js/calc.js` and never by the markup, the same
+arrangement section 03 has with its rail. With no script the progress and the
+two nav buttons stay hidden, all three panels are on the page as one readable
+form nobody can get stuck inside, and the line underneath is the way out. The
+result panel is the only thing hidden in the markup, because it is the only
+thing that needs the sum to exist.
+
+The sliders carry their starting `--fill` inline for the same reason: a track
+that no script ever reaches should not be drawn half full with its thumb at
+one end.
+
+### Where you are
+
+`Step 1 of 3` on the left, `2 steps left` on the right, and a three-segment
+track under them: filled steel for the step being answered, a paler fill for
+the ones behind it, empty inset track ahead. Once the estimate is up the
+counter goes and the rail is simply full — leaving it would put *Your estimate*
+on the console twice, once in the corner and once over the number it belongs
+to.
+
+The stage keeps a floor under it so stepping between panels does not drag the
+nav buttons up the page under the pointer. It is the height of the two choice
+steps rather than of the tallest panel: a floor set by the longest step would
+leave a hole under the shortest.
+
+### Two layouts, one breakpoint
+
+760px, and it is this section's own — the three tiles are what set it, not the
+900px the plan and the chain share.
+
+| | the tiles | the range |
+| --- | --- | --- |
+| over 760px | three columns, the plate above the name | two figures with a dimension line between them, `+ tax` beside the upper one |
+| under it | one column, the plate beside the name | the line turns, and the range is read down the page |

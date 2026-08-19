@@ -200,7 +200,7 @@ body.grid-on .paper {
   color: var(--text-muted);
 }
 
-/* An emphasised word inside body copy, set in the display face. */
+/* An emphasized word inside body copy, set in the display face. */
 .display-accent {
   font-family: var(--font-display);
   font-weight: var(--weight-semibold);

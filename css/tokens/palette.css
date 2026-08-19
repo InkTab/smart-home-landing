@@ -11,7 +11,7 @@
   --steel-800: #21475f;
   --steel-700: #2d5d7c;
   --steel-600: #3a7598;
-  --steel-500: #488db4; /* the source colour */
+  --steel-500: #488db4; /* the source color */
   --steel-400: #6ea4c4;
   --steel-300: #97bdd3;
   --steel-200: #c2d8e5;
@@ -40,7 +40,7 @@
   --rust-600: #b24934;
 
   /* ---- Light ------------------------------------------------------------
-     The two colours the single top-left light source is made of: the
+     The two colors the single top-left light source is made of: the
      highlight, and the paper darkened warm.                              */
   --light-highlight: #ffffff;
   --light-shade: rgba(163, 153, 138, 0.32);
