@@ -284,7 +284,41 @@
       "calc.unique": "Have a unique project?",
       "calc.unique.link": "Email us",
 
-      /* Section 06 — the objections the price raises. The first two are
+      /* Section 06 — the process, in the order it happens. Two of the three
+         timings are the installer's own: a fortnight for delivery, and four
+         to eight hours on site. "About an hour" for the consultation is an
+         assumption, and this is the one key that carries it. */
+      "flow.eyebrow": "How it goes",
+      "flow.title": "Three steps, about two weeks.",
+      "flow.lede":
+        "One conversation to decide what goes in, one payment to order it, one visit to put it up. The only waiting is the shipping.",
+
+      "flow.s1.title": "Consultation",
+      "flow.s1.body":
+        "We go through the place together and come out with one list of devices that fits the house, the way you live in it and what you want to spend. The range from the calculator becomes a list and a number.",
+      "flow.s1.footLabel": "Takes",
+      "flow.s1.footValue": "about an hour",
+
+      "flow.s2.title": "Prepayment",
+      "flow.s2.body":
+        "Nothing sits waiting in a warehouse: every kit is ordered for its own project, so the hardware is paid for up front. That is what puts the order in.",
+      "flow.s2.footLabel": "Then",
+      "flow.s2.footValue": "ordered the same day",
+
+      "flow.wait.value": "≈ 2 weeks",
+      "flow.wait.body":
+        "Delivery. Nothing is needed from you in here — we tell you the day it lands and book the install around your week.",
+
+      "flow.s3.title": "Installation",
+      "flow.s3.body":
+        "One visit. Everything is mounted, paired, named and tested, and then we walk you through it — four hours for an apartment, up to eight for a house.",
+      "flow.s3.footLabel": "On site",
+      "flow.s3.footValue": "4–8 hours",
+
+      "flow.done.title": "And that is all.",
+      "flow.done.body": "A house that works, and nothing left on your list.",
+
+      /* Section 07 — the objections the price raises. The first two are
          repeats of sections 03 and 04, deliberately said again now that
          there is a number on the page; the year is the only new claim.
          What it covers is narrow on purpose, and nothing here says what
@@ -571,6 +605,37 @@
 
       "calc.unique": "Нестандартный проект?",
       "calc.unique.link": "Напишите нам",
+
+      "flow.eyebrow": "Как это проходит",
+      "flow.title": "Три шага и примерно две недели.",
+      "flow.lede":
+        "Один разговор, чтобы решить, что ставим, одна предоплата, чтобы это заказать, и один выезд, чтобы всё смонтировать. Ждать приходится только доставку.",
+
+      "flow.s1.title": "Консультация",
+      "flow.s1.body":
+        "Проходим по дому вместе и выходим с одним списком устройств, который подходит и дому, и тому, как вы в нём живёте, и тому, сколько вы готовы потратить. Вилка из калькулятора превращается в список и одну сумму.",
+      "flow.s1.footLabel": "Занимает",
+      "flow.s1.footValue": "около часа",
+
+      "flow.s2.title": "Предоплата",
+      "flow.s2.body":
+        "Ничего не лежит на складе: каждый комплект заказывается под свой проект, поэтому оборудование оплачивается заранее. Именно предоплата запускает заказ.",
+      "flow.s2.footLabel": "Дальше",
+      "flow.s2.footValue": "заказ в тот же день",
+
+      "flow.wait.value": "≈ 2 недели",
+      "flow.wait.body":
+        "Доставка. Здесь от вас ничего не нужно — мы сообщим в день, когда всё придёт, и подберём день монтажа под вашу неделю.",
+
+      "flow.s3.title": "Монтаж",
+      "flow.s3.body":
+        "Один выезд. Всё ставится, подключается, получает имя и проверяется, а потом мы показываем, как этим пользоваться, — четыре часа на квартиру и до восьми на дом.",
+      "flow.s3.footLabel": "На месте",
+      "flow.s3.footValue": "4–8 часов",
+
+      "flow.done.title": "И это всё.",
+      "flow.done.body":
+        "Дом работает, а в вашем списке дел ничего не осталось.",
 
       "adapt.eyebrow": "После сдачи",
       "adapt.title": "Здесь ничто не сделано навсегда.",

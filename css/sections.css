@@ -1974,7 +1974,335 @@
 }
 
 /* --------------------------------------------------------------------------
-   06 — Adapt
+   06 — Flow
+
+   What actually happens once somebody says yes, and when. Three steps on one
+   hairline rail: the conversation that decides the list, the prepayment that
+   puts the order in, and the visit that installs it.
+
+   The section's one idea is that the wait is drawn rather than described.
+   The rail is solid wherever there is work being done and dashed through the
+   fortnight the hardware is in transit, and that stretch carries no card at
+   all — so the shape of the schedule is legible before a word of it is read:
+   two beats, a long empty one, a last beat, done.
+
+   Every step is a summary with the detail folded behind it. Closed is the
+   resting state, and the detail is a grid row of 0fr rather than a hidden
+   box, so opening it is a measurement the browser can animate. Which cards
+   are open is nobody's business but the visitor's — they open on their own,
+   the same way the cells of section 02 turn on their own.
+
+   Two layouts, one breakpoint (1000px), and it is this section's own. Three
+   steps side by side need more width across than the plan does at 900px, the
+   same way the calculator's three tiles needed their own 760px.
+
+     under 1000px   the rail runs down the page, one step per row
+     over it        the rail runs across, the steps side by side under it
+
+   Only the axis changes: the rows, the marks, the segments and the cards are
+   the same objects either way.
+   -------------------------------------------------------------------------- */
+
+.flow {
+  padding-block: var(--space-16) var(--space-24);
+}
+
+.flow__head {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+.flow__title {
+  margin-top: var(--space-4);
+  text-wrap: balance;
+}
+.flow__lede {
+  margin-top: var(--space-5);
+  text-wrap: pretty;
+}
+
+/* ---- The rail ----------------------------------------------------------- */
+
+/* Down the page, every row is the same two columns — the rail, and whatever
+   stands beside it — so a segment drawn in the first column of one row meets
+   the one above it without anything being measured. The rows carry their own
+   bottom padding rather than sitting in a grid gap: the rail has to run
+   through that space, and a gap would be a hole in the line.
+
+   880px is the calculator console's width, and it is here for the console's
+   reason — a single column of copy reads worse the wider it is set. */
+.flow__track {
+  --rail: 36px;
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+.flow__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  column-gap: var(--space-6);
+  align-items: start;
+  padding-bottom: var(--space-10);
+}
+.flow__row:last-child {
+  padding-bottom: 0;
+}
+
+/* A segment starts under the mark it leaves and runs to the floor of its own
+   row, which is where the next mark is standing. Solid, because a step is
+   time somebody is spending on the job. */
+.flow__seg {
+  position: absolute;
+  top: var(--rail);
+  bottom: 0;
+  left: calc(var(--rail) / 2);
+  width: 0;
+  border-left: var(--hair) solid var(--line-soft);
+  pointer-events: none;
+}
+
+/* Drawn by uncovering rather than by scaling. The wait's segment is dashed
+   and a scaled dash stretches — the same thing section 04's links animate
+   their own length to avoid — so a keyframe that touches no geometry serves
+   the solid segments and the dashed one alike. Which axis it uncovers along
+   is the layout's business, so the sideways one is picked up at the
+   breakpoint, exactly as section 04 picks its own. */
+@keyframes unroll-y {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes unroll-x {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+[data-anim="unroll"] {
+  animation-name: unroll-y;
+  animation-duration: 520ms;
+}
+
+/* ---- The marks ---------------------------------------------------------- */
+
+/* Raised, because a step is a thing that happens; the rail it stands on is a
+   hairline, because a measurement is drawn. The same pairing section 03 has
+   between its soft cards and the drawn plan under them. */
+.flow__mark {
+  display: grid;
+  place-items: center;
+  width: var(--rail);
+  height: var(--rail);
+  border-radius: 50%;
+  background: var(--paper-000);
+  box-shadow: var(--shadow-soft-sm);
+  color: var(--steel-600);
+}
+.flow__mark .mono {
+  font-size: var(--text-xs);
+  color: inherit;
+}
+
+/* The end of the line is the one filled mark on it — lit from the same
+   top-left source the primary button is. */
+.flow__mark--done {
+  background-color: var(--steel-600);
+  background-image: var(--lit-steel);
+  color: var(--paper-000);
+}
+.flow__mark--done .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---- A step ------------------------------------------------------------- */
+
+/* A step is a title, what happens in it, and how long it takes. The card is
+   tighter than the system's default, because those three are one thought
+   rather than three. */
+.flow__card {
+  gap: var(--space-3);
+}
+/* The foot is the step's own "and when": the label says what the value is,
+   and .card__foot has already set the two of them apart. */
+.flow__time {
+  color: var(--steel-600);
+}
+
+/* ---- The wait ----------------------------------------------------------- */
+
+/* The one row with no card in it. Nothing is asked of anybody here and
+   nobody is on site, so there is nothing to put in a card — only the
+   distance, and a dashed rail through it. The padding is the fortnight.
+
+   The wait has no mark, so nothing has taken the first column before the
+   copy gets there: the segment is out of flow and never was a grid item. */
+.flow__wait {
+  padding-block: var(--space-16);
+}
+.flow__wait .flow__seg {
+  top: 0;
+  border-left-style: dashed;
+}
+.flow__wait-copy {
+  grid-column: 2;
+  display: grid;
+  gap: var(--space-2);
+}
+.flow__wait-value {
+  font-size: var(--text-sm);
+  color: var(--steel-600);
+}
+
+/* ---- The end of the line ------------------------------------------------ */
+
+/* Not a step, so not a card: the closing line sits straight on the paper
+   beside the last mark. */
+.flow__done-copy {
+  display: grid;
+  gap: var(--space-2);
+}
+.flow__done-title {
+  text-wrap: balance;
+}
+
+/* ---- Over the breakpoint: the rail turns ---------------------------------
+   Every row becomes a column of the track and stacks its own two parts —
+   the mark on the rail, the card under it — so the same markup reads across
+   instead of down. The wait keeps its job: it is the column with no mark and
+   no card, and the dashed run through it is the fortnight.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1000px) {
+  .flow__track {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr) minmax(0, 1fr) minmax(120px, 0.5fr)
+      minmax(0, 1fr);
+    column-gap: var(--space-6);
+    max-width: none;
+  }
+
+  /* One column of the track: the rail's own row, then whatever hangs off it.
+     Declaring the first row as the mark's height is what keeps the wait's
+     note level with the cards without it needing a mark of its own. */
+  .flow__row {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--rail) auto;
+    row-gap: var(--space-5);
+    padding-bottom: 0;
+  }
+  .flow__wait {
+    padding-block: 0;
+  }
+  .flow__wait-copy,
+  .flow__done-copy {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  /* The number stands in the middle of the step it belongs to rather than at
+     the head of it, so the rail has to run behind it — and the mark has to be
+     lifted over the run it is standing on, since a segment is positioned and
+     would otherwise paint over the disc. */
+  .flow__mark {
+    position: relative;
+    z-index: 1;
+    justify-self: center;
+  }
+
+  /* Sideways, a segment crosses its own column and carries on into the gap to
+     reach the next one, passing behind whatever mark is in the way. */
+  .flow__seg {
+    top: calc(var(--rail) / 2);
+    bottom: auto;
+    left: 0;
+    right: calc(var(--space-6) * -1);
+    width: auto;
+    height: 0;
+    border-left: 0;
+    border-top: var(--hair) solid var(--line-soft);
+  }
+  /* The two ends of the rail are the only ones that stop at a mark instead of
+     crossing it: the schedule starts at the first step and finishes at the
+     last, and there is nothing either side of those to reach. */
+  .flow__step--consult .flow__seg {
+    left: calc(50% + var(--rail) / 2);
+  }
+  .flow__step--install .flow__seg {
+    right: calc(50% + var(--rail) / 2);
+  }
+  /* The dashed run has to be told the rail's height again: down the page it
+     starts at the top of its row rather than beside a mark. */
+  .flow__wait .flow__seg {
+    top: calc(var(--rail) / 2);
+    border-top-style: dashed;
+  }
+  [data-anim="unroll"] {
+    animation-name: unroll-x;
+  }
+
+  /* The columns stretch to the tallest of them and the card fills its
+     column, so three steps with different amounts to say still read as one
+     row of cards rather than three cards of different sizes. */
+  .flow__card {
+    padding: var(--space-5);
+    height: 100%;
+  }
+
+  /* The end of the line is no longer on the rail — across, there is no room
+     beside the last step for it — so it closes the section instead: one line
+     under the whole schedule, centered, with the filled mark still leading
+     it. */
+  .flow__done {
+    grid-column: 1 / -1;
+    grid-template-columns: var(--rail) minmax(0, auto);
+    grid-template-rows: auto;
+    column-gap: var(--space-4);
+    justify-content: center;
+    align-items: center;
+    margin-top: var(--space-12);
+  }
+  .flow__done-copy {
+    grid-column: 2;
+    grid-row: 1;
+    max-width: 46ch;
+  }
+}
+
+@media (max-width: 560px) {
+  .flow {
+    padding-block: var(--space-12) var(--space-16);
+  }
+  .flow__head {
+    margin-bottom: var(--space-8);
+  }
+  .flow__lede {
+    font-size: var(--text-lg);
+  }
+  .flow__track {
+    --rail: 32px;
+  }
+  .flow__row {
+    column-gap: var(--space-4);
+  }
+  .flow__card {
+    padding: var(--space-5);
+  }
+  .flow__wait {
+    padding-block: var(--space-12);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   07 — Adapt
 
    The objections a price raises, answered on the far side of it: what if I
    need more later, what if I move, and what happens once you have gone.
