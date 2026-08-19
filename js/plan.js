@@ -7,7 +7,7 @@
 
    The two layouts are the stylesheet's, not this file's. Over the breakpoint
    the rail is laid over the photo and a card opens at its own point; under it
-   the cards stay a rail and the point belonging to the centred card lights
+   the cards stay a rail and the point belonging to the centered card lights
    up. Which layout is running is read back off the DOM rather than repeated
    as a width here, so the breakpoint stays written in exactly one place.
 
@@ -95,7 +95,7 @@
     device.dot.setAttribute("aria-expanded", on ? "true" : "false");
   }
 
-  /* ---- Under the breakpoint: the centred card owns its point ------------ */
+  /* ---- Under the breakpoint: the centered card owns its point ------------ */
 
   var frame = 0;
 
@@ -161,7 +161,7 @@
       device.dot.addEventListener("click", function () {
         if (!pinned()) {
           /* On the rail the point is a shortcut to the card, not a tooltip
-             of its own — bring the card to the centre. The rail is scrolled
+             of its own — bring the card to the center. The rail is scrolled
              by hand rather than with scrollIntoView, which would also drag
              the page down to it and take the photograph off the screen. */
           var box = rail.getBoundingClientRect();

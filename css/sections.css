@@ -85,7 +85,7 @@
 /* --------------------------------------------------------------------------
    01 — Hero
 
-   One centred column of copy; the system assembles itself around it. Above
+   One centered column of copy; the system assembles itself around it. Above
    --hero-bp the widgets are absolutely placed in the margins, below it they
    collapse into a plain grid under the call to action.
    -------------------------------------------------------------------------- */
@@ -568,7 +568,7 @@
   color: var(--paper-000);
 }
 
-/* ---- The photo: recessed, labelled, and honest about its ratio ---------- */
+/* ---- The photo: recessed, labeled, and honest about its ratio ---------- */
 
 .problem__cell--photo .problem__face {
   display: flex;
@@ -616,7 +616,7 @@
   color: var(--steel-700);
 }
 
-/* ---- The stat: centred, or the number is stranded at the top ------------ */
+/* ---- The stat: centered, or the number is stranded at the top ------------ */
 
 .problem__cell--stat .problem__face {
   justify-content: center;
@@ -747,8 +747,8 @@
    Two layouts, one breakpoint (900px — js/plan.js reads it back off the DOM
    rather than repeating it, so this file stays the only place it is written):
 
-     under it   the cards are a rail beneath the photo, one card centred at a
-                time, and the point belonging to the centred card lights up
+     under it   the cards are a rail beneath the photo, one card centered at a
+                time, and the point belonging to the centered card lights up
      over it    the cards become tooltips that open at their own point
 
    The rail is also the layout the page has with no JavaScript at all: the
@@ -836,7 +836,7 @@
   list-style: none;
 }
 
-/* Placed by its centre. The offset is negative margins rather than a
+/* Placed by its center. The offset is negative margins rather than a
    translate, because the entrance keyframe owns the transform. */
 .plan__pin {
   --dot: 32px;
@@ -911,8 +911,8 @@
 
 /* ---- The cards ---------------------------------------------------------- */
 
-/* The rail: one card centred, the rest waiting either side of it. The side
-   padding is what lets the first and last cards reach the centre; it is
+/* The rail: one card centered, the rest waiting either side of it. The side
+   padding is what lets the first and last cards reach the center; it is
    measured from the rail's own width, which is the container plus the two
    gutters it bleeds into. */
 .plan__rail {
@@ -964,7 +964,7 @@
   border-radius: var(--radius-md);
 }
 
-/* Which card is the centred one is only knowable with the script running, so
+/* Which card is the centered one is only knowable with the script running, so
    the card that is not it is only dimmed once the script says so. */
 [data-plan="live"] .plan__slot .plan__card {
   opacity: 0.62;
@@ -1084,10 +1084,10 @@
      only a shortcut to its card.
 
      Which means only one of them is worth reading at a time: the point
-     belonging to the centred card stays the size and weight it has on the
+     belonging to the centered card stays the size and weight it has on the
      desktop, and the other seven shrink to 60% and fade back to half, so the
      photograph reads through them. The pin's box stays 26px either way, so a
-     point never moves as it fades — only its dot scales, from the centre. */
+     point never moves as it fades — only its dot scales, from the center. */
   .plan__pin {
     --dot: 26px;
   }
@@ -1342,7 +1342,7 @@
 
   /* The stagger, written as the plan it is, and where each node goes when it
      closes up: right, up, or both. The cards stretch to their row, so every
-     horizontal link meets its neighbour at the same height. */
+     horizontal link meets its neighbor at the same height. */
   .grow__node--hub {
     grid-area: 1 / 1;
   }
@@ -1437,5 +1437,538 @@
 @media (min-width: 900px) {
   .grow__node:not(.grow__node--more) .grow__wire--x {
     animation-name: draw-x;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   05 — Calc
+
+   The cost calculator: the one place on the page that asks the visitor for
+   something, so it asks for as little as it can. Three panels in one console,
+   one visible at a time, and a range at the end.
+
+   Nothing here is a form field. Both choice steps are the same object — a
+   soft tile wrapped around a native checkbox or radio, so the keyboard, the
+   label and the state all come for free and the only thing the stylesheet has
+   to do is press the tile in when its input is checked. The refinement step
+   is the system's own sliders.
+
+   The stepping hangs off data-calc="live", which js/calc.js sets and the
+   markup never does: with no script the progress and the two nav buttons stay
+   hidden, all three panels are on the page as one readable form, and the
+   mailto: line underneath is the way out. The same reason section 03's rail
+   is the layout the page has without JavaScript.
+
+   The result reads the range as a dimension line, because that is exactly
+   what the drafting kit is for: two figures and the distance between them.
+   -------------------------------------------------------------------------- */
+
+.calc {
+  padding-block: var(--space-16) var(--space-24);
+}
+
+/* Several things in here are hidden by attribute rather than by class, and
+   the blocks below would otherwise out-specify it. */
+.calc [hidden] {
+  display: none;
+}
+
+.calc__head {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+.calc__title {
+  margin-top: var(--space-4);
+  text-wrap: balance;
+}
+.calc__lede {
+  margin-top: var(--space-5);
+  text-wrap: pretty;
+}
+
+/* ---- The console -------------------------------------------------------- */
+
+/* Narrower than the container: a question with three answers reads worse the
+   wider it is set, and the panel is a control rather than a page. */
+.calc__console {
+  display: grid;
+  gap: var(--space-8);
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+/* The stage keeps a floor under it, so stepping from three tiles to three
+   sliders does not drag the nav buttons up the page under the pointer. It is
+   the height of the two choice steps rather than of the tallest panel — a
+   floor set by the longest step would leave a hole under the shortest. */
+.calc__stage {
+  display: grid;
+  gap: var(--space-10);
+  min-height: 264px;
+  align-content: start;
+}
+
+/* ---- Where you are ------------------------------------------------------ */
+
+.calc__progress {
+  display: grid;
+  gap: var(--space-4);
+}
+.calc__count {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.calc__rail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.calc__tick {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* A recessed track that fills as the visitor gets through it. The step being
+   answered is the loudest; the ones already done step back rather than
+   competing with it, and the ones still to come are empty track. */
+.calc__tick-bar {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--paper-000);
+  box-shadow: var(--shadow-soft-inset);
+  transition: background-color var(--dur-slow) var(--ease),
+    box-shadow var(--dur-slow) var(--ease);
+}
+.calc__tick[data-state="done"] .calc__tick-bar {
+  background: var(--steel-300);
+  box-shadow: var(--shadow-soft-sm);
+}
+.calc__tick[data-state="now"] .calc__tick-bar {
+  background: var(--steel-500);
+  box-shadow: var(--shadow-soft-sm);
+}
+.calc__tick[data-state="now"] .label {
+  color: var(--steel-700);
+}
+.calc__tick[data-state="done"] .label {
+  color: var(--text-muted);
+}
+
+/* ---- A panel ------------------------------------------------------------ */
+
+.calc__panel {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+.calc__panel-head {
+  display: grid;
+  gap: var(--space-2);
+  text-align: center;
+  max-width: 46ch;
+  margin-inline: auto;
+}
+.calc__panel-title {
+  text-wrap: balance;
+}
+
+/* The panel is only ever swapped once the console is live, so the arrival is
+   written here rather than as an entrance in the markup. Going from display:
+   none to a grid is what restarts it — nothing has to be re-triggered. */
+@keyframes calc-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+[data-calc="live"] .calc__panel {
+  animation: calc-in 420ms var(--ease) both;
+}
+
+/* ---- The choice tile ---------------------------------------------------- */
+
+/* One object for both choice steps: a soft tile wrapped around a native
+   checkbox or radio, so the label, the group role and the keyboard are all
+   the browser's own and the stylesheet only has to press the tile in. */
+.calc__choices {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* The input is the system's own .visually-hidden — taken off the page but
+   not out of it, so it is still focusable, still checkable from the keyboard,
+   and still what the label is for. display:none would take all three away. */
+.calc__choice {
+  position: relative;
+  display: grid;
+  cursor: pointer;
+}
+
+.calc__choice-inner {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  height: 100%;
+  min-height: 152px;
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: var(--paper-000);
+  box-shadow: var(--shadow-soft-sm);
+  transition: box-shadow var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.calc__choice:hover .calc__choice-inner {
+  box-shadow: var(--shadow-soft);
+}
+/* Chosen means pressed in, the same thing a tile on the wall panel means. */
+.calc__choice input:checked + .calc__choice-inner {
+  box-shadow: var(--shadow-soft-press);
+}
+.calc__choice input:focus-visible + .calc__choice-inner {
+  box-shadow: var(--shadow-soft-sm), var(--shadow-focus);
+}
+.calc__choice input:checked:focus-visible + .calc__choice-inner {
+  box-shadow: var(--shadow-soft-press), var(--shadow-focus);
+}
+
+.calc__choice-plate {
+  width: 42px;
+  height: 42px;
+}
+.calc__choice-name {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.calc__choice-hint {
+  font-size: var(--text-sm);
+  color: var(--text-subtle);
+}
+.calc__choice input:checked + .calc__choice-inner .calc__choice-name {
+  color: var(--steel-700);
+}
+
+/* The tick is the second reading of the same state: pressed in says it to
+   the eye that is looking at the whole row, the mark to the one on the tile. */
+.calc__choice-mark {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--steel-600);
+  color: var(--text-inverse);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.calc__choice-mark .icon {
+  width: 13px;
+  height: 13px;
+  stroke-width: 2.6;
+}
+.calc__choice input:checked + .calc__choice-inner .calc__choice-mark {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- The refinement ----------------------------------------------------- */
+
+.calc__refines {
+  display: grid;
+  gap: var(--space-6);
+  max-width: 560px;
+  width: 100%;
+  margin-inline: auto;
+}
+.calc__refine {
+  display: grid;
+  gap: var(--space-2);
+}
+.calc__refine + .calc__refine {
+  padding-top: var(--space-6);
+  border-top: var(--hair) solid var(--line-hair);
+}
+.calc__refine-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.calc__refine-head .field__label {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text);
+}
+.calc__refine-value {
+  font-size: var(--text-lg);
+  color: var(--steel-700);
+}
+.calc__scale {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* The lawn is a yes or no rather than a count, so its row is the system's
+   switch instead of a slider. Top-aligned, because the label is two lines
+   and a 28px switch centered against them sits below the name it belongs to. */
+.calc__refine--switch {
+  gap: 0;
+}
+.calc__lawn {
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+.calc__lawn-text {
+  display: grid;
+  gap: var(--space-1);
+}
+.calc__lawn-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text);
+}
+
+/* ---- The answer --------------------------------------------------------- */
+
+.calc__result {
+  justify-items: center;
+  text-align: center;
+}
+
+/* Two figures and the distance between them — the drafting kit's dimension,
+   at display size. The arms have to grow with the numerals or the line reads
+   as a rule with two prices parked on it. */
+.calc__range {
+  width: min(100%, 520px);
+  gap: var(--space-5);
+  /* No effect while the line is there — it is flex:1 and eats the row. It is
+     for the job that has one price rather than a range: with the line and the
+     second figure gone, the figure left over would otherwise sit against the
+     left edge of a row sized for two. */
+  justify-content: center;
+}
+.calc__range-value {
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  font-size: clamp(var(--text-3xl), 5.2vw, var(--text-5xl));
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--steel-800);
+}
+.calc__range .dimension__line::before,
+.calc__range .dimension__line::after {
+  top: -9px;
+  height: 19px;
+}
+
+/* Riding the cap-height of the figure it qualifies, and pulled back in out of
+   the range's own gap — it belongs to the number, not to the row. */
+.calc__range-tax {
+  align-self: flex-start;
+  margin-top: 0.3em;
+  margin-left: calc(var(--space-3) * -1);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--text-subtle);
+  white-space: nowrap;
+}
+
+.calc__spec {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4) var(--space-10);
+  margin: 0;
+}
+.calc__spec > div {
+  display: grid;
+  gap: var(--space-1);
+  justify-items: center;
+}
+.calc__spec dd {
+  margin: 0;
+  font-weight: var(--weight-semibold);
+  color: var(--steel-800);
+}
+
+/* What the two figures are made of, and the only place on the page where a
+   count is set against a name. Hairlines rather than cards: it is a bill,
+   and a bill is ruled. */
+.calc__bill {
+  display: grid;
+  width: min(100%, 440px);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: left;
+  font-size: var(--text-sm);
+}
+.calc__bill li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding-block: var(--space-2);
+  border-bottom: var(--hair) solid var(--line-hair);
+}
+.calc__bill li:last-child {
+  border-bottom: 0;
+}
+.calc__bill-name {
+  color: var(--text-muted);
+}
+.calc__bill-count {
+  color: var(--steel-700);
+  white-space: nowrap;
+}
+/* The work is a percentage of everything above it rather than another line of
+   hardware, so it reads as the total's line and not as one more device. */
+.calc__bill-work {
+  margin-top: var(--space-1);
+  border-top: var(--hair) solid var(--line-soft);
+  padding-top: var(--space-3);
+}
+.calc__bill-work .calc__bill-name {
+  color: var(--text);
+  font-weight: var(--weight-medium);
+}
+.calc__disclaimer {
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+.calc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+/* ---- Getting about ------------------------------------------------------ */
+
+/* Back sits on the left of its own accord, so the row does not have to hold
+   an empty slot open on the first step. */
+.calc__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: var(--hair) solid var(--line-hair);
+}
+.calc__back {
+  margin-right: auto;
+}
+
+/* The way out for anyone the three questions do not fit. It is on the paper
+   rather than inside the console, because it is an alternative to the whole
+   thing and not a fourth step of it. */
+.calc__unique {
+  margin-top: var(--space-6);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-subtle);
+}
+.calc__unique a {
+  color: var(--steel-600);
+  text-decoration-thickness: 1px;
+}
+
+/* ---- Once three tiles stop fitting -------------------------------------- */
+
+@media (max-width: 760px) {
+  .calc__choices {
+    grid-template-columns: 1fr;
+  }
+  /* In one column a tile is a row, so the plate goes beside the name instead
+     of above it and the tile stops being a 150px-tall band of paper. */
+  .calc__choice-inner {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+    min-height: 0;
+    padding-right: var(--space-12);
+  }
+  .calc__choice-plate {
+    grid-row: span 2;
+  }
+  .calc__choice-mark {
+    top: 50%;
+    right: var(--space-5);
+    margin-top: -11px;
+  }
+  .calc__stage {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .calc {
+    padding-block: var(--space-12) var(--space-16);
+  }
+  .calc__head {
+    margin-bottom: var(--space-8);
+  }
+  .calc__lede {
+    font-size: var(--text-lg);
+  }
+  .calc__console {
+    padding: var(--space-6) var(--space-5);
+  }
+  .calc__panel-title {
+    font-size: var(--text-xl);
+  }
+  /* Two prices and a dimension line will not fit across a phone, so the line
+     turns and the range is read down the page instead of across it. */
+  .calc__range {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .calc__range .dimension__line {
+    flex: none;
+    width: var(--hair);
+    height: 28px;
+  }
+  .calc__range .dimension__line::before,
+  .calc__range .dimension__line::after {
+    top: auto;
+    left: -9px;
+    width: 19px;
+    height: var(--hair);
+  }
+  .calc__range .dimension__line::before {
+    top: 0;
+  }
+  .calc__range .dimension__line::after {
+    bottom: 0;
+  }
+  /* Stacked, the tax is a line of its own under the figure rather than a mark
+     riding beside it. */
+  .calc__range-tax {
+    align-self: center;
+    margin: calc(var(--space-2) * -1) 0 0;
+  }
+  .calc__actions .btn {
+    width: 100%;
   }
 }

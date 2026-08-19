@@ -30,7 +30,7 @@
       "hero.body":
         "From lighting and climate to security and everyday routines, your smart home is designed around how you actually live.",
       "hero.cta": "Build My Smart Home",
-      "hero.trust": "Wireless · Modular · Moveable",
+      "hero.trust": "Wireless · Modular · Movable",
 
       "w.climate.room": "Living room",
       "w.climate.name": "Climate",
@@ -66,7 +66,7 @@
         "Either you’re still flipping switches to find out which is which, or you’re four weekends into research with nothing installed.",
 
       "problem.a.label": "Wall by the front door",
-      "problem.a.shot": "Unlabelled switches · a thermostat nobody trusts",
+      "problem.a.shot": "Unlabeled switches · a thermostat nobody trusts",
       "problem.a.quote": "“Which one’s the porch light again?”",
       "problem.a.stat": "14",
       "problem.a.statNote": "switches — 2 you can name",
@@ -187,7 +187,102 @@
       "grow.more": "Whatever comes next",
       "grow.aside.label": "Room to grow",
       "grow.aside.body":
-        "Cameras, blinds, plugs, a sensor for the boiler — each one pairs itself to the hub that is already there. Nothing has to be bought twice."
+        "Cameras, blinds, plugs, a sensor for the boiler — each one pairs itself to the hub that is already there. Nothing has to be bought twice.",
+
+      /* Section 05 — the calculator. Three questions, a range, and the letter
+         it ends in. The subject and the body carry {placeholders} the script
+         fills in rather than sentences it stitches together, which is what
+         lets the Russian letter put the same answers in a different order. */
+      "calc.eyebrow": "What it costs",
+      "calc.title": "A number before anyone comes round.",
+      "calc.lede":
+        "Three questions, and not one of them is an inventory of your windows. What comes back is a range — the same one we would quote you after a survey.",
+
+      "calc.step": "Step {n} of {of}",
+      "calc.left.2": "2 steps left",
+      "calc.left.1": "1 step left",
+      "calc.left.0": "last step",
+      "calc.tick.1": "Vision",
+      "calc.tick.2": "Scale",
+      "calc.tick.3": "Details",
+
+      "calc.s1.title": "What do you want to solve today?",
+      "calc.s1.hint": "Pick as many as apply.",
+      "calc.goal.security.name": "Feeling secure",
+      "calc.goal.security.hint": "Doors, windows, locks, cameras, leaks, garage",
+      "calc.goal.climate.name": "Climate that holds itself",
+      "calc.goal.climate.hint": "Thermostat and room temperature",
+      "calc.goal.light.name": "Light and shade",
+      "calc.goal.light.hint": "Switches, color, LED strips, blinds",
+
+      "calc.s2.title": "How much house are we covering?",
+      "calc.s2.hint": "The footprint is enough — nobody is counting your windows.",
+      "calc.home.flat.name": "Apartment / Condo",
+      "calc.home.flat.hint": "1–2 bedrooms",
+      "calc.home.town.name": "Townhouse",
+      "calc.home.town.hint": "2–3 bedrooms",
+      "calc.home.house.name": "Single family home",
+      "calc.home.house.hint": "3+ bedrooms",
+
+      "calc.s3.title": "Anything that changes the count?",
+      "calc.s3.hint":
+        "Optional. The numbers already there are typical for the home you picked.",
+      "calc.doors.label": "How many exterior doors do you have?",
+      "calc.temp.label": "How many rooms need their own reading?",
+      "calc.lights.label": "How many rooms get light control?",
+      "calc.lawn.label": "Lawn watering",
+      "calc.lawn.hint": "One controller, zoned across the lawn and the beds",
+
+      "calc.back": "Back",
+      "calc.next": "Continue",
+      "calc.see": "See my estimate",
+
+      "calc.result.label": "Your estimate",
+      "calc.result.to": "to",
+      "calc.result.pkg": "Package",
+      "calc.result.home": "Home",
+      "calc.result.tax": "+ tax",
+      "calc.result.note":
+        "This is an estimate. We create your personalized list before starting a project where you can remove or add items.",
+
+      /* The bill under the two figures — one line per kind of device, and the
+         work last, because it is the only line that is a percentage of the
+         rest rather than a count of anything. */
+      "calc.item.hub": "Hub",
+      "calc.item.contact": "Door and window sensors",
+      "calc.item.lock": "Smart locks",
+      "calc.item.camera": "Cameras",
+      "calc.item.leak": "Leak sensors",
+      "calc.item.garage": "Garage door controllers",
+      "calc.item.thermostat": "Thermostat",
+      "calc.item.temp": "Temperature sensors",
+      "calc.item.control": "Light switches",
+      "calc.item.bulb": "Color bulbs and LED strips",
+      "calc.item.blind": "Blind controllers",
+      "calc.item.lawn": "Watering controller",
+      "calc.item.valve": "Water valves",
+      "calc.item.work": "Installation, setup and handover",
+      "calc.cta": "Email the Professional",
+      "calc.again": "Adjust answers",
+
+      /* The package is the goals, in the order the step asks them; all three
+         of them stop being a list and become the whole house. */
+      "calc.pkg.security": "Security",
+      "calc.pkg.climate": "Climate",
+      "calc.pkg.light": "Light",
+      "calc.pkg.join": " & ",
+      "calc.pkg.all": "Whole Home",
+
+      "calc.home.flat.full": "1–2 Bedroom Apartment",
+      "calc.home.town.full": "2–3 Bedroom Townhouse",
+      "calc.home.house.full": "3+ Bedroom Home",
+
+      "calc.mail.subject": "Quote Request: {range} Smart Home",
+      "calc.mail.body":
+        "Hi team, I just used the calculator on your site. I'm interested in the {package} package for my {home}. The estimated range was {range}. I'd love to get a detailed breakdown and hardware list. Let me know the next steps!",
+
+      "calc.unique": "Have a unique project?",
+      "calc.unique.link": "Email us"
     },
 
     ru: {
@@ -350,7 +445,93 @@
       "grow.more": "Что появится потом",
       "grow.aside.label": "Есть куда расти",
       "grow.aside.body":
-        "Камеры, шторы, розетки, датчик у котла — каждое само подключается к уже стоящему хабу. Ничего не придётся покупать дважды."
+        "Камеры, шторы, розетки, датчик у котла — каждое само подключается к уже стоящему хабу. Ничего не придётся покупать дважды.",
+
+      "calc.eyebrow": "Сколько это стоит",
+      "calc.title": "Цифра до того, как кто-то приедет.",
+      "calc.lede":
+        "Три вопроса — и ни одного о том, сколько у вас окон. В ответ вы получите вилку: ту же, что мы назвали бы после осмотра.",
+
+      "calc.step": "Шаг {n} из {of}",
+      "calc.left.2": "осталось 2 шага",
+      "calc.left.1": "остался 1 шаг",
+      "calc.left.0": "последний шаг",
+      "calc.tick.1": "Цель",
+      "calc.tick.2": "Масштаб",
+      "calc.tick.3": "Детали",
+
+      "calc.s1.title": "Что вы хотите решить сегодня?",
+      "calc.s1.hint": "Выберите всё, что подходит.",
+      "calc.goal.security.name": "Спокойствие в доме",
+      "calc.goal.security.hint": "Двери, окна, замки, камеры, протечки, гараж",
+      "calc.goal.climate.name": "Климат, который держится сам",
+      "calc.goal.climate.hint": "Термостат и температура по комнатам",
+      "calc.goal.light.name": "Свет и шторы",
+      "calc.goal.light.hint": "Выключатели, цвет, LED-ленты, шторы",
+
+      "calc.s2.title": "Какой у вас дом?",
+      "calc.s2.hint": "Достаточно общего масштаба — окна никто не считает.",
+      "calc.home.flat.name": "Квартира",
+      "calc.home.flat.hint": "1–2 спальни",
+      "calc.home.town.name": "Таунхаус",
+      "calc.home.town.hint": "2–3 спальни",
+      "calc.home.house.name": "Отдельный дом",
+      "calc.home.house.hint": "от 3 спален",
+
+      "calc.s3.title": "Что-то, что меняет расчёт?",
+      "calc.s3.hint":
+        "Необязательно. Значения уже выставлены — типичные для выбранного дома.",
+      "calc.doors.label": "Сколько у вас наружных дверей?",
+      "calc.temp.label": "Скольким комнатам нужен свой датчик?",
+      "calc.lights.label": "В скольких комнатах управлять светом?",
+      "calc.lawn.label": "Полив газона",
+      "calc.lawn.hint": "Один контроллер, по зонам: газон и грядки",
+
+      "calc.back": "Назад",
+      "calc.next": "Далее",
+      "calc.see": "Показать оценку",
+
+      "calc.result.label": "Ваша оценка",
+      "calc.result.to": "до",
+      "calc.result.pkg": "Пакет",
+      "calc.result.home": "Дом",
+      "calc.result.tax": "+ налог",
+      "calc.result.note":
+        "Это оценка. Перед стартом проекта мы соберём для вас персональный список — из него можно убрать позиции или добавить новые.",
+
+      "calc.item.hub": "Хаб",
+      "calc.item.contact": "Датчики дверей и окон",
+      "calc.item.lock": "Умные замки",
+      "calc.item.camera": "Камеры",
+      "calc.item.leak": "Датчики протечки",
+      "calc.item.garage": "Приводы гаражных ворот",
+      "calc.item.thermostat": "Термостат",
+      "calc.item.temp": "Датчики температуры",
+      "calc.item.control": "Выключатели света",
+      "calc.item.bulb": "Цветные лампы и LED-ленты",
+      "calc.item.blind": "Приводы штор",
+      "calc.item.lawn": "Контроллер полива",
+      "calc.item.valve": "Клапаны полива",
+      "calc.item.work": "Монтаж, настройка и сдача",
+      "calc.cta": "Написать специалисту",
+      "calc.again": "Изменить ответы",
+
+      "calc.pkg.security": "Безопасность",
+      "calc.pkg.climate": "Климат",
+      "calc.pkg.light": "Свет",
+      "calc.pkg.join": " и ",
+      "calc.pkg.all": "Весь дом",
+
+      "calc.home.flat.full": "квартира на 1–2 спальни",
+      "calc.home.town.full": "таунхаус на 2–3 спальни",
+      "calc.home.house.full": "дом от 3 спален",
+
+      "calc.mail.subject": "Запрос сметы: умный дом {range}",
+      "calc.mail.body":
+        "Здравствуйте! Пользуюсь калькулятором на вашем сайте. Интересует пакет «{package}» для варианта «{home}». Оценка получилась {range}. Хочу получить подробный расчёт и список оборудования. Подскажите, какие дальше шаги!",
+
+      "calc.unique": "Нестандартный проект?",
+      "calc.unique.link": "Напишите нам"
     }
   };
 
@@ -407,11 +588,11 @@
       scope.textContent = t(scope.getAttribute("data-i18n"));
     }
 
-    var labelled = scope.querySelectorAll("[data-i18n-aria-label]");
-    for (var j = 0; j < labelled.length; j++) {
-      labelled[j].setAttribute(
+    var labeled = scope.querySelectorAll("[data-i18n-aria-label]");
+    for (var j = 0; j < labeled.length; j++) {
+      labeled[j].setAttribute(
         "aria-label",
-        t(labelled[j].getAttribute("data-i18n-aria-label"))
+        t(labeled[j].getAttribute("data-i18n-aria-label"))
       );
     }
   }

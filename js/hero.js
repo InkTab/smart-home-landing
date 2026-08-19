@@ -244,7 +244,7 @@
       hide: function () {
         window.clearTimeout(connectedTimer);
         strip.classList.remove("is-on");
-        /* Hold the green until it is out of sight, then reset the colour. */
+        /* Hold the green until it is out of sight, then reset the color. */
         window.setTimeout(function () {
           if (!strip.classList.contains("is-on")) paintLink("off");
         }, 400);

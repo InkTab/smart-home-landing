@@ -89,6 +89,32 @@
         <symbol id="i-arrow-right" viewBox="0 0 24 24">
           <path d="M4 12h15.5M13.5 6l6 6-6 6" />
         </symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24">
+          <path d="M12 3 5 6v6c0 4.4 3 8 7 9 4-1 7-4.6 7-9V6Z" />
+          <path d="m9 12 2 2 4-4" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+          <path d="m4.5 12.5 5 5 10-11" />
+        </symbol>
+        <symbol id="i-flat" viewBox="0 0 24 24">
+          <rect x="5" y="3" width="14" height="18" rx="1.5" />
+          <path d="M8.5 7.5h2M13.5 7.5h2M8.5 11.5h2M13.5 11.5h2" />
+          <path d="M10.2 21v-4.6h3.6V21" />
+        </symbol>
+        <symbol id="i-townhouse" viewBox="0 0 24 24">
+          <path d="M2.5 11 7.25 6.5 12 11l4.75-4.5L21.5 11" />
+          <path d="M4.5 10.2V21h15V10.2" />
+          <path d="M12 21v-9.6" />
+        </symbol>
+        <symbol id="i-house" viewBox="0 0 24 24">
+          <path d="M3.5 11 12 4l8.5 7" />
+          <path d="M6 9.9V21h12V9.9" />
+          <path d="M10.1 21v-5.4h3.8V21" />
+        </symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3.9 6.6 8.1 5.9 8.1-5.9" />
+        </symbol>
       </defs>
     </svg>
 
@@ -162,7 +188,7 @@
                 style="--d: 560ms"
                 data-i18n="hero.trust"
               >
-                Wireless · Modular · Moveable
+                Wireless · Modular · Movable
               </p>
             </div>
 
@@ -377,7 +403,7 @@
                   <figure class="problem__face problem__face--front">
                     <div class="frame" data-ratio="25:9">
                       <span class="frame__note label" data-i18n="problem.a.shot"
-                        >Unlabelled switches · a thermostat nobody trusts</span
+                        >Unlabeled switches · a thermostat nobody trusts</span
                       >
                     </div>
                     <figcaption class="problem__caption">
@@ -649,7 +675,7 @@
            on it. Every device is a point on the photograph and a card of the
            same live readings the hero shows. Above the pinned breakpoint the
            card opens at its point; below it the cards drop into a rail under
-           the photo and the point lights up for whichever card is centred.
+           the photo and the point lights up for whichever card is centered.
 
            The rail is the layout the page has without JavaScript. js/plan.js
            is what sets data-plan="live", and only then does the tooltip
@@ -1339,6 +1365,474 @@
           </div>
         </div>
       </section>
+
+      <!-- ==================================================================
+           05 — CALC
+           The cost calculator, and the only place on the page that asks the
+           visitor for anything. Progressive disclosure, three questions:
+           what they want solved, how much house there is, and — only for the
+           goals they actually picked — the one count that moves the price.
+
+           Nobody is asked to inventory their windows. The footprint is the
+           question, and the refinement step asks one critical multiplier per
+           goal: exterior doors for security, rooms for climate, rooms for
+           light. Everything else — windows, cameras, leak sensors, garage
+           doors, blinds — is what the footprint is for. A single family home
+           gets one question nothing else does: the lawn.
+
+           The answer is a range, not a price, and it is a range because the
+           hardware is: a lock is $80 or $280 depending on the door it goes
+           on. The way out of it is a mailto: with the answers already written
+           into the subject and the body — no form, no field, no account.
+           Everything after "Email the Professional" happens in the visitor's
+           own mail client.
+
+           Progress and the two nav buttons are hidden in the markup and
+           unhidden by js/calc.js, so with no script the console is a plain
+           three-part form nobody can get stuck inside, and the line under it
+           is the way out. The stepping only exists once data-calc="live".
+           ================================================================== -->
+      <section class="calc" id="calc" aria-labelledby="calc-title" data-reveal>
+        <div class="container">
+          <header class="calc__head">
+            <p
+              class="label label--accent"
+              data-anim="rise"
+              style="--d: 60ms"
+              data-i18n="calc.eyebrow"
+            >
+              What it costs
+            </p>
+
+            <h2
+              class="display-3 calc__title"
+              id="calc-title"
+              data-anim="rise"
+              style="--d: 160ms"
+              data-i18n="calc.title"
+            >
+              A number before anyone comes round.
+            </h2>
+
+            <p
+              class="lede calc__lede"
+              data-anim="rise"
+              style="--d: 280ms"
+              data-i18n="calc.lede"
+            >
+              Three questions, and not one of them is an inventory of your
+              windows. What comes back is a range — the same one we would quote
+              you after a survey.
+            </p>
+          </header>
+
+          <div
+            class="soft-panel calc__console"
+            data-calc
+            data-anim="pop"
+            style="--d: 420ms"
+          >
+            <!-- Where you are, and how much is left. Both readings are the
+                 script's; the markup carries the English fallback only. -->
+            <div class="calc__progress" data-calc-progress hidden>
+              <div class="calc__count" data-calc-count>
+                <p class="label label--accent" data-calc-step>Step 1 of 3</p>
+                <span class="mono" data-calc-left>2 steps left</span>
+              </div>
+              <ol class="calc__rail">
+                <li class="calc__tick" data-tick="1">
+                  <span class="calc__tick-bar"></span>
+                  <span class="label" data-i18n="calc.tick.1">Vision</span>
+                </li>
+                <li class="calc__tick" data-tick="2">
+                  <span class="calc__tick-bar"></span>
+                  <span class="label" data-i18n="calc.tick.2">Scale</span>
+                </li>
+                <li class="calc__tick" data-tick="3">
+                  <span class="calc__tick-bar"></span>
+                  <span class="label" data-i18n="calc.tick.3">Details</span>
+                </li>
+              </ol>
+            </div>
+
+            <div class="calc__stage">
+              <!-- Step 1 — the vision. Many, because most homes have more
+                   than one thing wrong with them. -->
+              <div
+                class="calc__panel"
+                data-calc-panel="1"
+                role="group"
+                aria-labelledby="calc-s1-title"
+              >
+                <div class="calc__panel-head">
+                  <h3
+                    class="heading-3 calc__panel-title"
+                    id="calc-s1-title"
+                    tabindex="-1"
+                    data-i18n="calc.s1.title"
+                  >
+                    What do you want to solve today?
+                  </h3>
+                  <p class="body-sm" data-i18n="calc.s1.hint">
+                    Pick as many as apply.
+                  </p>
+                </div>
+
+                <div class="calc__choices">
+                  <label class="calc__choice">
+                    <input class="visually-hidden" type="checkbox" data-goal="security" />
+                    <span class="calc__choice-inner">
+                      <span class="icon-plate calc__choice-plate"
+                        ><svg class="icon"><use href="#i-shield" /></svg
+                      ></span>
+                      <span class="calc__choice-name" data-i18n="calc.goal.security.name"
+                        >Feeling secure</span
+                      >
+                      <span class="calc__choice-hint" data-i18n="calc.goal.security.hint"
+                        >Doors, windows, locks, cameras, leaks, garage</span
+                      >
+                      <span class="calc__choice-mark" aria-hidden="true"
+                        ><svg class="icon"><use href="#i-check" /></svg
+                      ></span>
+                    </span>
+                  </label>
+
+                  <label class="calc__choice">
+                    <input class="visually-hidden" type="checkbox" data-goal="climate" />
+                    <span class="calc__choice-inner">
+                      <span class="icon-plate calc__choice-plate"
+                        ><svg class="icon"><use href="#i-thermostat" /></svg
+                      ></span>
+                      <span class="calc__choice-name" data-i18n="calc.goal.climate.name"
+                        >Climate that holds itself</span
+                      >
+                      <span class="calc__choice-hint" data-i18n="calc.goal.climate.hint"
+                        >Thermostat and room temperature</span
+                      >
+                      <span class="calc__choice-mark" aria-hidden="true"
+                        ><svg class="icon"><use href="#i-check" /></svg
+                      ></span>
+                    </span>
+                  </label>
+
+                  <label class="calc__choice">
+                    <input class="visually-hidden" type="checkbox" data-goal="light" />
+                    <span class="calc__choice-inner">
+                      <span class="icon-plate calc__choice-plate"
+                        ><svg class="icon"><use href="#i-bulb" /></svg
+                      ></span>
+                      <span class="calc__choice-name" data-i18n="calc.goal.light.name"
+                        >Light and shade</span
+                      >
+                      <span class="calc__choice-hint" data-i18n="calc.goal.light.hint"
+                        >Switches, color, LED strips, blinds</span
+                      >
+                      <span class="calc__choice-mark" aria-hidden="true"
+                        ><svg class="icon"><use href="#i-check" /></svg
+                      ></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Step 2 — the scale. One of three, and never a count. -->
+              <div
+                class="calc__panel"
+                data-calc-panel="2"
+                role="radiogroup"
+                aria-labelledby="calc-s2-title"
+              >
+                <div class="calc__panel-head">
+                  <h3
+                    class="heading-3 calc__panel-title"
+                    id="calc-s2-title"
+                    tabindex="-1"
+                    data-i18n="calc.s2.title"
+                  >
+                    How much house are we covering?
+                  </h3>
+                  <p class="body-sm" data-i18n="calc.s2.hint">
+                    The footprint is enough — nobody is counting your windows.
+                  </p>
+                </div>
+
+                <div class="calc__choices">
+                  <label class="calc__choice">
+                    <input class="visually-hidden" type="radio" name="calc-home" data-home="flat" />
+                    <span class="calc__choice-inner">
+                      <span class="icon-plate calc__choice-plate"
+                        ><svg class="icon"><use href="#i-flat" /></svg
+                      ></span>
+                      <span class="calc__choice-name" data-i18n="calc.home.flat.name"
+                        >Apartment / Condo</span
+                      >
+                      <span class="calc__choice-hint" data-i18n="calc.home.flat.hint"
+                        >1–2 bedrooms</span
+                      >
+                      <span class="calc__choice-mark" aria-hidden="true"
+                        ><svg class="icon"><use href="#i-check" /></svg
+                      ></span>
+                    </span>
+                  </label>
+
+                  <label class="calc__choice">
+                    <input class="visually-hidden" type="radio" name="calc-home" data-home="town" />
+                    <span class="calc__choice-inner">
+                      <span class="icon-plate calc__choice-plate"
+                        ><svg class="icon"><use href="#i-townhouse" /></svg
+                      ></span>
+                      <span class="calc__choice-name" data-i18n="calc.home.town.name"
+                        >Townhouse</span
+                      >
+                      <span class="calc__choice-hint" data-i18n="calc.home.town.hint"
+                        >2–3 bedrooms</span
+                      >
+                      <span class="calc__choice-mark" aria-hidden="true"
+                        ><svg class="icon"><use href="#i-check" /></svg
+                      ></span>
+                    </span>
+                  </label>
+
+                  <label class="calc__choice">
+                    <input class="visually-hidden" type="radio" name="calc-home" data-home="house" />
+                    <span class="calc__choice-inner">
+                      <span class="icon-plate calc__choice-plate"
+                        ><svg class="icon"><use href="#i-house" /></svg
+                      ></span>
+                      <span class="calc__choice-name" data-i18n="calc.home.house.name"
+                        >Single family home</span
+                      >
+                      <span class="calc__choice-hint" data-i18n="calc.home.house.hint"
+                        >3+ bedrooms</span
+                      >
+                      <span class="calc__choice-mark" aria-hidden="true"
+                        ><svg class="icon"><use href="#i-check" /></svg
+                      ></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Step 3 — the refinement. One question per goal picked, and
+                   nothing that could be guessed from the footprint. Every row
+                   is in the markup; the script takes away the ones whose goal
+                   was not chosen, so with no script all of them are readable.
+
+                   The lawn is the one row that hangs off the footprint rather
+                   than off a goal: it is only ever asked of a house. -->
+              <div
+                class="calc__panel"
+                data-calc-panel="3"
+                role="group"
+                aria-labelledby="calc-s3-title"
+              >
+                <div class="calc__panel-head">
+                  <h3
+                    class="heading-3 calc__panel-title"
+                    id="calc-s3-title"
+                    tabindex="-1"
+                    data-i18n="calc.s3.title"
+                  >
+                    Anything that changes the count?
+                  </h3>
+                  <p class="body-sm" data-i18n="calc.s3.hint">
+                    Optional. The numbers already there are typical for the home
+                    you picked.
+                  </p>
+                </div>
+
+                <!-- The track's fill is a custom property the script keeps
+                     in step with the value; it is written here as well so a
+                     slider that no script ever reaches is not drawn half full
+                     with its thumb at one end. -->
+                <div class="calc__refines">
+                  <div class="calc__refine" data-refine="doors">
+                    <div class="calc__refine-head">
+                      <label class="field__label" for="q-doors" data-i18n="calc.doors.label"
+                        >How many exterior doors do you have?</label
+                      >
+                      <span class="mono calc__refine-value" data-refine-out="doors">1</span>
+                    </div>
+                    <input
+                      class="range"
+                      type="range"
+                      id="q-doors"
+                      style="--fill: 0%"
+                      min="1"
+                      max="6"
+                      step="1"
+                      value="1"
+                      data-refine-in="doors"
+                    />
+                    <div class="calc__scale">
+                      <span class="caption">1</span><span class="caption">6+</span>
+                    </div>
+                  </div>
+
+                  <div class="calc__refine" data-refine="temp">
+                    <div class="calc__refine-head">
+                      <label class="field__label" for="q-temp" data-i18n="calc.temp.label"
+                        >How many rooms need their own reading?</label
+                      >
+                      <span class="mono calc__refine-value" data-refine-out="temp">2</span>
+                    </div>
+                    <input
+                      class="range"
+                      type="range"
+                      id="q-temp"
+                      style="--fill: 14.29%"
+                      min="1"
+                      max="8"
+                      step="1"
+                      value="2"
+                      data-refine-in="temp"
+                    />
+                    <div class="calc__scale">
+                      <span class="caption">1</span><span class="caption">8+</span>
+                    </div>
+                  </div>
+
+                  <div class="calc__refine" data-refine="lights">
+                    <div class="calc__refine-head">
+                      <label class="field__label" for="q-lights" data-i18n="calc.lights.label"
+                        >How many rooms get light control?</label
+                      >
+                      <span class="mono calc__refine-value" data-refine-out="lights">3</span>
+                    </div>
+                    <input
+                      class="range"
+                      type="range"
+                      id="q-lights"
+                      style="--fill: 22.22%"
+                      min="1"
+                      max="10"
+                      step="1"
+                      value="3"
+                      data-refine-in="lights"
+                    />
+                    <div class="calc__scale">
+                      <span class="caption">1</span><span class="caption">10+</span>
+                    </div>
+                  </div>
+
+                  <div class="calc__refine calc__refine--switch" data-refine="lawn">
+                    <label class="switch calc__lawn">
+                      <input type="checkbox" data-lawn />
+                      <span class="calc__lawn-text">
+                        <span class="calc__lawn-name" data-i18n="calc.lawn.label"
+                          >Lawn watering</span
+                        >
+                        <span class="caption" data-i18n="calc.lawn.hint"
+                          >One controller, zoned across the lawn and the beds</span
+                        >
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- The answer. A range read as a dimension line, because that
+                   is what the drafting kit is for — the bill of what is in it
+                   underneath, and the mailto: that carries the whole thing
+                   into the visitor's mail client. -->
+              <div
+                class="calc__panel calc__result"
+                data-calc-panel="result"
+                role="group"
+                aria-labelledby="calc-result-title"
+                hidden
+              >
+                <div class="calc__panel-head">
+                  <h3
+                    class="label label--accent calc__panel-title"
+                    id="calc-result-title"
+                    tabindex="-1"
+                    data-i18n="calc.result.label"
+                  >
+                    Your estimate
+                  </h3>
+                </div>
+
+                <!-- Two figures and the distance between them — except when
+                     there is no distance: a job made only of fixed-price
+                     hardware has one price, and the script takes the second
+                     figure and the line away rather than printing it twice. -->
+                <p class="dimension calc__range" aria-live="polite">
+                  <span class="calc__range-value" data-calc-low>$0</span>
+                  <span class="visually-hidden" data-calc-to data-i18n="calc.result.to"
+                    >to</span
+                  >
+                  <span class="dimension__line" data-calc-span></span>
+                  <span class="calc__range-value" data-calc-high>$0</span>
+                  <span class="calc__range-tax" data-i18n="calc.result.tax">+ tax</span>
+                </p>
+
+                <dl class="calc__spec">
+                  <div>
+                    <dt class="label" data-i18n="calc.result.pkg">Package</dt>
+                    <dd data-calc-pkg>—</dd>
+                  </div>
+                  <div>
+                    <dt class="label" data-i18n="calc.result.home">Home</dt>
+                    <dd data-calc-home>—</dd>
+                  </div>
+                </dl>
+
+                <!-- What the two figures are made of. Counts only: the price
+                     of a lock is the survey's business, not the landing
+                     page's — what belongs here is the shape of the job. -->
+                <ul class="calc__bill" data-calc-bill></ul>
+
+                <p class="caption calc__disclaimer" data-i18n="calc.result.note">
+                  This is an estimate. We create your personalized list before
+                  starting a project where you can remove or add items.
+                </p>
+
+                <div class="calc__actions">
+                  <a
+                    class="btn btn--primary btn--lg"
+                    data-calc-mail
+                    href="mailto:hello@yoursmarthome.com"
+                  >
+                    <svg class="icon" aria-hidden="true"><use href="#i-mail" /></svg>
+                    <span data-i18n="calc.cta">Email the Professional</span>
+                  </a>
+                  <button class="btn btn--ghost" type="button" data-calc-restart>
+                    <span data-i18n="calc.again">Adjust answers</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="calc__nav" data-calc-nav hidden>
+              <button
+                class="btn btn--quiet calc__back"
+                type="button"
+                data-calc-back
+                data-i18n="calc.back"
+              >
+                Back
+              </button>
+              <!-- The forward label is the script's: it reads Continue on
+                   the first two steps and See my estimate on the last, so it
+                   has no key of its own to carry here. -->
+              <button class="btn btn--primary" type="button" data-calc-next>
+                Continue
+              </button>
+            </div>
+          </div>
+
+          <!-- The way out of the calculator for anyone it does not fit: a
+               plain mailto with nothing written into it. -->
+          <p class="calc__unique" data-anim="rise" style="--d: 560ms">
+            <span data-i18n="calc.unique">Have a unique project?</span>
+            <a href="mailto:hello@yoursmarthome.com" data-i18n="calc.unique.link"
+              >Email us</a
+            >
+          </p>
+        </div>
+      </section>
+
     </main>
 
     <script src="js/i18n.js"></script>
@@ -1346,5 +1840,6 @@
     <script src="js/problem.js"></script>
     <script src="js/plan.js"></script>
     <script src="js/hero.js"></script>
+    <script src="js/calc.js"></script>
   </body>
 </html>
