@@ -74,6 +74,39 @@ Fonts (Jura, Inter, IBM Plex Mono) load from Google Fonts, so the page needs a
 network connection to look right; it falls back to system sans and mono stacks
 offline.
 
+## What holds the render
+
+Five things block the first paint, and they are the five stylesheets — they
+are what the first paint looks like, so they should. Nothing else in the head
+does.
+
+The fonts do not. `display=swap` means the copy is drawn in the fallback stack
+and swapped when the faces arrive, so a font stylesheet that blocks paint buys
+nothing at all: it delays the same two-stage render rather than avoiding it.
+So it is fetched as a `preload` and promoted to a stylesheet on load, with the
+same request repeated inside a `<noscript>` for a browser that cannot do the
+promoting. The one caveat is that the promotion is an inline `onload`
+handler — a Content-Security-Policy without `unsafe-inline` would leave the
+page on its fallback stack.
+
+The request asks for the weights the stylesheets actually set and no others:
+
+| face | asked for | why |
+| --- | --- | --- |
+| Jura | 400–600 | 400 on the readings and the brandmark, 500 on the display sizes, 600 on headings and labels |
+| Inter | 400, 500, 600 | body, the medium in controls, and the semibold in titles |
+| IBM Plex Mono | 400 | nothing anywhere sets mono to any other weight |
+
+The scripts do not block either. They are `defer`red and sit in the head, so
+they are fetched alongside the stylesheets rather than after the last of the
+markup, and run in the order written once the document is parsed. Every one of
+them assumes exactly that: they all read the DOM the moment they run, and
+`i18n.js` has to have put `window.Halo` up before the rest go looking for it.
+
+There is no build step, so the five stylesheets stay five requests. Bundling
+them is the only lever left in the head, and it costs the thing that makes
+them readable — a file per layer, in load order.
+
 ## Soft vs drawn
 
 The neumorphic shadows assume one light source at the top-left and the

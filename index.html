@@ -10,16 +10,48 @@
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- The fonts are asked for at the weights the stylesheets actually set
+         and no others: Jura 400-500-600, Inter 400-500-600, and the mono at
+         400, which is the only weight anything ever sets it in.
+
+         Fetched without holding the render. display=swap means the copy is
+         drawn in the fallback stack and swapped when the faces arrive, so a
+         stylesheet that blocks paint buys nothing — it only delays the same
+         two-stage render. The swap to a real stylesheet is what the onload
+         is for, and the noscript is the same request for a browser that
+         cannot run it. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
-    <!-- Load order matters: palette, then semantic, then everything else. -->
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" />
+    </noscript>
+
+    <!-- These do hold the render, and should: they are what the first paint
+         looks like. Load order matters: palette, then semantic, then
+         everything else. -->
     <link rel="stylesheet" href="css/tokens/palette.css" />
     <link rel="stylesheet" href="css/tokens/semantic.css" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/components.css" />
     <link rel="stylesheet" href="css/sections.css" />
+
+    <!-- Deferred, so none of them holds the render, and in the head so they
+         are fetched alongside the stylesheets rather than after the last of
+         the markup. defer keeps them in the order written and runs them once
+         the document is parsed, which is what every one of them assumes: they
+         all read the DOM the moment they run, and i18n.js has to have put
+         window.Halo up before the rest of them go looking for it. -->
+    <script src="js/i18n.js" defer></script>
+    <script src="js/reveal.js" defer></script>
+    <script src="js/problem.js" defer></script>
+    <script src="js/plan.js" defer></script>
+    <script src="js/hero.js" defer></script>
+    <script src="js/calc.js" defer></script>
   </head>
   <body>
     <div class="paper"></div>
@@ -2240,12 +2272,5 @@
       </section>
 
     </main>
-
-    <script src="js/i18n.js"></script>
-    <script src="js/reveal.js"></script>
-    <script src="js/problem.js"></script>
-    <script src="js/plan.js"></script>
-    <script src="js/hero.js"></script>
-    <script src="js/calc.js"></script>
   </body>
 </html>
