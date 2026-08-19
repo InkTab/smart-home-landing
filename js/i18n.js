@@ -96,7 +96,66 @@
       "problem.b.labelAfter": "Kitchen table, Thursday",
       "problem.b.quoteAfter": "“I still don’t know what a hub is.”",
       "problem.b.statAfter": "4h",
-      "problem.b.statNoteAfter": "one visit, start to handover"
+      "problem.b.statNoteAfter": "one visit, start to handover",
+
+      /* Section 03 — the same apartment, finished. Every device is written
+         once here and read twice: by the point on the photograph and by the
+         card that belongs to it. */
+      "plan.eyebrow": "Once it’s in",
+      "plan.title": "The hardware disappears.",
+      "plan.lede":
+        "No new wall of switches, no tablet by the door. A dozen quiet devices you stop noticing by the second week — and a home that simply behaves.",
+      "plan.hint.pointer": "Hover a point to see what is there",
+      "plan.hint.touch": "Swipe the cards — the plan follows",
+      "plan.photo":
+        "Open-plan apartment: living room, kitchen and dining area by a wall of windows",
+      "plan.note": "Two-bedroom loft · installed in one visit",
+
+      "plan.media.pin": "Media, living room",
+      "plan.media.room": "Living room",
+      "plan.media.name": "TV & sound",
+      "plan.media.state": "Standby",
+      "plan.media.note": "One tap for cinema",
+
+      "plan.hub.pin": "Hub, hallway",
+      "plan.hub.room": "Hallway",
+      "plan.hub.name": "Hub",
+      "plan.hub.state": "Online",
+      "plan.hub.note": "12 devices · 4 rooms",
+
+      "plan.climate.pin": "Climate, living room",
+      "plan.climate.room": "Living room",
+      "plan.climate.name": "Climate",
+      "plan.climate.value": "21.8",
+      "plan.climate.note": "Holding 22.0 °C",
+
+      "plan.lights.pin": "Ceiling lights, living room",
+      "plan.lights.room": "Living room",
+      "plan.lights.name": "Ceiling lights",
+      "plan.lights.note": "Evening scene · 2700 K",
+
+      "plan.lock.pin": "Smart lock, entry",
+      "plan.lock.room": "Entry",
+      "plan.lock.name": "Smart lock",
+      "plan.lock.state": "Locked",
+      "plan.lock.note": "Locks behind you",
+
+      "plan.presence.pin": "Presence sensor, hallway",
+      "plan.presence.room": "Hallway",
+      "plan.presence.name": "Presence sensor",
+      "plan.presence.state": "Clear",
+      "plan.presence.note": "The light finds you",
+
+      "plan.leak.pin": "Leak sensor, kitchen",
+      "plan.leak.room": "Kitchen",
+      "plan.leak.name": "Leak sensor",
+      "plan.leak.state": "Dry",
+      "plan.leak.note": "The valve closes on its own",
+
+      "plan.shades.pin": "Shades, dining area",
+      "plan.shades.room": "Dining area",
+      "plan.shades.name": "Shades",
+      "plan.shades.note": "Closing at sunset"
     },
 
     ru: {
@@ -174,7 +233,63 @@
       "problem.b.labelAfter": "Кухонный стол, четверг",
       "problem.b.quoteAfter": "«Я до сих пор не знаю, что такое хаб.»",
       "problem.b.statAfter": "4 ч",
-      "problem.b.statNoteAfter": "один визит — от начала до сдачи"
+      "problem.b.statNoteAfter": "один визит — от начала до сдачи",
+
+      "plan.eyebrow": "Когда всё уже стоит",
+      "plan.title": "Оборудование исчезает.",
+      "plan.lede":
+        "Ни новой стены выключателей, ни планшета у двери. Десяток незаметных устройств, которые перестаёшь замечать на вторую неделю, — и дом, который просто работает.",
+      "plan.hint.pointer": "Наведите на точку — увидите устройство",
+      "plan.hint.touch": "Листайте карточки — план следует за ними",
+      "plan.photo":
+        "Квартира со свободной планировкой: гостиная, кухня и столовая у панорамных окон",
+      "plan.note": "Двухкомнатный лофт · установка за один визит",
+
+      "plan.media.pin": "Медиа, гостиная",
+      "plan.media.room": "Гостиная",
+      "plan.media.name": "ТВ и звук",
+      "plan.media.state": "Ожидание",
+      "plan.media.note": "Кино — одним касанием",
+
+      "plan.hub.pin": "Хаб, прихожая",
+      "plan.hub.room": "Прихожая",
+      "plan.hub.name": "Хаб",
+      "plan.hub.state": "На связи",
+      "plan.hub.note": "12 устройств · 4 зоны",
+
+      "plan.climate.pin": "Климат, гостиная",
+      "plan.climate.room": "Гостиная",
+      "plan.climate.name": "Климат",
+      "plan.climate.value": "21,8",
+      "plan.climate.note": "Держит 22,0 °C",
+
+      "plan.lights.pin": "Потолочный свет, гостиная",
+      "plan.lights.room": "Гостиная",
+      "plan.lights.name": "Потолочный свет",
+      "plan.lights.note": "Вечерний сценарий · 2700 K",
+
+      "plan.lock.pin": "Умный замок, вход",
+      "plan.lock.room": "Вход",
+      "plan.lock.name": "Умный замок",
+      "plan.lock.state": "Заперто",
+      "plan.lock.note": "Закроется за вами",
+
+      "plan.presence.pin": "Датчик присутствия, прихожая",
+      "plan.presence.room": "Прихожая",
+      "plan.presence.name": "Датчик присутствия",
+      "plan.presence.state": "Никого",
+      "plan.presence.note": "Свет находит вас сам",
+
+      "plan.leak.pin": "Датчик протечки, кухня",
+      "plan.leak.room": "Кухня",
+      "plan.leak.name": "Датчик протечки",
+      "plan.leak.state": "Сухо",
+      "plan.leak.note": "Кран перекроется сам",
+
+      "plan.shades.pin": "Шторы, столовая",
+      "plan.shades.room": "Столовая",
+      "plan.shades.name": "Шторы",
+      "plan.shades.note": "Закроются на закате"
     }
   };
 

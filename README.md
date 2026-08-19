@@ -21,8 +21,10 @@ The project root is the website. The design system is a separate folder that
 consumes the same stylesheets.
 
 ```
-index.html                  the landing page — header, section 01 (hero) and
-                            section 02 (the problem)
+index.html                  the landing page — header, section 01 (hero),
+                            section 02 (the problem) and section 03 (the plan)
+assets/
+  appartment.webp           the apartment section 03 marks the hardware on
 css/
   tokens/
     palette.css             raw values — colour ramps and the two light colours
@@ -38,6 +40,7 @@ js/
   reveal.js                 holds a section's entrance until it is on screen
   hero.js                   the hero's door beat
   problem.js                turning a cell of section 02 over
+  plan.js                   pairing a point of section 03 with its card
 design-system/
   design-system.html        the visual playground — every token and component
   design-system.css         layout for the playground sheet only
@@ -216,3 +219,63 @@ and a corner button and a two-line shot note cannot both live inside it —
 whichever corner the button takes, it lands on the note. So on the photo cells
 the toggle drops out of the frame and sits at the end of the caption line
 instead, which a 34px square still leaves room for.
+
+## Section 03 — the plan
+
+The answer to section 02, and the only photograph on the page that is a
+photograph rather than a frame: one apartment, with the hardware marked on it.
+Eight devices, each written once in the markup as a point on the photo and a
+card of the same live readings the hero shows.
+
+| device | where | reads |
+| --- | --- | --- |
+| TV & sound | living room | Standby |
+| hub | hallway | Online |
+| climate | living room | 21.8 °C |
+| ceiling lights | living room | 40 % |
+| smart lock | entry | Locked |
+| presence sensor | hallway | Clear |
+| leak sensor | kitchen | Dry |
+| shades | dining area | 70 % |
+
+The points are placed in per cent of the photo, on the pin and nowhere else —
+`js/plan.js` copies `--x` and `--y` across to the card, so a device's place is
+written once. `data-place` and `data-align` say which way its card hangs off
+the point: centred and above unless the point is too near an edge for that,
+which is why the leftmost and rightmost cards hang off their point instead.
+Every card is inside the photo at every width from 900px up.
+
+### Two layouts, one breakpoint
+
+Only `css/sections.css` says where 900px is. The script reads the layout back
+off the DOM — above the breakpoint the stylesheet lifts the rail out of the
+flow, so `position: absolute` on the rail *is* the question "are we in tooltip
+mode" — and never repeats the width itself.
+
+| | the cards | the points |
+| --- | --- | --- |
+| under 900px | a rail under the photo, one card centred, snapping | the centred card's point is lit |
+| over 900px | tooltips that open at their own point | the open card's point is lit |
+
+Under the breakpoint a point is a shortcut rather than a tooltip: tapping one
+brings its card to the centre of the rail. The rail is scrolled by hand rather
+than with `scrollIntoView`, which would drag the page down to it and take the
+photograph off the screen.
+
+Over it, hovering a point opens its card and hovering the card holds it open —
+there is a 140ms grace period, because the pointer has to cross the gap between
+the two. A click pins a card open until something else is clicked or Escape is
+pressed, which is what a touch device on a wide screen gets. The keyboard gets
+the same card on focus, without the grace period, and `aria-expanded` on the
+point is what says whether it is showing.
+
+The rail is also the layout the page has with no JavaScript: eight cards under
+the photo, in source order, nothing hidden. `data-plan="live"` is set by the
+script and never by the markup, and the tooltip half of the stylesheet hangs
+off it — so a hover that cannot happen can never hide anything.
+
+One thing gives way to the photograph. The neumorphic shadows need the paper
+ground under them and a point or a card sitting on a photo has not got it, so
+those two use the cast-shadow scale instead — the exception section 14 of the
+design system sheet documents. On the rail, where the cards are back on paper,
+they go back to the soft shadow.

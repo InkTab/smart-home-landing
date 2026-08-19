@@ -735,3 +735,378 @@
     padding-right: 42px;
   }
 }
+
+/* --------------------------------------------------------------------------
+   03 — Plan
+
+   The answer to section 02: one photograph of a finished apartment with the
+   hardware marked on it. Every device is a point on the photo and a card of
+   the same live readings the hero shows — the two are one list in the markup,
+   and what changes with the viewport is only where the cards sit.
+
+   Two layouts, one breakpoint (900px — js/plan.js reads it back off the DOM
+   rather than repeating it, so this file stays the only place it is written):
+
+     under it   the cards are a rail beneath the photo, one card centred at a
+                time, and the point belonging to the centred card lights up
+     over it    the cards become tooltips that open at their own point
+
+   The rail is also the layout the page has with no JavaScript at all: the
+   tooltip half only comes on once js/plan.js sets data-plan="live", so no
+   card is ever hidden behind a hover that cannot happen.
+
+   One thing gives way to the photograph. Neumorphic shadows need the paper
+   ground under them, and a point or a card sitting on a photo has not got
+   it — so those two use the cast-shadow scale, which is what it is for.
+   -------------------------------------------------------------------------- */
+
+.plan {
+  padding-block: var(--space-16) var(--space-24);
+}
+
+.plan__head {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  margin-bottom: var(--space-10);
+  text-align: center;
+}
+.plan__title {
+  margin-top: var(--space-4);
+  text-wrap: balance;
+}
+.plan__lede {
+  margin-top: var(--space-5);
+  text-wrap: pretty;
+}
+
+/* One line with two readings of it: which one shows is the breakpoint's
+   business, because "hover" and "swipe" are not the same instruction. */
+.plan__hint {
+  margin-top: var(--space-6);
+  display: flex;
+  justify-content: center;
+}
+.plan__hint--pointer {
+  display: none;
+}
+
+/* ---- The photograph ----------------------------------------------------- */
+
+/* The stage is the positioning context the tooltip layer borrows. Because the
+   layer is out of flow above the breakpoint, the stage is exactly as tall as
+   the photo there, which is what makes the layer's inset:0 land on it. */
+.plan__stage {
+  position: relative;
+  display: grid;
+  gap: var(--space-6);
+}
+
+.plan__figure {
+  position: relative;
+  margin: 0;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+.plan__photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 11 / 6; /* the shot's own crop — 2816 × 1536 */
+  object-fit: cover;
+}
+/* The photo sits *in* the paper, like the frames in section 02 — the recess
+   has to be drawn over the image, so it gets a layer of its own. */
+.plan__figure::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: var(--shadow-soft-inset);
+}
+
+/* ---- The points --------------------------------------------------------- */
+
+.plan__pins {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Placed by its centre. The offset is negative margins rather than a
+   translate, because the entrance keyframe owns the transform. */
+.plan__pin {
+  --dot: 32px;
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--dot);
+  height: var(--dot);
+  margin: calc(var(--dot) / -2) 0 0 calc(var(--dot) / -2);
+}
+
+.plan__dot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: var(--shadow-md); /* cast, not soft: this is not on paper */
+  cursor: pointer;
+  transition: transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+/* The mark itself. A point on a plan is small; the paper disc around it is
+   what makes it findable over a photograph. */
+.plan__dot::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--steel-500);
+  transition: background-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+/* The ring that goes out from the open point — only ever one at a time. */
+.plan__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: var(--hair) solid var(--steel-500);
+  opacity: 0;
+}
+
+.plan__dot:hover,
+.plan__pin.is-active .plan__dot {
+  transform: scale(1.14);
+  box-shadow: var(--shadow-lg);
+}
+.plan__pin.is-active .plan__dot::before {
+  background: var(--steel-700);
+  transform: scale(1.1);
+}
+.plan__pin.is-active .plan__dot::after {
+  animation: plan-ping 2.4s var(--ease) infinite;
+}
+
+@keyframes plan-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* ---- The cards ---------------------------------------------------------- */
+
+/* The rail: one card centred, the rest waiting either side of it. The side
+   padding is what lets the first and last cards reach the centre; it is
+   measured from the rail's own width, which is the container plus the two
+   gutters it bleeds into. */
+.plan__rail {
+  --slot: min(74vw, 264px);
+  display: flex;
+  gap: var(--space-4);
+  margin: 0;
+  margin-inline: calc(var(--space-6) * -1);
+  padding: var(--space-2) 0;
+  padding-inline: calc(50% + var(--space-6) - var(--slot) / 2);
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.plan__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.plan__slot {
+  flex: 0 0 var(--slot);
+  display: grid;
+  scroll-snap-align: center;
+}
+
+.plan__card {
+  gap: var(--space-3);
+  padding: var(--space-5);
+  height: 100%;
+  transition: box-shadow var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+.plan__card .device__reading {
+  font-size: var(--text-3xl);
+}
+/* A word, not a number — it must not tower over the value cards. The
+   modifier is a component's, but a plan card outranks it on its own. */
+.plan__card .device__reading--state {
+  font-size: var(--text-2xl);
+}
+.plan__foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.plan__plate {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+}
+
+/* Which card is the centred one is only knowable with the script running, so
+   the card that is not it is only dimmed once the script says so. */
+[data-plan="live"] .plan__slot .plan__card {
+  opacity: 0.62;
+}
+[data-plan="live"] .plan__slot.is-active .plan__card {
+  opacity: 1;
+  box-shadow: var(--shadow-soft-lg);
+}
+
+.plan__note {
+  margin-top: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+/* ---- Over the breakpoint: the cards go up onto the photograph ----------- */
+
+@media (min-width: 900px) {
+  .plan__hint--pointer {
+    display: inline;
+  }
+  .plan__hint--touch {
+    display: none;
+  }
+
+  /* The rail becomes the tooltip layer, laid exactly over the photo. Only an
+     open card takes the pointer, so the rest of the photo stays hoverable. */
+  [data-plan="live"] .plan__rail {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: block;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+    pointer-events: none;
+  }
+
+  /* Placed at the point it belongs to — js/plan.js copies --x and --y across
+     from the pin, so the coordinates stay written in one place. --tx and --ty
+     are how the card hangs off that point, and --caret follows them. */
+  [data-plan="live"] .plan__slot {
+    --tx: -50%;
+    --ty: calc(-100% - 18px);
+    --caret: 50%;
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: 244px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(var(--tx), calc(var(--ty) + 8px));
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease),
+      visibility 0s linear var(--dur);
+  }
+  [data-plan="live"] .plan__slot[data-place="below"] {
+    --ty: 18px;
+  }
+  [data-plan="live"] .plan__slot[data-align="start"] {
+    --tx: -22px;
+    --caret: 22px;
+  }
+  [data-plan="live"] .plan__slot[data-align="end"] {
+    --tx: calc(-100% + 22px);
+    --caret: calc(100% - 22px);
+  }
+
+  [data-plan="live"] .plan__slot.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(var(--tx), var(--ty));
+    transition-delay: 0s;
+  }
+
+  /* Off the paper and onto the photograph: cast shadow, and the dimming the
+     rail needs has no meaning when only one card is ever showing. Written to
+     the same weight as the rule it undoes, so it has to come after it. */
+  [data-plan="live"] .plan__slot .plan__card {
+    opacity: 1;
+    box-shadow: var(--shadow-lg);
+  }
+  /* The card points back at its own point. */
+  [data-plan="live"] .plan__card::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: var(--caret);
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    background: var(--surface);
+    transform: translateX(-50%) rotate(45deg);
+  }
+  [data-plan="live"] .plan__slot[data-place="below"] .plan__card::after {
+    bottom: auto;
+    top: -5px;
+  }
+}
+
+@media (max-width: 560px) {
+  .plan {
+    padding-block: var(--space-12) var(--space-16);
+  }
+  .plan__head {
+    margin-bottom: var(--space-8);
+  }
+  .plan__lede {
+    font-size: var(--text-lg);
+  }
+  /* The photo is about 190px tall here, so the points have to come down or
+     the closest pair of them touches. They are markers rather than controls
+     now — the rail below is what is actually read, and tapping a point is
+     only a shortcut to its card.
+
+     Which means only one of them is worth reading at a time: the point
+     belonging to the centred card stays the size and weight it has on the
+     desktop, and the other seven shrink to 60% and fade back to half, so the
+     photograph reads through them. The pin's box stays 26px either way, so a
+     point never moves as it fades — only its dot scales, from the centre. */
+  .plan__pin {
+    --dot: 26px;
+  }
+  .plan__dot::before {
+    width: 8px;
+    height: 8px;
+  }
+  .plan__pin:not(.is-active) .plan__dot {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  .plan__card {
+    padding: var(--space-4);
+  }
+  .plan__card .device__reading {
+    font-size: var(--text-2xl);
+  }
+  .plan__card .label {
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+  }
+}
