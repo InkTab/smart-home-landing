@@ -32,7 +32,9 @@
     devices.push({
       pin: pin,
       slot: slot,
-      dot: pin.querySelector(".plan__dot")
+      dot: pin.querySelector(".plan__dot"),
+      left: 0, /* filled by measure(); rail-content coordinates, not viewport */
+      width: 0
     });
   }
   if (!devices.length) return;
@@ -79,19 +81,48 @@
   /* ---- Under the breakpoint: the centered card owns its point ------------ */
 
   var frame = 0;
+  var railMid = 0;
+  var span = 0; /* rail.scrollWidth when the places below were taken */
+
+  /* The rail scrolls but its cards never move within it, so their places hold until
+     the viewport changes. Measured in one batch so scan() can be all reads-then-writes.
+
+     The origin has to be normalised: the entrance animation puts a transform on the
+     rail, which makes it the offsetParent, and `rise` ends at transform:none, which
+     hands that role back to .plan__stage. Same card, two different offsetLeft values. */
+  function measure() {
+    railMid = rail.clientWidth / 2;
+    span = rail.scrollWidth;
+
+    for (var i = 0; i < devices.length; i++) {
+      var slot = devices[i].slot;
+      var base = slot.offsetParent === rail ? 0 : rail.offsetLeft + rail.clientLeft;
+      devices[i].left = slot.offsetLeft - base;
+      devices[i].width = slot.offsetWidth;
+    }
+  }
+
+  /* Where the rail's centre sits in card coordinates, in the cards' own units. */
+  function centre() {
+    return rail.scrollLeft + railMid;
+  }
 
   function scan() {
     frame = 0;
     if (pinned) return;
 
-    var box = rail.getBoundingClientRect();
-    var middle = box.left + box.width / 2;
+    /* Not everything that moves the cards resizes the window: the gaps are rem, so a
+       change of root font size shifts them silently. It leaves no box a ResizeObserver
+       would see — only the total — and layout is clean here, so this read is not a
+       reflow, just the cheapest signal that the places are worth taking again. */
+    if (rail.scrollWidth !== span) measure();
+
+    var middle = centre();
     var nearest = null;
     var shortest = Infinity;
 
     for (var i = 0; i < devices.length; i++) {
-      var card = devices[i].slot.getBoundingClientRect();
-      var away = Math.abs(card.left + card.width / 2 - middle);
+      var away = Math.abs(devices[i].left + devices[i].width / 2 - middle);
       if (away < shortest) {
         shortest = away;
         nearest = devices[i];
@@ -139,11 +170,10 @@
 
       device.dot.addEventListener("click", function () {
         if (!pinned) {
-          /* Center the card by hand: scrollIntoView would also drag the photo off screen. */
-          var box = rail.getBoundingClientRect();
-          var card = device.slot.getBoundingClientRect();
+          /* Center the card by hand: scrollIntoView would also drag the photo off screen.
+             Off the same cache as scan(), or the snapped card and the lit one can differ. */
           rail.scrollBy({
-            left: card.left + card.width / 2 - (box.left + box.width / 2),
+            left: device.left + device.width / 2 - centre(),
             behavior: "smooth"
           });
           return;
@@ -191,8 +221,12 @@
      query.matches is a cached flag, not a style recalc like getComputedStyle was. */
   function relayout() {
     pinned = query.matches;
-    if (pinned) clear();
-    else rescan();
+    if (pinned) {
+      clear();
+      return;
+    }
+    measure();
+    rescan();
   }
 
   /* addListener is the Safari < 14 spelling, and this file still carries ES5. */
@@ -203,5 +237,5 @@
 
   /* Set here, never in markup: with no script the cards stay a plain readable rail. */
   section.setAttribute("data-plan", "live");
-  rescan();
+  relayout();
 })(window, document);
