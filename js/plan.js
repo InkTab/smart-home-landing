@@ -37,10 +37,11 @@
   }
   if (!devices.length) return;
 
-  /* Which layout is running, read off the DOM so the breakpoint lives only in the CSS. */
-  function pinned() {
-    return window.getComputedStyle(rail).position === "absolute";
-  }
+  /* Which layout is running. Must stay in step with the .plan__rail breakpoint in
+     sections.css — the one place the value is duplicated outside the stylesheet. */
+  var PINNED_AT = "(min-width: 900px)";
+  var query = window.matchMedia(PINNED_AT);
+  var pinned = query.matches;
 
   /* ---- Above the breakpoint: one card open at its point ----------------- */
 
@@ -81,7 +82,7 @@
 
   function scan() {
     frame = 0;
-    if (pinned()) return;
+    if (pinned) return;
 
     var box = rail.getBoundingClientRect();
     var middle = box.left + box.width / 2;
@@ -115,29 +116,29 @@
   for (var k = 0; k < devices.length; k++) {
     (function (device) {
       device.pin.addEventListener("mouseenter", function () {
-        if (pinned() && !held) show(device);
+        if (pinned && !held) show(device);
       });
       device.pin.addEventListener("mouseleave", function () {
-        if (pinned() && !held) hide();
+        if (pinned && !held) hide();
       });
       /* Hovering the card holds it open, or it shuts as the pointer reaches it. */
       device.slot.addEventListener("mouseenter", function () {
-        if (pinned() && !held) show(device);
+        if (pinned && !held) show(device);
       });
       device.slot.addEventListener("mouseleave", function () {
-        if (pinned() && !held) hide();
+        if (pinned && !held) hide();
       });
 
       /* The keyboard gets the same card, without the grace period. */
       device.dot.addEventListener("focus", function () {
-        if (pinned()) show(device);
+        if (pinned) show(device);
       });
       device.dot.addEventListener("blur", function () {
-        if (pinned() && !held) hide(true);
+        if (pinned && !held) hide(true);
       });
 
       device.dot.addEventListener("click", function () {
-        if (!pinned()) {
+        if (!pinned) {
           /* Center the card by hand: scrollIntoView would also drag the photo off screen. */
           var box = rail.getBoundingClientRect();
           var card = device.slot.getBoundingClientRect();
@@ -175,17 +176,30 @@
   });
 
   rail.addEventListener("scroll", rescan, { passive: true });
-  window.addEventListener("resize", function () {
-    if (pinned()) {
-      hide(true);
-      for (var i = 0; i < devices.length; i++) {
-        devices[i].slot.classList.remove("is-active");
-        devices[i].pin.classList.remove("is-active");
-      }
-    } else {
-      rescan();
+
+  /* Above the breakpoint nothing is centered, so the scan's marks would stick. */
+  function clear() {
+    hide(true);
+    for (var i = 0; i < devices.length; i++) {
+      devices[i].slot.classList.remove("is-active");
+      devices[i].pin.classList.remove("is-active");
     }
-  });
+  }
+
+  /* The only place pinned is written. Re-read here rather than trusting the change
+     event alone, so a missed one cannot strand the layout in the wrong mode;
+     query.matches is a cached flag, not a style recalc like getComputedStyle was. */
+  function relayout() {
+    pinned = query.matches;
+    if (pinned) clear();
+    else rescan();
+  }
+
+  /* addListener is the Safari < 14 spelling, and this file still carries ES5. */
+  if (query.addEventListener) query.addEventListener("change", relayout);
+  else query.addListener(relayout);
+
+  window.addEventListener("resize", relayout);
 
   /* Set here, never in markup: with no script the cards stay a plain readable rail. */
   section.setAttribute("data-plan", "live");
