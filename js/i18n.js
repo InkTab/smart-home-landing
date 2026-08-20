@@ -324,7 +324,17 @@
         "If something is behaving oddly we look at the system from here, and usually fix it without coming round.",
 
       "adapt.dim.from": "Handover",
-      "adapt.dim.to": "12 months"
+      "adapt.dim.to": "12 months",
+
+      /* Section 08 — brand names stay untranslated; only the frame around them moves. */
+      "trust.eyebrow": "What goes in",
+      "trust.title": "We build on Aqara.",
+      "trust.lede":
+        "One manufacturer, so every device in the house pairs the same way and answers to the same hub.",
+      "trust.brandNote": "the hardware we install",
+      "trust.railLabel": "Works with",
+      "trust.note":
+        "Every name and mark above belongs to its owner, and is shown only to say what the system connects to."
     },
 
     ru: {
@@ -636,7 +646,16 @@
         "Если что-то ведёт себя странно, мы посмотрим систему отсюда и обычно починим, не приезжая.",
 
       "adapt.dim.from": "Сдача",
-      "adapt.dim.to": "12 месяцев"
+      "adapt.dim.to": "12 месяцев",
+
+      "trust.eyebrow": "Что ставим",
+      "trust.title": "Мы строим на Aqara.",
+      "trust.lede":
+        "Один производитель — значит, все устройства в доме подключаются одинаково и слушаются одного хаба.",
+      "trust.brandNote": "оборудование, которое мы ставим",
+      "trust.railLabel": "Работает с",
+      "trust.note":
+        "Все названия и знаки принадлежат их владельцам и показаны только чтобы обозначить совместимость."
     }
   };
 

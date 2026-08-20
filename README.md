@@ -24,8 +24,9 @@ consumes the same stylesheets.
 index.html                  the landing page — header, section 01 (hero),
                             section 02 (the problem), section 03 (the plan),
                             section 04 (starting small), section 05 (what it
-                            costs), section 06 (how it goes) and section 07
-                            (what happens after)
+                            costs), section 06 (how it goes), section 07
+                            (what happens after) and section 08 (the brand
+                            and the ecosystems it works with)
 assets/
   appartment.webp           the apartment section 03 marks the hardware on
 css/
@@ -47,7 +48,7 @@ js/
                             (section 04 has no script — it is choreography)
   calc.js                   section 05: the three questions, the sum, and the
                             mailto: the answer is written into
-                            (sections 06 and 07 have no script — they are
+                            (sections 06, 07 and 08 have no script — they are
                             choreography)
 design-system/
   design-system.html        the visual playground — every token and component
@@ -745,3 +746,71 @@ Nothing here is interactive, so there is no script: the section is the
 entrance choreography, held by `data-reveal` until it is on screen. The three
 covered lines arrive one after another rather than with the panel, which is
 what keeps a dark rectangle from landing on the page fully written.
+
+## Section 08 — the brand, and what it works with
+
+The page has argued for a system without ever saying whose. That is fine while
+the argument is about how you live, and it stops being fine after the price and
+the year of support: by section 07 the visitor has been asked to trust an
+installer, and the last unasked question is what is actually going on the wall
+and whether it will talk to the phone they already own.
+
+So the section is two statements and nothing else. Aqara, alone and larger than
+anything around it, and then a rule that says `Works with` and the platforms on
+the other side of it. No cards, no claims, no copy under the marks — a logo row
+that explains itself is a logo row that is not confident.
+
+| piece | what it is |
+| --- | --- |
+| the lockup | the Aqara wordmark at `--steel-700`, full strength, with a mono note under it |
+| the rail | a hairline either side of a `.label` — the sheet's way of writing *and* |
+| the row | nine marks at `--text-subtle`, `opacity: .62`, lifting to `--steel-700` on hover |
+
+### Why the marks are not all the same height
+
+Equal pixel height is the wrong normal for a logo row. A square glyph at 26px
+and a wordmark at 26px do not read as the same size — the wordmark is 26px of
+cap height carried across 100px of width, and it shouts. Each mark therefore
+sets its own `--logo-h` in the markup, tuned by eye against its neighbours,
+and `.trust__logo` only supplies the fallback:
+
+| | Apple | Google Home | Alexa | SmartThings | Matter | Thread | Zigbee | Home Assistant | IFTTT |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `--logo-h` | 23 | 25 | 31 | 26 | 21 | 16.5 | 26 | 26 | 15 |
+
+Alexa is the tallest because its box carries the swoosh below the word, so the
+word itself lands near 22px. IFTTT and Thread are the shortest because both are
+set in a heavy face and read larger than they measure.
+
+Every mark is inline SVG with `fill="currentColor"` and no colour of its own,
+so a single `color` on the parent tones the whole row down and a single hover
+brings one back up. `height` is set and `width` is `auto`, which the viewBox
+resolves — nothing is distorted and no aspect ratio is hard-coded.
+
+### Where the artwork came from
+
+| source | marks |
+| --- | --- |
+| aqara.com | Aqara |
+| simple-icons (CC0) | Apple, Google Home, SmartThings, IFTTT, Zigbee, Home Assistant |
+| Wikimedia Commons | Amazon Alexa, Matter, Thread |
+
+Alexa and Amazon were withdrawn from simple-icons at the trademark holder's
+request, and Aqara and Matter were never in it, which is why the row is not
+sourced from one place. Each file was stripped to its path data — every fill,
+style, class and editor attribute removed — so nothing arrives with a colour or
+a script attached.
+
+The names are held in `<title>` inside each `<svg>`, not in the dictionary:
+brand names do not translate, and section 08 is the only part of the page where
+the RU switch changes the frame and leaves the contents alone.
+
+### One layout
+
+The row is a centred `flex` that wraps, so there is no breakpoint. All nine fit
+on one line at 900px and fall to 4/3/2 on a phone. The section is the entrance
+choreography and nothing else, so there is no script: the marks arrive left to
+right, 60ms apart, after the rule they hang from.
+
+The caption under the row is not decoration. The page is claiming compatibility,
+not partnership, and the difference is worth one line of `--text-subtle`.
