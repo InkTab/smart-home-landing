@@ -82,7 +82,6 @@
 
   var frame = 0;
   var railMid = 0;
-  var span = 0; /* rail.scrollWidth when the places below were taken */
 
   /* The rail scrolls but its cards never move within it, so their places hold until
      the viewport changes. Measured in one batch so scan() can be all reads-then-writes.
@@ -92,7 +91,6 @@
      hands that role back to .plan__stage. Same card, two different offsetLeft values. */
   function measure() {
     railMid = rail.clientWidth / 2;
-    span = rail.scrollWidth;
 
     for (var i = 0; i < devices.length; i++) {
       var slot = devices[i].slot;
@@ -110,12 +108,6 @@
   function scan() {
     frame = 0;
     if (pinned) return;
-
-    /* Not everything that moves the cards resizes the window: the gaps are rem, so a
-       change of root font size shifts them silently. It leaves no box a ResizeObserver
-       would see — only the total — and layout is clean here, so this read is not a
-       reflow, just the cheapest signal that the places are worth taking again. */
-    if (rail.scrollWidth !== span) measure();
 
     var middle = centre();
     var nearest = null;
@@ -234,6 +226,19 @@
   else query.addListener(relayout);
 
   window.addEventListener("resize", relayout);
+
+  /* The places now change only here, never mid-scroll. The rail's own box covers the
+     viewport cases; the slots cover the ones it cannot see — a root font-size change
+     shifting the rem gaps, or a late image growing a card. */
+  if (window.ResizeObserver) {
+    var watcher = new window.ResizeObserver(function () {
+      if (pinned) return;
+      measure();
+      rescan();
+    });
+    watcher.observe(rail);
+    for (var w = 0; w < devices.length; w++) watcher.observe(devices[w].slot);
+  }
 
   /* Set here, never in markup: with no script the cards stay a plain readable rail. */
   section.setAttribute("data-plan", "live");
