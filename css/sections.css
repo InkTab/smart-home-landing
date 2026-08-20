@@ -2140,3 +2140,117 @@
     padding: var(--space-6);
   }
 }
+
+/* ---- 08 — Trust · 900px · no script ------------------------------------ */
+
+/* One brand above the rule, the ecosystems below it. Marks are monochrome and
+   quiet by default: a logo row that shouts competes with the section it sits in. */
+
+.trust {
+  padding-block: var(--space-16) var(--space-20);
+}
+
+.trust__head {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  text-align: center;
+}
+.trust__title {
+  margin-top: var(--space-4);
+  text-wrap: balance;
+}
+.trust__lede {
+  margin-top: var(--space-5);
+  text-wrap: pretty;
+}
+
+/* ---- The brand ---------------------------------------------------------- */
+
+.trust__lockup {
+  margin-top: var(--space-12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Height drives it; the viewBox gives the width, so the wordmark never distorts. */
+.trust__brand {
+  height: 38px;
+  width: auto;
+  color: var(--steel-700);
+}
+
+.trust__brand-note {
+  color: var(--text-subtle);
+  text-align: center;
+}
+
+/* ---- The rule, with its label sitting in the gap ------------------------ */
+
+.trust__rail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 640px;
+  margin: var(--space-10) auto var(--space-8);
+}
+.trust__rail-line {
+  flex: 1;
+  height: var(--hair);
+  background: var(--line-hair);
+}
+.trust__rail-label {
+  flex: none;
+}
+
+/* ---- The logos ---------------------------------------------------------- */
+
+/* Row-gap is the tighter of the two: wrapped rows should not read as separate groups. */
+.trust__logos {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: var(--space-10);
+  row-gap: var(--space-8);
+}
+
+/* A fixed line box, so wordmarks and square glyphs sit on one optical baseline. */
+.trust__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+}
+
+/* --logo-h is set per mark in the markup — equal pixel height would make the
+   square glyphs tower over the wordmarks. Muted until pointed at. */
+.trust__logo {
+  height: var(--logo-h, 24px);
+  width: auto;
+  color: var(--text-subtle);
+  opacity: 0.62;
+  transition: opacity var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.trust__item:hover .trust__logo {
+  color: var(--steel-700);
+  opacity: 1;
+}
+
+.trust__note {
+  max-width: var(--container-narrow);
+  margin: var(--space-10) auto 0;
+  text-align: center;
+  text-wrap: pretty;
+}
+
+@media (min-width: 700px) {
+  .trust__logos {
+    column-gap: var(--space-12);
+  }
+}
