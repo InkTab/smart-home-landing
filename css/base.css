@@ -24,6 +24,16 @@ body {
   background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* A page shorter than the screen — a legal page — still puts its footer on
+     the fold rather than halfway up the paper. svh is the toolbar-visible
+     height, which is the one a footer should sit at. */
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+body > main {
+  flex: 1 0 auto;
 }
 
 img,

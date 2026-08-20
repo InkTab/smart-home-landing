@@ -141,3 +141,10 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# macOS
+.DS_Store
+
+# Agent instructions — local to whoever is working, not to the project.
+# No leading slash, so this matches .claude/CLAUDE.md too.
+CLAUDE.md

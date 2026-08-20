@@ -634,6 +634,12 @@
 .card--ink .label {
   color: var(--steel-300);
 }
+/* Mono is set --text-muted for paper, which is all but black on the ink ground.
+   It takes --steel-300, the same step the label does: mono is the lighter face
+   of the two and --steel-400 leaves it faint at annotation sizes. */
+.card--ink .mono {
+  color: var(--steel-300);
+}
 .card--ink .card__foot {
   border-top-color: rgba(255, 255, 255, 0.16);
 }
