@@ -227,9 +227,9 @@
 
   window.addEventListener("resize", relayout);
 
-  /* The places now change only here, never mid-scroll. The rail's own box covers the
-     viewport cases; the slots cover the ones it cannot see — a root font-size change
-     shifting the rem gaps, or a late image growing a card. */
+  /* The places now change only here, never mid-scroll. The rail alone is enough: its
+     height follows the tallest card, so a root font-size change — which moves the cards
+     by shifting the rem gaps, without touching any width — still comes through. */
   if (window.ResizeObserver) {
     var watcher = new window.ResizeObserver(function () {
       if (pinned) return;
@@ -237,7 +237,6 @@
       rescan();
     });
     watcher.observe(rail);
-    for (var w = 0; w < devices.length; w++) watcher.observe(devices[w].slot);
   }
 
   /* Set here, never in markup: with no script the cards stay a plain readable rail. */
