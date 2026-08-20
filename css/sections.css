@@ -2254,3 +2254,403 @@
     column-gap: var(--space-12);
   }
 }
+
+/* ---- 09 — FAQ · 560px · no script -------------------------------------- */
+
+/* The register at the back of the drawing: numbered notes, each folded away
+   until it is asked for. <details> is the disclosure, so nothing here is
+   state the page has to keep. */
+
+.faq {
+  padding-block: var(--space-16) var(--space-24);
+}
+
+.faq__head {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  text-align: center;
+}
+.faq__title {
+  margin-top: var(--space-4);
+  text-wrap: balance;
+}
+.faq__lede {
+  margin-top: var(--space-5);
+  text-wrap: pretty;
+}
+
+/* ---- The register ------------------------------------------------------- */
+
+/* The index column is declared once here: the question sits after it and the
+   answer starts where the question does, so one pair of values places both. */
+.faq__list {
+  --faq-index: 26px;
+  --faq-gap: var(--space-4);
+  list-style: none;
+  padding: 0;
+  margin: var(--space-12) auto 0;
+  max-width: 860px;
+  border-bottom: var(--hair) solid var(--line-hair);
+}
+.faq__item {
+  border-top: var(--hair) solid var(--line-hair);
+}
+
+.faq__q {
+  display: grid;
+  grid-template-columns: var(--faq-index) minmax(0, 1fr) auto;
+  column-gap: var(--faq-gap);
+  align-items: baseline;
+  padding-block: var(--space-5);
+  cursor: pointer;
+  list-style: none;
+}
+.faq__q::-webkit-details-marker {
+  display: none;
+}
+.faq__q:focus-visible {
+  border-radius: var(--radius-md);
+}
+
+/* Centered in its column, so the bracket down the side of the answer lands
+   under the numeral rather than beside it. */
+.faq__index {
+  text-align: center;
+  color: var(--text-subtle);
+  transition: color var(--dur) var(--ease);
+}
+
+/* Not a heading: a question is a line of the register, and <summary> is
+   already announced as the control that opens it. */
+.faq__label {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--text);
+  text-wrap: pretty;
+  transition: color var(--dur) var(--ease);
+}
+
+.faq__q:hover .faq__index,
+.faq__row[open] .faq__index {
+  color: var(--steel-600);
+}
+.faq__row[open] .faq__label {
+  color: var(--steel-700);
+}
+
+/* ---- The mark ----------------------------------------------------------- */
+
+/* Two hairlines rather than a glyph, so the control belongs to the drawing.
+   An empty box takes its baseline from its bottom edge, so a 13px one sits its
+   bars level with the index — first line of the question, however many it runs
+   to. */
+.faq__mark {
+  position: relative;
+  width: 13px;
+  height: 13px;
+  color: var(--line-strong);
+  transition: color var(--dur) var(--ease);
+}
+.faq__mark::before,
+.faq__mark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Not translateY: the transform is spent on the quarter-turn. */
+  top: calc(50% - var(--hair) / 2);
+  height: var(--hair);
+  background: currentColor;
+  transition: transform var(--dur-slow) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+.faq__mark::after {
+  transform: rotate(90deg);
+}
+/* The plus turns a quarter and loses its upright — a minus, never a cross. */
+.faq__row[open] .faq__mark::after {
+  transform: rotate(180deg);
+  opacity: 0;
+}
+.faq__q:hover .faq__mark {
+  color: var(--steel-600);
+}
+
+/* ---- The answer --------------------------------------------------------- */
+
+.faq__a {
+  position: relative;
+  padding-left: calc(var(--faq-index) + var(--faq-gap));
+  padding-bottom: var(--space-6);
+}
+/* A note on a drawing is bracketed to its number, so the answer is too. */
+.faq__a::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--faq-index) / 2);
+  top: 0;
+  bottom: var(--space-6);
+  width: var(--hair);
+  background: var(--line-hair);
+}
+.faq__text {
+  max-width: 62ch;
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+  text-wrap: pretty;
+}
+
+/* The answer is created on open, so its arrival is a keyframe: there is no
+   earlier state for a transition to start from. */
+@keyframes faq-open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.faq__row[open] .faq__a {
+  animation: faq-open var(--dur-slow) var(--ease) both;
+}
+
+/* Where the box's own height can be interpolated the fold opens; everywhere
+   else the height snaps and only the copy fades in. Scoped to the section:
+   interpolate-size inherits, and nothing else on the page asked for it. */
+@supports (interpolate-size: allow-keywords) {
+  .faq {
+    interpolate-size: allow-keywords;
+  }
+  .faq__row::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size var(--dur-slow) var(--ease),
+      content-visibility var(--dur-slow) var(--ease) allow-discrete;
+  }
+  .faq__row[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* ---- The way out -------------------------------------------------------- */
+
+.faq__ask {
+  margin-top: var(--space-10);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-subtle);
+}
+.faq__ask a {
+  color: var(--steel-600);
+  text-decoration-thickness: 1px;
+}
+
+@media (max-width: 560px) {
+  .faq {
+    padding-block: var(--space-12) var(--space-16);
+  }
+  .faq__lede {
+    font-size: var(--text-lg);
+  }
+  .faq__list {
+    --faq-index: 20px;
+    --faq-gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+  .faq__label {
+    font-size: var(--text-md);
+  }
+}
+
+/* ---- 10 — CTA · 560px · no script -------------------------------------- */
+
+/* The close: the calculator asked for one more time. The page's second and
+   last ink panel — section 07 takes the paper away for the one new claim, and
+   this takes it away for the one thing the page wants done. */
+
+.cta {
+  padding-block: var(--space-8) var(--space-24);
+}
+
+/* The card's own flex gap would compound with the margins below, and this is a
+   centered stack of head elements like every other section head on the page. */
+.cta__panel {
+  gap: 0;
+  max-width: 900px;
+  margin-inline: auto;
+  padding: var(--space-16) var(--space-12);
+  align-items: center;
+  text-align: center;
+}
+
+.cta__title {
+  margin-top: var(--space-4);
+  color: var(--paper-000);
+  text-wrap: balance;
+}
+.cta__lede {
+  margin-top: var(--space-5);
+  max-width: 52ch;
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--steel-200);
+  text-wrap: pretty;
+}
+
+/* The pair the page has had all along: the calculator, and a person. */
+.cta__actions {
+  margin-top: var(--space-10);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+/* A line to be read rather than a value to be checked, so it steps up from the
+   sheet's annotation size — 12px of mono is lost on a panel this wide.
+   Balanced because a dot-separated line otherwise breaks mid-phrase on a phone. */
+.cta__note {
+  margin-top: var(--space-8);
+  font-size: var(--text-sm);
+  text-wrap: balance;
+}
+
+@media (max-width: 560px) {
+  .cta {
+    padding-block: var(--space-4) var(--space-16);
+  }
+  .cta__panel {
+    padding: var(--space-10) var(--space-6);
+  }
+  .cta__lede {
+    font-size: var(--text-md);
+  }
+  /* Two pills side by side stop fitting long before the panel does. */
+  .cta__actions {
+    flex-direction: column;
+    align-self: stretch;
+  }
+  .cta__actions .btn {
+    width: 100%;
+  }
+}
+
+/* ---- Site footer — on every page --------------------------------------- */
+
+/* A hairline, the brand, the two links anyone comes down here for, and the
+   legal line. Nothing else: the close above it is what the foot of the page
+   is for, and a footer that competes with it takes the ask away. */
+
+.site-foot {
+  border-top: var(--hair) solid var(--line-hair);
+  padding-block: var(--space-8) var(--space-10);
+}
+
+.site-foot__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-6);
+}
+
+.site-foot__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  letter-spacing: var(--tracking-wide);
+}
+
+.site-foot__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
+}
+.site-foot__links a {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.site-foot__links a:hover {
+  color: var(--steel-700);
+  text-decoration: underline;
+}
+
+.site-foot__note {
+  margin-top: var(--space-6);
+}
+
+/* One column, centered — the page it hangs off is centered at this width too. */
+@media (max-width: 560px) {
+  .site-foot__row {
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-5);
+  }
+  .site-foot__links {
+    justify-content: center;
+    gap: var(--space-2) var(--space-5);
+  }
+  .site-foot__note {
+    text-align: center;
+  }
+}
+
+/* ---- Legal pages · privacy.html ---------------------------------------- */
+
+/* A single measure of prose under a heading. The landing page's five sheets
+   are the whole stylesheet here, so this is the only block it adds. */
+
+.doc {
+  padding-block: var(--space-16) var(--space-24);
+}
+
+.doc__head,
+.doc__body {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+}
+/* Pulled back by the button's own padding so the glyph, not the pill, starts
+   where the heading under it does. --btn-px is the size modifier's, so the
+   offset follows the button rather than repeating a number. */
+.doc__back {
+  margin-bottom: var(--space-6);
+  margin-inline-start: calc(var(--btn-px) * -1);
+}
+.doc__back .icon {
+  transform: rotate(180deg);
+}
+
+.doc__title {
+  margin-top: var(--space-4);
+  text-wrap: balance;
+}
+.doc__body {
+  margin-top: var(--space-10);
+}
+
+/* Set as a marker rather than as copy, so an unwritten policy reads as one. */
+.doc__tbd {
+  font-size: var(--text-md);
+  color: var(--text-subtle);
+}
+
+@media (max-width: 560px) {
+  .doc {
+    padding-block: var(--space-12) var(--space-16);
+  }
+  /* "Конфиденциальности" is one 18-character word and display-3 has stopped
+     clamping by here, so it sits flush to the measure. A legal heading has no
+     need of the display size on a phone. */
+  .doc__title {
+    font-size: var(--text-2xl);
+  }
+}

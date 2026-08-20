@@ -194,7 +194,7 @@
               </p>
 
               <div class="hero__actions" data-anim="rise" style="--d: 420ms">
-                <a class="btn btn--primary btn--lg" href="#calculator">
+                <a class="btn btn--primary btn--lg" href="#calc">
                   <span data-i18n="hero.cta">Build My Smart Home</span>
                   <svg class="icon" aria-hidden="true"><use href="#i-arrow-right" /></svg>
                 </a>
@@ -2265,6 +2265,272 @@
         </div>
       </section>
 
+      <!-- ===== 09 — FAQ: the register at the back of the drawing · no script ===== -->
+      <section class="faq" id="faq" aria-labelledby="faq-title" data-reveal>
+        <div class="container">
+          <header class="faq__head">
+            <p
+              class="label label--accent"
+              data-anim="rise"
+              style="--d: 60ms"
+              data-i18n="faq.eyebrow"
+            >
+              Before you ask
+            </p>
+
+            <h2
+              class="display-3 faq__title"
+              id="faq-title"
+              data-anim="rise"
+              style="--d: 160ms"
+              data-i18n="faq.title"
+            >
+              The rest of the questions.
+            </h2>
+
+            <p
+              class="lede faq__lede"
+              data-anim="rise"
+              style="--d: 280ms"
+              data-i18n="faq.lede"
+            >
+              The page has answered the big ones. These are the six that come up
+              on the phone afterwards.
+            </p>
+          </header>
+
+          <!-- Native <details>: the disclosure, its keyboard and its expanded state
+               all come with it, so the section needs no script. No exclusive group —
+               section 02 turns its cells one at a time for the same reason. -->
+          <ul class="faq__list">
+            <li class="faq__item" data-anim="rise" style="--d: 400ms">
+              <details class="faq__row">
+                <summary class="faq__q">
+                  <span class="mono faq__index" aria-hidden="true">01</span>
+                  <span class="faq__label" data-i18n="faq.q1">
+                    Does any of it stop working when the internet does?
+                  </span>
+                  <span class="faq__mark" aria-hidden="true"></span>
+                </summary>
+
+                <div class="faq__a">
+                  <p class="faq__text" data-i18n="faq.a1">
+                    The hub runs the house, not a server somewhere else. Switches, sensors,
+                  lights and the routines between them carry on through an outage,
+                  because none of it ever left the building. What goes until the line
+                  is back is the app from outside, and the notifications on your
+                  phone.
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <li class="faq__item" data-anim="rise" style="--d: 460ms">
+              <details class="faq__row">
+                <summary class="faq__q">
+                  <span class="mono faq__index" aria-hidden="true">02</span>
+                  <span class="faq__label" data-i18n="faq.q2">
+                    Do I have to use my phone for everything?
+                  </span>
+                  <span class="faq__mark" aria-hidden="true"></span>
+                </summary>
+
+                <div class="faq__a">
+                  <p class="faq__text" data-i18n="faq.a2">
+                    No. Every light keeps a switch on the wall and every switch still does
+                  the obvious thing, so the house works for somebody who has never
+                  opened the app. The phone is for the house you are not standing in.
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <li class="faq__item" data-anim="rise" style="--d: 520ms">
+              <details class="faq__row">
+                <summary class="faq__q">
+                  <span class="mono faq__index" aria-hidden="true">03</span>
+                  <span class="faq__label" data-i18n="faq.q3">
+                    Is there a monthly fee?
+                  </span>
+                  <span class="faq__mark" aria-hidden="true"></span>
+                </summary>
+
+                <div class="faq__a">
+                  <p class="faq__text" data-i18n="faq.a3">
+                    No. You pay for the hardware and for the work, once. The year of support
+                  is part of the install rather than a plan you are put on, and nothing
+                  in the system asks for a subscription to keep running.
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <li class="faq__item" data-anim="rise" style="--d: 580ms">
+              <details class="faq__row">
+                <summary class="faq__q">
+                  <span class="mono faq__index" aria-hidden="true">04</span>
+                  <span class="faq__label" data-i18n="faq.q4">
+                    Can you use the devices I already own?
+                  </span>
+                  <span class="faq__mark" aria-hidden="true"></span>
+                </summary>
+
+                <div class="faq__a">
+                  <p class="faq__text" data-i18n="faq.a4">
+                    Often, yes — anything speaking Zigbee, Matter or Thread will usually join
+                  the hub and be named alongside the rest. We go through what you have
+                  at the consultation and say which of it is worth keeping: a device
+                  that half-works is worse than one you replaced.
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <li class="faq__item" data-anim="rise" style="--d: 640ms">
+              <details class="faq__row">
+                <summary class="faq__q">
+                  <span class="mono faq__index" aria-hidden="true">05</span>
+                  <span class="faq__label" data-i18n="faq.q5">
+                    Who can see the cameras and the sensors?
+                  </span>
+                  <span class="faq__mark" aria-hidden="true"></span>
+                </summary>
+
+                <div class="faq__a">
+                  <p class="faq__text" data-i18n="faq.a5">
+                    You can, on your own account. We are not in it — during the first year we
+                  look at the system when you ask us to, and that access is yours to
+                  take back whenever you like.
+                  </p>
+                </div>
+              </details>
+            </li>
+
+            <li class="faq__item" data-anim="rise" style="--d: 700ms">
+              <details class="faq__row">
+                <summary class="faq__q">
+                  <span class="mono faq__index" aria-hidden="true">06</span>
+                  <span class="faq__label" data-i18n="faq.q6">
+                    What happens if something breaks?
+                  </span>
+                  <span class="faq__mark" aria-hidden="true"></span>
+                </summary>
+
+                <div class="faq__a">
+                  <p class="faq__text" data-i18n="faq.a6">
+                    The hardware carries the manufacturer’s warranty and we make the claim,
+                  rather than sending you to a form. Inside the first year we come out
+                  and swap the device as part of the support the install came with.
+                  </p>
+                </div>
+              </details>
+            </li>
+          </ul>
+
+          <p class="faq__ask" data-anim="rise" style="--d: 820ms">
+            <span data-i18n="faq.ask">Something that is not on the list?</span>
+            <a href="mailto:hello@yoursmarthome.com" data-i18n="faq.ask.link"
+              >Ask us directly</a
+            >
+          </p>
+        </div>
+      </section>
+
+      <!-- ===== 10 — CTA: the calculator asked for again, on the page's last panel ===== -->
+      <section class="cta" id="cta" aria-labelledby="cta-title" data-reveal>
+        <div class="container">
+          <div
+            class="card card--ink ticks cta__panel"
+            data-anim="pop"
+            style="--d: 120ms"
+          >
+            <p
+              class="label cta__eyebrow"
+              data-anim="rise"
+              style="--d: 260ms"
+              data-i18n="cta.eyebrow"
+            >
+              Where to start
+            </p>
+
+            <h2
+              class="display-3 cta__title"
+              id="cta-title"
+              data-anim="rise"
+              style="--d: 360ms"
+              data-i18n="cta.title"
+            >
+              Three questions, and a number.
+            </h2>
+
+            <p
+              class="cta__lede"
+              data-anim="rise"
+              style="--d: 460ms"
+              data-i18n="cta.lede"
+            >
+              It is three questions long. What comes back is a range, the list
+              of hardware behind it, and a letter you can read and edit before
+              it goes anywhere.
+            </p>
+
+            <div class="cta__actions" data-anim="rise" style="--d: 580ms">
+              <!-- The hero's own key: a repeat that cannot drift from what it repeats. -->
+              <a class="btn btn--inverse btn--lg" href="#calc">
+                <span data-i18n="hero.cta">Build My Smart Home</span>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow-right" />
+                </svg>
+              </a>
+
+              <a
+                class="btn btn--inverse-outline btn--lg"
+                href="mailto:hello@yoursmarthome.com"
+              >
+                <svg class="icon" aria-hidden="true"><use href="#i-mail" /></svg>
+                <span data-i18n="cta.secondary">Talk to us first</span>
+              </a>
+            </div>
+
+            <p
+              class="mono cta__note"
+              data-anim="rise"
+              style="--d: 700ms"
+              data-i18n="cta.note"
+            >
+              ≈ 1 minute · no account · nothing is posted anywhere
+            </p>
+          </div>
+        </div>
+      </section>
+
     </main>
+
+    <footer class="site-foot">
+      <div class="container">
+        <div class="site-foot__row">
+          <a class="site-foot__brand" href="#top">
+            <span class="brandmark"
+              ><svg class="icon icon--sm"><use href="#i-hub" /></svg
+            ></span>
+            Halo
+          </a>
+
+          <nav
+            class="site-foot__links"
+            data-i18n-aria-label="foot.navLabel"
+            aria-label="Footer"
+          >
+            <a href="privacy.html" data-i18n="foot.privacy">Privacy Policy</a>
+            <!-- An address is not copy, so it carries no key. -->
+            <a href="mailto:hello@yoursmarthome.com">hello@yoursmarthome.com</a>
+          </nav>
+        </div>
+
+        <p class="caption site-foot__note" data-i18n="foot.note">
+          © 2026 Halo. All rights reserved.
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

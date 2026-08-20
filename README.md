@@ -25,8 +25,12 @@ index.html                  the landing page — header, section 01 (hero),
                             section 02 (the problem), section 03 (the plan),
                             section 04 (starting small), section 05 (what it
                             costs), section 06 (how it goes), section 07
-                            (what happens after) and section 08 (the brand
-                            and the ecosystems it works with)
+                            (what happens after), section 08 (the brand and
+                            the ecosystems it works with), section 09 (the rest
+                            of the questions) and section 10 (the close),
+                            then the footer every page carries
+privacy.html                the privacy policy — the frame is written, the
+                            policy itself is [tbd]
 assets/
   appartment.webp           the apartment section 03 marks the hardware on
 css/
@@ -38,7 +42,8 @@ css/
   components.css            buttons, forms, cards, badges, frames, tables, nav,
                             and the soft/neumorphic layer
   sections.css              page composition — entrance choreography, header,
-                            and one block per section of the page
+                            one block per section of the page, the footer, and
+                            the legal page's single measure of prose
 js/
   i18n.js                   the EN/RU dictionary, the switch, and the keys
   reveal.js                 holds a section's entrance until it is on screen
@@ -48,8 +53,9 @@ js/
                             (section 04 has no script — it is choreography)
   calc.js                   section 05: the three questions, the sum, and the
                             mailto: the answer is written into
-                            (sections 06, 07 and 08 have no script — they are
-                            choreography)
+                            (sections 06 to 10 have no script — they are
+                            choreography, and section 09's disclosure is
+                            <details>)
 design-system/
   design-system.html        the visual playground — every token and component
   design-system.css         layout for the playground sheet only
@@ -137,6 +143,19 @@ markup carries keys instead:
 ```
 
 The English string stays in the HTML as the fallback if the script never runs.
+
+A page's `<title>` and description are the one pair `apply()` writes by hand
+rather than off a key in the markup, so a second page has to be able to name
+its own. It does that on `<html>`:
+
+```html
+<html lang="en"
+      data-meta-title="privacy.meta.title"
+      data-meta-desc="privacy.meta.description">
+```
+
+The landing page names neither and gets `meta.title` and `meta.description`,
+which is what it always used.
 Anything that rewrites a key at runtime calls `Halo.i18n.apply(node)` so the
 new text comes out in the current language, and listens for the
 `halo:langchange` event if it holds state of its own.
@@ -696,7 +715,7 @@ Two soft claim cards and one ink panel:
 | --- | --- | --- |
 | add whatever comes next | `.card`, `i-plus` | a repeat, so it is compact — the argument was made two sections ago |
 | it unplugs | `.card`, `i-plug` | the same, and the plug is the claim: nothing is drilled |
-| the year | `.card--ink` | the only new information on the page, and the page's only dark surface |
+| the year | `.card--ink` | the only new information on the page, and the first of its two dark surfaces — section 10 is the other |
 
 The year is deliberately narrow. It covers what the visitor adds, the
 batteries, and a look at the system from wherever we are — and it does **not**
@@ -814,3 +833,238 @@ right, 60ms apart, after the rule they hang from.
 
 The caption under the row is not decoration. The page is claiming compatibility,
 not partnership, and the difference is worth one line of `--text-subtle`.
+
+## Section 09 — the rest of the questions
+
+The page has now made every argument it has, and section 08 answered the last
+one it could answer with a picture. What is left is the residue: the six
+things somebody asks on the phone after reading all of it, none of which is
+worth a section and all of which would cost the page its shape if it tried to
+work them into one. So they go at the foot of the drawing, where the notes on
+a drawing go.
+
+| # | the question | the answer, in one line |
+| --- | --- | --- |
+| 01 | does it stop working when the internet does? | the hub is in the house, so the house keeps working; the app from outside does not |
+| 02 | do I have to use my phone for everything? | every light keeps its switch |
+| 03 | is there a monthly fee? | no — hardware and work, once |
+| 04 | can you use what I already own? | usually, if it speaks Zigbee, Matter or Thread |
+| 05 | who can see the cameras and the sensors? | you; we look only when asked, and that is yours to withdraw |
+| 06 | what happens if something breaks? | the manufacturer's warranty, and we make the claim |
+
+Three of them are answered nowhere else on the page: the outage, the wall
+switch and the fee. The other three are the page's existing claims turned
+around and asked as objections, which is the only form some visitors will
+recognise them in.
+
+Two things are said as narrowly as they can be. **The warranty carries no
+number** — a length varies by device and by market, and a landing page that
+prints one is making a promise on a manufacturer's behalf. And the fee answer
+says nothing about the thirteenth month, for the same reason section 07 does
+not: the sentence explaining month thirteen is a sentence about a
+subscription.
+
+### The register
+
+`<details>` is the disclosure. It brings its own control, its own keyboard and
+its own expanded state, so there is no script here and nothing to keep in step
+— the one part of the page where the platform already owns the whole
+interaction.
+
+Each row opens on its own; they are not an exclusive group. Section 02 turns
+its cells one at a time for the same reason, and an answer that vanishes
+because you opened the next one is an answer you cannot compare.
+
+A row is a number, a question and a mark, and the number is the point of it. A
+question in a list is a question; a numbered note under a rule is a register,
+which is what the foot of a drawing sheet carries. The index column is
+declared once on the list as `--faq-index` and `--faq-gap`, and both the
+question and the answer are placed off it — the answer starts where the
+question starts, and the hairline bracketing it to its note runs down the
+middle of the column above.
+
+The mark is two hairlines rather than a glyph. It opens by turning a quarter
+and losing its upright, which leaves a minus rather than a cross: a cross
+means *close this*, and nothing here closes. The row lights the index and the
+mark on hover, so a bare pair of lines is never a guess.
+
+Alignment is the fiddly part, and it is one line. The row is baseline-aligned,
+so the index sits on the question's first baseline however many lines it runs
+to — which matters on a phone, where every question is two. An empty box has
+no baseline of its own and takes one from its bottom edge, so a 13px mark
+lands its bars level with the index without being told to.
+
+### Opening it
+
+Two beats, and only one of them is guaranteed. The copy fades down from under
+the question as a keyframe, because the answer is *created* on open and a
+transition has no earlier state to start from. The height is a transition on
+`::details-content`, behind `@supports (interpolate-size: allow-keywords)` —
+where the browser cannot interpolate `auto` the fold snaps and only the fade
+runs, which is the native behaviour and reads fine. `interpolate-size` is
+inherited, so it is set on the section rather than on `:root`: nothing else on
+the page asked for it.
+
+Neither beat needs an exception under `prefers-reduced-motion` — both are
+durations, and the global rule in `base.css` flattens them.
+
+### One breakpoint
+
+560px, the phone block sections 05 and 07 use. The index column and its gap
+tighten and the question drops from `--text-lg` to `--text-md`; nothing moves,
+because there is only ever one column. The list is capped at 860px rather than
+at `--container-narrow`, which the head keeps: a question wants the full line,
+an answer does not, and the answer is held to 62ch of its own.
+
+The last line on the page is the way out for the seventh question — the same
+`mailto:` section 05 offers under the calculator, which is the only address
+the page has.
+
+## Section 10 — the close
+
+Nine sections have argued and the last of them answered the leftovers. What is
+missing is the ask. Section 05 is a long way up the page by now, and a visitor
+who read to the bottom has just spent several sections being told the price is
+knowable without being pointed back at the thing that knows it. So the page
+ends where it began: the hero's own call to action, repeated, and pointed at
+the calculator.
+
+| | the action | where it goes |
+| --- | --- | --- |
+| primary | Build My Smart Home | `#calc` — the calculator |
+| secondary | Talk to us first | the `mailto:` |
+
+That pair is not new. It is the only pair the page has ever had — three
+questions and a range, or a person — and the close does nothing except put
+them next to each other for the first time.
+
+**The primary carries the hero's key, `hero.cta`, rather than a copy of its
+string.** A repeat that is stored twice is a repeat that drifts, and this one
+has to survive both languages.
+
+### The hero's link was broken
+
+The hero pointed at `#calculator`. Nothing on the page has that id — the
+section is `id="calc"` — so the page's single call to action had never
+scrolled anywhere. It is `#calc` now, in both places. `scroll-padding-top` in
+`base.css` is what stops the header sitting on the section's eyebrow when it
+lands.
+
+### The second ink panel
+
+Section 07 took the paper away for the one new claim on the page. This takes
+it away for the one thing the page wants done, and there is no third: ink is
+the page's emphasis, and a page with three emphases has none. Everything on it
+comes from the inverse half of the sheet — `.btn--inverse` for the primary,
+`.btn--inverse-outline` for the secondary, both already drawn for a dark
+ground, which is why neither needed a line of new CSS.
+
+One gap turned up, the same kind section 07 found in the badges. `.mono` is
+set `--text-muted` for paper, which is all but black on `--surface-ink`, so
+`.card--ink .mono` went into `components.css` beside the other ink resets. It
+takes `--steel-300` — 6.9:1 on the ink ground, the same step the label does.
+`--steel-400` clears AA at 5.1:1 and was still too faint to read: mono is the
+lighter of the two faces and it is being set at annotation sizes, so the
+contrast figure is a floor here rather than an answer.
+
+The panel wears the drafting kit's corner ticks. They sit on the bounding box
+rather than on the rounded corners, which is what a crosshair on a drawing
+does: it marks the extent of the object, and the object here is the last one
+on the sheet.
+
+### The spec line
+
+Under the buttons, in mono: `≈ 1 minute · no account · nothing is posted
+anywhere`. Every clause of it is an objection to pressing the button, and all
+three are true of section 05 as built — three questions, no field, no
+endpoint, and a `mailto:` the visitor reads before sending. It is the one
+place the page says out loud what the calculator's architecture already
+guarantees.
+
+It is set at `--text-sm` rather than the sheet's `--text-xs`, which is the one
+place the section overrides `.mono`. The annotation size is right for a value
+sitting next to the thing it measures — a delivery size beside a frame, hours
+beside a step — and wrong for a sentence standing alone in the middle of a
+900px panel. This line is read, not checked.
+
+### One breakpoint
+
+560px, the phone block sections 05, 07 and 09 use. Two pills side by side stop
+fitting long before the panel does, so the actions turn into a column and
+stretch — a full-width button is the phone's own idiom, and a pill that has
+had to shrink its label is worse than one that has not.
+
+Nothing here is interactive beyond the two links, so there is no script: the
+panel is the entrance choreography, held by `data-reveal` until it is on
+screen, and its contents arrive after it rather than with it.
+
+## The footer
+
+A hairline, the brand, the two links anyone scrolls this far for, and the
+legal line. Nothing else. Section 10 is the ask, and a footer with a sitemap
+in it takes the ask away from the panel directly above it — so the footer's
+job is to be the place the privacy link lives and then stop.
+
+| | |
+| --- | --- |
+| the brand | back to the top on the landing page, back to the landing page from anywhere else |
+| Privacy Policy | `privacy.html`, and the reason the footer exists |
+| the address | `hello@yoursmarthome.com`, the same one section 05 and section 10 use |
+
+The address carries no `data-i18n` key. An address is not copy, for the same
+reason section 08's brand names are not: there is nothing in it to translate.
+**The year in `foot.note` is written out** — no script sets it, so January is
+a two-line edit, one per language. It is one key rather than a fragment
+stitched into a sentence so that the edit is obvious when it is due.
+
+Over 560px it is one row, brand against links, with the legal line under both.
+Under it everything centers in a column: the row is two objects rather than
+two ends of a rule, and two objects that have stopped being far apart should
+stop pretending to be.
+
+### Keeping it on the fold
+
+A landing page ten sections long never needed this, and a legal page with one
+paragraph on it does: without a floor the footer lands halfway up the screen
+with blank paper under it. So `body` in `base.css` is a column flexbox with a
+`100svh` floor and `main` taking the slack — `svh` because the toolbar-visible
+height is the one a footer should sit at on a phone.
+
+It is in `base.css` rather than beside the footer's own rules because it is
+the shape of every page rather than a property of the footer, and `100vh`
+stays in front of it as the fallback.
+
+## privacy.html
+
+The frame of a legal page with `[tbd]` where the policy goes. Everything
+around that placeholder is real: the header and its language switch, the back
+link, the footer, the five stylesheets, and both languages of every string on
+it.
+
+The way back is written three times, which is deliberate — the header
+brandmark, the footer brandmark, and a **back link above the heading**, the one
+of the three that says out loud where it goes. It is `.btn--quiet`, the sheet's
+tertiary action: leaving a legal page is navigation, not something the page
+wants done. It is pulled left by its own `--btn-px` so the arrow, rather than
+the pill around it, starts where the heading under it does.
+
+The arrow is `#i-arrow-right` turned 180°. Section 02's flip toggle already
+points home that way, and one arrow that can be turned is better than two
+drawings that have to be kept in step — the sprite stays what the design
+system sheet draws.
+
+Two things are deliberately absent. **`[tbd]` has no dictionary key** — a
+placeholder marker is not copy in any language, and giving it one would mean
+translating it, which is a strange thing to have to notice later. And **only
+`i18n.js` is loaded**: nothing on the page reveals, animates or calculates, so
+the other five scripts would be five requests that find nothing. The sprite is
+the same — the two symbols the page draws rather than the landing page's
+twenty.
+
+The page's own block in `sections.css` is ten rules: a measure, a heading, the
+back link's offset and turn, and the marker set at `--text-subtle` so an
+unwritten policy reads as one. Under
+560px the heading steps down from `display-3` to `--text-2xl`, which is about
+the Russian: *конфиденциальности* is one eighteen-character word and the
+clamp has bottomed out by that width, so at display size it sits flush against
+the measure.

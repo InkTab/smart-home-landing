@@ -1,0 +1,133 @@
+<!doctype html>
+<!-- The title and description keys are the document's own; i18n.js reads them off here. -->
+<html
+  lang="en"
+  data-meta-title="privacy.meta.title"
+  data-meta-desc="privacy.meta.description"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy — Halo</title>
+    <meta name="description" content="How Halo handles the information you share." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" />
+    </noscript>
+
+    <link rel="stylesheet" href="css/tokens/palette.css" />
+    <link rel="stylesheet" href="css/tokens/semantic.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/sections.css" />
+
+    <!-- The dictionary and the switch. Nothing on this page reveals or animates. -->
+    <script src="js/i18n.js" defer></script>
+  </head>
+  <body>
+    <div class="paper"></div>
+
+    <!-- Only the two symbols this page draws. -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-hub" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3" />
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 3v6M12 15v6M3 12h6M15 12h6" />
+        </symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24">
+          <path d="M4 12h15.5M13.5 6l6 6-6 6" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <header class="site-head">
+      <div class="container">
+        <nav class="navbar" data-i18n-aria-label="nav.label" aria-label="Main">
+          <a class="navbar__brand" href="index.html">
+            <span class="brandmark"
+              ><svg class="icon icon--sm"><use href="#i-hub" /></svg
+            ></span>
+            Halo
+          </a>
+
+          <div
+            class="tabs tabs--sm langswitch"
+            role="group"
+            data-i18n-aria-label="lang.label"
+            aria-label="Language"
+          >
+            <button class="tab" type="button" data-lang="en" aria-pressed="true">
+              EN
+            </button>
+            <button class="tab" type="button" data-lang="ru" aria-pressed="false">
+              RU
+            </button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="doc" aria-labelledby="doc-title">
+        <div class="container">
+          <header class="doc__head">
+            <!-- The sheet's one arrow, turned: section 02's toggle points home
+                 the same way rather than carrying a second drawing. -->
+            <a class="btn btn--quiet btn--sm doc__back" href="index.html">
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-arrow-right" />
+              </svg>
+              <span data-i18n="doc.back">Back to the site</span>
+            </a>
+
+            <p class="label label--accent" data-i18n="privacy.eyebrow">Legal</p>
+            <h1 class="display-3 doc__title" id="doc-title" data-i18n="privacy.title">
+              Privacy Policy
+            </h1>
+          </header>
+
+          <!-- The policy itself. A placeholder marker is not copy, so it has no key. -->
+          <div class="doc__body">
+            <p class="mono doc__tbd">[tbd]</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="container">
+        <div class="site-foot__row">
+          <a class="site-foot__brand" href="index.html">
+            <span class="brandmark"
+              ><svg class="icon icon--sm"><use href="#i-hub" /></svg
+            ></span>
+            Halo
+          </a>
+
+          <nav
+            class="site-foot__links"
+            data-i18n-aria-label="foot.navLabel"
+            aria-label="Footer"
+          >
+            <a href="privacy.html" data-i18n="foot.privacy">Privacy Policy</a>
+            <!-- An address is not copy, so it carries no key. -->
+            <a href="mailto:hello@yoursmarthome.com">hello@yoursmarthome.com</a>
+          </nav>
+        </div>
+
+        <p class="caption site-foot__note" data-i18n="foot.note">
+          © 2026 Halo. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

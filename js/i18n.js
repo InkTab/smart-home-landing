@@ -334,7 +334,64 @@
       "trust.brandNote": "the hardware we install",
       "trust.railLabel": "Works with",
       "trust.note":
-        "Every name and mark above belongs to its owner, and is shown only to say what the system connects to."
+        "Every name and mark above belongs to its owner, and is shown only to say what the system connects to.",
+
+      /* Section 09 — the objections the page has not answered anywhere above. */
+      "faq.eyebrow": "Before you ask",
+      "faq.title": "The rest of the questions.",
+      "faq.lede":
+        "The page has answered the big ones. These are the six that come up on the phone afterwards.",
+
+      "faq.q1": "Does any of it stop working when the internet does?",
+      "faq.a1":
+        "The hub runs the house, not a server somewhere else. Switches, sensors, lights and the routines between them carry on through an outage, because none of it ever left the building. What goes until the line is back is the app from outside, and the notifications on your phone.",
+
+      "faq.q2": "Do I have to use my phone for everything?",
+      "faq.a2":
+        "No. Every light keeps a switch on the wall and every switch still does the obvious thing, so the house works for somebody who has never opened the app. The phone is for the house you are not standing in.",
+
+      "faq.q3": "Is there a monthly fee?",
+      "faq.a3":
+        "No. You pay for the hardware and for the work, once. The year of support is part of the install rather than a plan you are put on, and nothing in the system asks for a subscription to keep running.",
+
+      "faq.q4": "Can you use the devices I already own?",
+      "faq.a4":
+        "Often, yes — anything speaking Zigbee, Matter or Thread will usually join the hub and be named alongside the rest. We go through what you have at the consultation and say which of it is worth keeping: a device that half-works is worse than one you replaced.",
+
+      "faq.q5": "Who can see the cameras and the sensors?",
+      "faq.a5":
+        "You can, on your own account. We are not in it — during the first year we look at the system when you ask us to, and that access is yours to take back whenever you like.",
+
+      "faq.q6": "What happens if something breaks?",
+      "faq.a6":
+        "The hardware carries the manufacturer’s warranty and we make the claim, rather than sending you to a form. Inside the first year we come out and swap the device as part of the support the install came with.",
+
+      "faq.ask": "Something that is not on the list?",
+      "faq.ask.link": "Ask us directly",
+
+      /* Section 10 — the close. The primary label is "hero.cta", not a copy of it. */
+      "cta.eyebrow": "Where to start",
+      "cta.title": "Three questions, and a number.",
+      "cta.lede":
+        "It is three questions long. What comes back is a range, the list of hardware behind it, and a letter you can read and edit before it goes anywhere.",
+      "cta.secondary": "Talk to us first",
+      "cta.note": "≈ 1 minute · no account · nothing is posted anywhere",
+
+      /* The footer, on every page. The year is written out — one edit a year,
+         one key per language. */
+      "foot.navLabel": "Footer",
+      "foot.privacy": "Privacy Policy",
+      "foot.note": "© 2026 Halo. All rights reserved.",
+
+      /* Legal pages. "doc." is the frame, "privacy." is this one's contents. */
+      "doc.back": "Back to the site",
+
+      /* privacy.html. The policy itself is not written yet. */
+      "privacy.meta.title": "Privacy Policy — Halo",
+      "privacy.meta.description":
+        "How Halo handles the information you share.",
+      "privacy.eyebrow": "Legal",
+      "privacy.title": "Privacy Policy"
     },
 
     ru: {
@@ -655,7 +712,58 @@
       "trust.brandNote": "оборудование, которое мы ставим",
       "trust.railLabel": "Работает с",
       "trust.note":
-        "Все названия и знаки принадлежат их владельцам и показаны только чтобы обозначить совместимость."
+        "Все названия и знаки принадлежат их владельцам и показаны только чтобы обозначить совместимость.",
+
+      "faq.eyebrow": "Прежде чем спросить",
+      "faq.title": "Остальные вопросы.",
+      "faq.lede":
+        "На главные вопросы страница уже ответила. Эти шесть обычно задают потом, по телефону.",
+
+      "faq.q1": "Что-нибудь перестанет работать, если пропадёт интернет?",
+      "faq.a1":
+        "Домом управляет хаб, а не сервер где-то далеко. Выключатели, датчики, свет и сценарии между ними переживают отключение, потому что ничто из этого дом и не покидало. До возвращения связи пропадают только приложение снаружи и уведомления на телефон.",
+
+      "faq.q2": "Мне придётся всё делать с телефона?",
+      "faq.a2":
+        "Нет. У каждого светильника остаётся выключатель на стене, и каждый выключатель делает ровно то, что от него ждут: дом работает и для того, кто ни разу не открывал приложение. Телефон нужен для дома, в котором вас сейчас нет.",
+
+      "faq.q3": "Есть ли ежемесячная плата?",
+      "faq.a3":
+        "Нет. Вы платите за оборудование и за работу — один раз. Год поддержки входит в установку, а не в тариф, на который вас подписали, и ничто в системе не требует подписки, чтобы работать.",
+
+      "faq.q4": "Можно ли использовать устройства, которые у меня уже есть?",
+      "faq.a4":
+        "Часто да: всё, что говорит на Zigbee, Matter или Thread, обычно подключается к хабу и получает имя наравне с остальным. На консультации мы разберём, что у вас есть, и скажем, что стоит оставить: устройство, работающее наполовину, хуже заменённого.",
+
+      "faq.q5": "Кто видит камеры и датчики?",
+      "faq.a5":
+        "Вы — в своей учётной записи. Нас в ней нет: в течение первого года мы смотрим систему, когда вы сами об этом просите, и этот доступ вы вправе забрать в любой момент.",
+
+      "faq.q6": "Что будет, если что-то сломается?",
+      "faq.a6":
+        "На оборудование действует гарантия производителя, и обращаемся по ней мы, а не отправляем вас заполнять форму. В первый год мы приезжаем и меняем устройство — это часть поддержки, которая идёт вместе с установкой.",
+
+      "faq.ask": "Не нашли своего вопроса?",
+      "faq.ask.link": "Спросите нас напрямую",
+
+      "cta.eyebrow": "С чего начать",
+      "cta.title": "Три вопроса — и цифра.",
+      "cta.lede":
+        "Калькулятор выше — это три вопроса. В ответ вы получаете диапазон, список оборудования за ним и письмо, которое можно прочитать и поправить, прежде чем оно куда-то уйдёт.",
+      "cta.secondary": "Сначала поговорить",
+      "cta.note": "≈ 1 минута · без регистрации · никуда ничего не отправляется",
+
+      "foot.navLabel": "Подвал сайта",
+      "foot.privacy": "Политика конфиденциальности",
+      "foot.note": "© 2026 Halo. Все права защищены.",
+
+      "doc.back": "Вернуться на сайт",
+
+      "privacy.meta.title": "Политика конфиденциальности — Halo",
+      "privacy.meta.description":
+        "Как Halo обращается с данными, которые вы передаёте.",
+      "privacy.eyebrow": "Правовая информация",
+      "privacy.title": "Политика конфиденциальности"
     }
   };
 
@@ -697,10 +805,18 @@
     var scope = root || document;
 
     if (scope === document) {
-      document.documentElement.lang = current;
-      document.title = t("meta.title");
+      /* A page names its own title and description keys on <html>; the landing
+         page names neither and gets the defaults. */
+      var root = document.documentElement;
+      root.lang = current;
+      document.title = t(root.getAttribute("data-meta-title") || "meta.title");
       var meta = document.querySelector('meta[name="description"]');
-      if (meta) meta.setAttribute("content", t("meta.description"));
+      if (meta) {
+        meta.setAttribute(
+          "content",
+          t(root.getAttribute("data-meta-desc") || "meta.description")
+        );
+      }
     }
 
     var nodes = scope.querySelectorAll("[data-i18n]");
