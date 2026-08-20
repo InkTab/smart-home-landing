@@ -853,7 +853,8 @@
   gap: var(--space-3);
   padding: var(--space-5);
   height: 100%;
-  transition: box-shadow var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  transition: box-shadow var(--dur) var(--ease), opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
 }
 .plan__card .device__reading {
   font-size: var(--text-3xl);
@@ -877,9 +878,12 @@
 [data-plan="live"] .plan__slot .plan__card {
   opacity: 0.62;
 }
+/* Scale, not size: the centered card has to grow without moving the ones beside it.
+   Anything that changed its box would reflow the rail plan.js has already measured. */
 [data-plan="live"] .plan__slot.is-active .plan__card {
   opacity: 1;
   box-shadow: var(--shadow-soft-lg);
+  transform: scale(1.04);
 }
 
 .plan__note {
