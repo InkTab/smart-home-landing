@@ -27,14 +27,21 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" />
     </noscript>
 
-    <!-- This holds the render, and should. Built from the five source layers by
+    <!-- Non-blocking: preload fetches at stylesheet priority, the onload swap applies it,
+         so parsing is never held on 114 kB of CSS. Built from the five source layers by
          build.sh, in load order: palette, semantic, then the rest. -->
-    <link rel="stylesheet" href="css/halo.css?v=9e0babc1" />
+    <link
+      rel="preload"
+      as="style"
+      href="css/halo.css?v=51d00dea"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="css/halo.css?v=51d00dea" /></noscript>
 
     <!-- Deferred but in the head: fetched early, runs once the DOM is parsed.
          build.sh concatenates the six sources in order; each is its own IIFE and
          returns early when its section is absent, so one bundle serves every page. -->
-    <script src="js/halo.js?v=9e0babc1" defer></script>
+    <script src="js/halo.js?v=51d00dea" defer></script>
   </head>
   <body>
     <div class="paper"></div>
