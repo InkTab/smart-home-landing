@@ -75,7 +75,7 @@
   function paint(device, on) {
     device.slot.classList.toggle("is-open", on);
     device.pin.classList.toggle("is-active", on);
-    device.dot.setAttribute("aria-expanded", on ? "true" : "false");
+    if (pinned) device.dot.setAttribute("aria-expanded", on ? "true" : "false");
   }
 
   /* ---- Under the breakpoint: the centered card owns its point ------------ */
@@ -213,6 +213,12 @@
      query.matches is a cached flag, not a style recalc like getComputedStyle was. */
   function relayout() {
     pinned = query.matches;
+    /* Under the breakpoint every card is already on the rail, so a point expands
+       nothing — it scrolls. Carrying aria-expanded there would say the opposite. */
+    for (var i = 0; i < devices.length; i++) {
+      if (pinned) devices[i].dot.setAttribute("aria-expanded", "false");
+      else devices[i].dot.removeAttribute("aria-expanded");
+    }
     if (pinned) {
       clear();
       return;
