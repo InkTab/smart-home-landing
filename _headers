@@ -2,9 +2,11 @@
 # file. It is here so that moving the site to Netlify or Cloudflare Pages — or
 # putting Cloudflare in front of the Pages domain — is a one-step change.
 #
-# Safe because build.sh stamps ?v=<content hash> onto the script URL: a new
+# Safe because build.sh stamps ?v=<content hash> onto the bundle URLs: a new
 # build is a new URL, so a year-long cache can never serve a stale bundle.
-# The stylesheet has no rule: it rides inside the pages, which must revalidate.
+
+/css/halo.css
+  Cache-Control: public, max-age=31536000, immutable
 
 /js/halo.js
   Cache-Control: public, max-age=31536000, immutable
