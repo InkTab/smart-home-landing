@@ -91,10 +91,12 @@
      hands that role back to .plan__stage. Same card, two different offsetLeft values. */
   function measure() {
     railMid = rail.clientWidth / 2;
+    /* Constant across the loop — nothing here writes — so read it once, not per card. */
+    var railBase = rail.offsetLeft + rail.clientLeft;
 
     for (var i = 0; i < devices.length; i++) {
       var slot = devices[i].slot;
-      var base = slot.offsetParent === rail ? 0 : rail.offsetLeft + rail.clientLeft;
+      var base = slot.offsetParent === rail ? 0 : railBase;
       devices[i].left = slot.offsetLeft - base;
       devices[i].width = slot.offsetWidth;
     }
@@ -213,6 +215,11 @@
      query.matches is a cached flag, not a style recalc like getComputedStyle was. */
   function relayout() {
     pinned = query.matches;
+
+    /* Measure first. The aria and class writes below dirty layout, so a measure()
+       after them forces a synchronous recalc — the one reflow resize used to cost. */
+    if (!pinned) measure();
+
     /* Under the breakpoint every card is already on the rail, so a point expands
        nothing — it scrolls. Carrying aria-expanded there would say the opposite. */
     for (var i = 0; i < devices.length; i++) {
@@ -223,7 +230,6 @@
       clear();
       return;
     }
-    measure();
     rescan();
   }
 
@@ -231,7 +237,16 @@
   if (query.addEventListener) query.addEventListener("change", relayout);
   else query.addListener(relayout);
 
-  window.addEventListener("resize", relayout);
+  /* A drag fires resize far faster than layout settles; one relayout per frame is
+     all the cards can show. The breakpoint change stays synchronous — a frame of
+     the wrong mode there would be a frame of the wrong interaction. */
+  var pending = 0;
+  function relayoutSoon() {
+    window.cancelAnimationFrame(pending);
+    pending = window.requestAnimationFrame(relayout);
+  }
+
+  window.addEventListener("resize", relayoutSoon);
 
   /* The places now change only here, never mid-scroll. The rail alone is enough: its
      height follows the tallest card, so a root font-size change — which moves the cards
