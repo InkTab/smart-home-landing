@@ -1218,7 +1218,13 @@
 
   /* Set here, never in markup: with no script the cards stay a plain readable rail. */
   section.setAttribute("data-plan", "live");
-  relayout();
+
+  /* Two frames, not one: a single rAF still runs before that frame's layout, so
+     measure() would force the document's first layout synchronously — the reflow
+     PageSpeed charges to this file on mobile, where the startup path measures. */
+  window.requestAnimationFrame(function () {
+    window.requestAnimationFrame(relayout);
+  });
 })(window, document);
 
 /* ---- js/hero.js ---- */

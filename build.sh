@@ -1,9 +1,10 @@
 #!/bin/sh
-# Concatenates the stylesheets and scripts into one bundle each, so a page costs
-# two requests instead of eleven. Sources stay authored a file per layer.
+# Concatenates the stylesheets and scripts into one bundle each, then inlines the
+# CSS into the pages: a page costs one request instead of eleven. Sources stay
+# authored a file per layer.
 #
-#   ./build.sh          rebuild css/halo.css and js/halo.js, restamp ?v=
-#   ./build.sh --check  exit 1 if the bundles are stale (for CI / pre-commit)
+#   ./build.sh          rebuild the bundles, inline the CSS, restamp ?v=
+#   ./build.sh --check  exit 1 if the bundles or pages are stale (for CI / pre-commit)
 #
 # Order is load-bearing: palette before semantic before the rest, and i18n
 # before every script that reads window.Halo.
@@ -17,7 +18,9 @@ JS_SOURCES="js/i18n.js js/reveal.js js/problem.js js/plan.js js/hero.js js/calc.
 
 PAGES="index.html privacy.html"
 
-CSS_BUNDLE="css/halo.css"
+# The stylesheet has no committed bundle: it exists only inside the pages, so a
+# file on disk would be a second copy nothing loads and every CSS edit would show
+# up twice in a diff.
 JS_BUNDLE="js/halo.js"
 
 check_only=0
@@ -52,45 +55,71 @@ hash_of() {
   cat "$@" | shasum -a 256 | cut -c1-8
 }
 
+# Rewrites a page: the stylesheet goes inside the css:inline markers, and the
+# script URL gets the current stamp. Reads $1, writes $2 — never in place.
+#
+# The query string is what makes a long Cache-Control safe: a new build is a new
+# URL. GitHub Pages caps at 10 minutes today, so this only matters behind a CDN.
+render() {
+  # Both markers must be self-contained one-line comments. An opener still hanging
+  # open would comment out the stylesheet it introduces, and the page would render
+  # unstyled with nothing to show for it — so refuse rather than emit that.
+  grep -q '<!-- css:inline.*-->' "$1" && grep -q '<!-- /css:inline -->' "$1" || {
+    echo "$1: css:inline markers missing or not one-line comments" >&2
+    return 1
+  }
+
+  awk -v css="$3" '
+    index($0, "<!-- css:inline") {
+      print
+      print "    <style>"
+      while ((getline line < css) > 0) print line
+      close(css)
+      print "    </style>"
+      inside = 1
+      next
+    }
+    index($0, "<!-- /css:inline -->") { inside = 0 }
+    !inside
+  ' "$1" | sed "s|halo\.js?v=[A-Za-z0-9]*|halo.js?v=$version|g" > "$2"
+}
+
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
 bundle "$tmp/halo.css" $CSS_SOURCES
 bundle "$tmp/halo.js" $JS_SOURCES
 
-version=$(hash_of "$tmp/halo.css" "$tmp/halo.js")
+# The CSS rides inside the pages now, so only the script has a URL to bust.
+version=$(hash_of "$tmp/halo.js")
 
 if [ "$check_only" -eq 1 ]; then
   status=0
-  for pair in "$CSS_BUNDLE:$tmp/halo.css" "$JS_BUNDLE:$tmp/halo.js"; do
-    built=${pair%%:*}
-    fresh=${pair#*:}
-    if [ ! -f "$built" ] || ! cmp -s "$built" "$fresh"; then
-      echo "stale: $built (run ./build.sh)" >&2
-      status=1
-    fi
-  done
+  if [ ! -f "$JS_BUNDLE" ] || ! cmp -s "$JS_BUNDLE" "$tmp/halo.js"; then
+    echo "stale: $JS_BUNDLE (run ./build.sh)" >&2
+    status=1
+  fi
+  # A page is current when re-rendering it changes nothing — one comparison that
+  # covers both the inlined stylesheet and the stamp.
   for page in $PAGES; do
-    if ! grep -q "halo\.css?v=$version" "$page"; then
-      echo "stale: $page is not stamped ?v=$version (run ./build.sh)" >&2
+    if ! render "$page" "$tmp/page" "$tmp/halo.css" || ! cmp -s "$page" "$tmp/page"; then
+      echo "stale: $page (run ./build.sh)" >&2
       status=1
     fi
   done
-  [ "$status" -eq 0 ] && echo "bundles are current (v=$version)"
+  [ "$status" -eq 0 ] && echo "bundle and pages are current (v=$version)"
   exit "$status"
 fi
 
-cp "$tmp/halo.css" "$CSS_BUNDLE"
 cp "$tmp/halo.js" "$JS_BUNDLE"
 
-# The query string is what makes a long Cache-Control safe: a new build is a new
-# URL. GitHub Pages caps at 10 minutes today, so this only matters behind a CDN.
 for page in $PAGES; do
-  sed -e "s|halo\.css?v=[A-Za-z0-9]*|halo.css?v=$version|g" \
-      -e "s|halo\.js?v=[A-Za-z0-9]*|halo.js?v=$version|g" \
-      "$page" > "$tmp/page" && cp "$tmp/page" "$page"
+  render "$page" "$tmp/page" "$tmp/halo.css" && cp "$tmp/page" "$page"
 done
 
-printf 'css/halo.css  %6s bytes  (%s)\n' "$(wc -c < "$CSS_BUNDLE" | tr -d ' ')" "$(echo $CSS_SOURCES | wc -w | tr -d ' ') files"
+printf 'stylesheet    %6s bytes  (%s, inlined into the pages)\n' "$(wc -c < "$tmp/halo.css" | tr -d ' ')" "$(echo $CSS_SOURCES | wc -w | tr -d ' ') files"
 printf 'js/halo.js    %6s bytes  (%s)\n' "$(wc -c < "$JS_BUNDLE" | tr -d ' ')" "$(echo $JS_SOURCES | wc -w | tr -d ' ') files"
+for page in $PAGES; do
+  printf '%-12s  %6s bytes\n' "$page" "$(wc -c < "$page" | tr -d ' ')"
+done
 printf 'stamped ?v=%s into %s\n' "$version" "$PAGES"
