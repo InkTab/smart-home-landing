@@ -292,6 +292,11 @@
 .badge--neutral {
   color: var(--text-subtle);
 }
+/* Recessed instead of raised — for counts and passive states. */
+.badge--inset {
+  box-shadow: var(--shadow-soft-inset);
+  background: var(--paper-000);
+}
 .badge--pill {
   border-radius: var(--radius-pill);
   padding-inline: var(--space-3);
@@ -1465,4 +1470,9 @@
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-subtle);
+}
+
+/* A recessed icon plate, for passive or disabled affordances. */
+.icon-plate--inset {
+  box-shadow: var(--shadow-soft-inset);
 }

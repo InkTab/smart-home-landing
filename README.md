@@ -47,8 +47,7 @@ css/
   sections.css              page composition — entrance choreography, header,
                             one block per section of the page, the footer, and
                             the legal page's single measure of prose
-                            (no bundle file — build.sh concatenates these five
-                            straight into the pages)
+  halo.css                  generated — the five above, concatenated by build.sh
 js/
   i18n.js                   the EN/RU dictionary, the switch, and the keys
   reveal.js                 holds a section's entrance until it is on screen
@@ -66,8 +65,7 @@ design-system/
   design-system.html        the visual playground — every token and component
   design-system.css         layout for the playground sheet only
   design-system.js          swatch copying, grid toggle, sliders, dial, tiles
-build.sh                    inlines the CSS into the pages, builds the script
-                            bundle, and stamps ?v= on its URL
+build.sh                    builds the two bundles and stamps ?v= on the pages
 _headers                    cache rules — inert on GitHub Pages, see Caching
 ```
 
@@ -83,19 +81,17 @@ Any static server works — plain HTML and CSS.
 python3 -m http.server 4173
 ```
 
-There is one build step, and it is a shell script with no dependencies. It
-concatenates the five stylesheets straight into the pages, between their
-`css:inline` markers, and the six scripts into `js/halo.js`, which stays
-linked. Edit the sources, never the bundle or the inlined block, then:
+There is one build step, and it is a shell script with no dependencies. The
+pages load `css/halo.css` and `js/halo.js`, which `build.sh` concatenates from
+the sources. Edit the sources, never the bundles, then:
 
 ```bash
 ./build.sh
 ```
 
-The script bundle and the rendered pages are committed, because GitHub Pages
-serves the repository as it is and cannot run the script. `./build.sh --check`
-exits non-zero when either has drifted from the sources — worth a pre-commit
-hook if you forget.
+Both bundles are committed, because GitHub Pages serves the repository as it
+is and cannot run the script. `./build.sh --check` exits non-zero when they
+have drifted from the sources — worth a pre-commit hook if you forget.
 
 The site is at http://localhost:4173/ and the design system at
 http://localhost:4173/design-system/design-system.html
@@ -106,21 +102,12 @@ offline.
 
 ## What holds the render
 
-One thing blocks the first paint: the stylesheet. It is what the first paint
+One thing blocks the first paint: `css/halo.css`. It is what the first paint
 looks like, so it should. Nothing else in the head does.
 
-It arrives inside the page, in a `<style>` block that `build.sh` writes from
-the five source layers in load order. The layering is an authoring concern,
-not a delivery one — the browser sees the same cascade either way.
-
-Inline rather than linked, because a linked stylesheet is a second round trip
-standing between the HTML and the first paint, and on GitHub Pages it is not
-even a cacheable one: `max-age=600` means a visitor ten minutes later fetches
-it again anyway. The page carries about 26 kB more over the wire and saves the
-trip. It also removes a failure mode — the old link was promoted to a
-stylesheet by an inline `onload` handler, so a browser with JavaScript off, or
-a strict Content-Security-Policy, was relying on the `<noscript>` copy to get
-styled at all. Inline needs neither.
+It is the five source layers concatenated in load order, and it is one request
+instead of five. The layering is an authoring concern, not a delivery one —
+the browser sees the same cascade either way.
 
 The fonts do not. `display=swap` means the copy is drawn in the fallback stack
 and swapped when the faces arrive, so a font stylesheet that blocks paint buys
@@ -140,8 +127,8 @@ The request asks for the weights the stylesheets actually set and no others:
 | IBM Plex Mono | 400 | nothing anywhere sets mono to any other weight |
 
 The script does not block either. `js/halo.js` is `defer`red and sits in the
-head, so it is fetched while the markup is still parsing rather than after the
-last of it, and runs once the document is parsed. Every source assumes exactly
+head, so it is fetched alongside the stylesheet rather than after the last of
+the markup, and runs once the document is parsed. Every source assumes exactly
 that: they all read the DOM the moment they run, and `i18n.js` has to have put
 `window.Halo` up before the rest go looking for it — which is why `build.sh`
 concatenates in a fixed order and `i18n.js` is first.
@@ -153,18 +140,17 @@ next one cannot be parsed as a call on it. Each also returns early when its
 section is absent, which is why the same bundle serves `privacy.html` — the
 five scripts that page has no use for find nothing and stop.
 
-Nothing is minified. The pages are served gzipped, which already collapses the
-whitespace and repetition a minifier would: the five stylesheets are 114 kB raw
-and about 27 kB over the wire. Minifying on top buys a few kB
+The bundles are not minified. The pages are served gzipped, which already
+collapses the whitespace and repetition a minifier would: the five stylesheets
+are 114 kB raw and about 27 kB over the wire. Minifying on top buys a few kB
 and risks a hand-rolled pass mangling a selector or an ASI-sensitive line, so
 the sources go over verbatim, comments and all.
 
 ## Caching
 
 Every static asset here is immutable in practice, and `build.sh` stamps
-`?v=<content hash>` on the script URL so a new build is a new URL. That is
-everything a year-long `Cache-Control` needs to be safe. The stylesheet needs
-no stamp — it rides inside the page, which must revalidate regardless.
+`?v=<content hash>` on both bundle URLs so a new build is a new URL. That is
+everything a year-long `Cache-Control` needs to be safe.
 
 GitHub Pages will not give it one. It serves everything with a fixed
 `max-age=600` and ignores `_headers`, `.htaccess` and `vercel.json` alike;
