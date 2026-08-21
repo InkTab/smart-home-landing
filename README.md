@@ -32,7 +32,10 @@ index.html                  the landing page — header, section 01 (hero),
 privacy.html                the privacy policy — the frame is written, the
                             policy itself is [tbd]
 assets/
-  appartment.webp           the apartment section 03 marks the hardware on
+  appartment.webp           the apartment section 03 marks the hardware on —
+                            2000 x 1091, and the top rung of its own srcset
+  appartment-{480,800,1144,1600}.webp
+                            the smaller rungs, made by ./build.sh --images
 css/
   tokens/
     palette.css             raw values — color ramps and the two light colors
@@ -44,6 +47,7 @@ css/
   sections.css              page composition — entrance choreography, header,
                             one block per section of the page, the footer, and
                             the legal page's single measure of prose
+  halo.css                  generated — the five above, concatenated by build.sh
 js/
   i18n.js                   the EN/RU dictionary, the switch, and the keys
   reveal.js                 holds a section's entrance until it is on screen
@@ -56,10 +60,13 @@ js/
                             (sections 06 to 10 have no script — they are
                             choreography, and section 09's disclosure is
                             <details>)
+  halo.js                   generated — the six above, concatenated by build.sh
 design-system/
   design-system.html        the visual playground — every token and component
   design-system.css         layout for the playground sheet only
   design-system.js          swatch copying, grid toggle, sliders, dial, tiles
+build.sh                    builds the two bundles and stamps ?v= on the pages
+_headers                    cache rules — inert on GitHub Pages, see Caching
 ```
 
 Load order matters: `palette.css` before `semantic.css` before everything else.
@@ -68,11 +75,23 @@ Components reference semantic tokens only — if a component needs a raw
 
 ## Running it
 
-Any static server works — plain HTML and CSS, no build step.
+Any static server works — plain HTML and CSS.
 
 ```bash
 python3 -m http.server 4173
 ```
+
+There is one build step, and it is a shell script with no dependencies. The
+pages load `css/halo.css` and `js/halo.js`, which `build.sh` concatenates from
+the sources. Edit the sources, never the bundles, then:
+
+```bash
+./build.sh
+```
+
+Both bundles are committed, because GitHub Pages serves the repository as it
+is and cannot run the script. `./build.sh --check` exits non-zero when they
+have drifted from the sources — worth a pre-commit hook if you forget.
 
 The site is at http://localhost:4173/ and the design system at
 http://localhost:4173/design-system/design-system.html
@@ -83,9 +102,12 @@ offline.
 
 ## What holds the render
 
-Five things block the first paint, and they are the five stylesheets — they
-are what the first paint looks like, so they should. Nothing else in the head
-does.
+One thing blocks the first paint: `css/halo.css`. It is what the first paint
+looks like, so it should. Nothing else in the head does.
+
+It is the five source layers concatenated in load order, and it is one request
+instead of five. The layering is an authoring concern, not a delivery one —
+the browser sees the same cascade either way.
 
 The fonts do not. `display=swap` means the copy is drawn in the fallback stack
 and swapped when the faces arrive, so a font stylesheet that blocks paint buys
@@ -104,15 +126,47 @@ The request asks for the weights the stylesheets actually set and no others:
 | Inter | 400, 500, 600 | body, the medium in controls, and the semibold in titles |
 | IBM Plex Mono | 400 | nothing anywhere sets mono to any other weight |
 
-The scripts do not block either. They are `defer`red and sit in the head, so
-they are fetched alongside the stylesheets rather than after the last of the
-markup, and run in the order written once the document is parsed. Every one of
-them assumes exactly that: they all read the DOM the moment they run, and
-`i18n.js` has to have put `window.Halo` up before the rest go looking for it.
+The script does not block either. `js/halo.js` is `defer`red and sits in the
+head, so it is fetched alongside the stylesheet rather than after the last of
+the markup, and runs once the document is parsed. Every source assumes exactly
+that: they all read the DOM the moment they run, and `i18n.js` has to have put
+`window.Halo` up before the rest go looking for it — which is why `build.sh`
+concatenates in a fixed order and `i18n.js` is first.
 
-There is no build step, so the five stylesheets stay five requests. Bundling
-them is the only lever left in the head, and it costs the thing that makes
-them readable — a file per layer, in load order.
+Merging them is safe because each source is already wrapped in its own
+`(function (window, document) { … })(window, document);`. Nothing is declared
+at the top level, so nothing can collide, and each ends in a semicolon, so the
+next one cannot be parsed as a call on it. Each also returns early when its
+section is absent, which is why the same bundle serves `privacy.html` — the
+five scripts that page has no use for find nothing and stop.
+
+The bundles are not minified. The pages are served gzipped, which already
+collapses the whitespace and repetition a minifier would: the five stylesheets
+are 114 kB raw and about 27 kB over the wire. Minifying on top buys a few kB
+and risks a hand-rolled pass mangling a selector or an ASI-sensitive line, so
+the sources go over verbatim, comments and all.
+
+## Caching
+
+Every static asset here is immutable in practice, and `build.sh` stamps
+`?v=<content hash>` on both bundle URLs so a new build is a new URL. That is
+everything a year-long `Cache-Control` needs to be safe.
+
+GitHub Pages will not give it one. It serves everything with a fixed
+`max-age=600` and ignores `_headers`, `.htaccess` and `vercel.json` alike;
+there is no setting for it. So a returning visitor re-fetches the whole page
+after ten minutes, and no change in this repository can alter that.
+
+Two things do:
+
+- **Put Cloudflare in front of the custom domain** (free tier). A Cache Rule
+  setting Browser TTL and Edge TTL to a year on `/css/*`, `/js/*` and
+  `/assets/*` overrides what Pages sends. The origin stays where it is.
+- **Move the hosting to Netlify or Cloudflare Pages.** Both read the `_headers`
+  file already in the root, which encodes exactly the rules above.
+
+Until one of those happens, treat a caching audit's verdict on this site as a
+fact about the host rather than about the page.
 
 ## Soft vs drawn
 
@@ -805,6 +859,36 @@ Every mark is inline SVG with `fill="currentColor"` and no colour of its own,
 so a single `color` on the parent tones the whole row down and a single hover
 brings one back up. `height` is set and `width` is `auto`, which the viewBox
 resolves — nothing is distorted and no aspect ratio is hard-coded.
+
+### What the photograph weighs
+
+One shot serves every viewport, so it ships as a `srcset` ladder rather than at
+one size. The widths come off the measured layout, not from a round-number
+habit: the figure is 92% of the viewport until the 1240px container caps it at
+1144px, which is what `sizes` says.
+
+| viewport | figure | at 2x |
+| --- | --- | --- |
+| 375 | 314px | 800w |
+| 768 | 691px | 1600w |
+| 1024 | 937px | 2000w |
+| 1240 and up | 1144px | 2000w |
+
+`sizes` declares 92vw below the cap, which slightly over-states the narrowest
+widths. That is deliberate — over-stating costs a rung, under-stating costs
+sharpness, and 480w is the floor anyway.
+
+2000w is the shot itself, and it is short of the 2288 a 2x display wants at the
+capped width. Upscaling to meet it would add bytes and no detail, so the ladder
+stops at the original.
+
+A phone that used to pull the full 147 kB now pulls 39 kB.
+
+Regenerate after replacing the photograph:
+
+```bash
+./build.sh --images
+```
 
 ### Where the artwork came from
 
