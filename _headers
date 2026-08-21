@@ -1,0 +1,19 @@
+# Inert on GitHub Pages, which forces max-age=600 on everything and ignores this
+# file. It is here so that moving the site to Netlify or Cloudflare Pages — or
+# putting Cloudflare in front of the Pages domain — is a one-step change.
+#
+# Safe because build.sh stamps ?v=<content hash> onto the bundle URLs: a new
+# build is a new URL, so a year-long cache can never serve a stale bundle.
+
+/css/halo.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/halo.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The HTML is the thing that points at the hashed URLs, so it must revalidate.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

@@ -27,20 +27,14 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" />
     </noscript>
 
-    <!-- These hold the render, and should. Order: palette, semantic, then the rest. -->
-    <link rel="stylesheet" href="css/tokens/palette.css" />
-    <link rel="stylesheet" href="css/tokens/semantic.css" />
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/components.css" />
-    <link rel="stylesheet" href="css/sections.css" />
+    <!-- This holds the render, and should. Built from the five source layers by
+         build.sh, in load order: palette, semantic, then the rest. -->
+    <link rel="stylesheet" href="css/halo.css?v=9e0babc1" />
 
-    <!-- Deferred but in the head: fetched early, run in order once the DOM is parsed. -->
-    <script src="js/i18n.js" defer></script>
-    <script src="js/reveal.js" defer></script>
-    <script src="js/problem.js" defer></script>
-    <script src="js/plan.js" defer></script>
-    <script src="js/hero.js" defer></script>
-    <script src="js/calc.js" defer></script>
+    <!-- Deferred but in the head: fetched early, runs once the DOM is parsed.
+         build.sh concatenates the six sources in order; each is its own IIFE and
+         returns early when its section is absent, so one bundle serves every page. -->
+    <script src="js/halo.js?v=9e0babc1" defer></script>
   </head>
   <body>
     <div class="paper"></div>
@@ -731,11 +725,23 @@
 
           <div class="plan__stage" data-plan-stage>
             <figure class="plan__figure" data-anim="pop" style="--d: 460ms">
+              <!-- Widths measured off the layout: 92vw until the container caps
+                   the figure at 1144px. 2000w is the shot itself, and the top
+                   rung — it is short of 1144x2, but upscaling adds bytes, not
+                   detail. -->
               <img
                 class="plan__photo"
                 src="assets/appartment.webp"
-                width="2816"
-                height="1536"
+                srcset="
+                  assets/appartment-480.webp   480w,
+                  assets/appartment-800.webp   800w,
+                  assets/appartment-1144.webp 1144w,
+                  assets/appartment-1600.webp 1600w,
+                  assets/appartment.webp      2000w
+                "
+                sizes="(min-width: 1240px) 1144px, 92vw"
+                width="2000"
+                height="1091"
                 loading="lazy"
                 decoding="async"
                 data-i18n-aria-label="plan.photo"
