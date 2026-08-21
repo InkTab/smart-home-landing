@@ -61,8 +61,12 @@ a {
   color: var(--steel-950);
 }
 
+/* The outline is what actually carries the indicator: every hover state in
+   components.css sets box-shadow at a higher specificity than this rule, and an
+   outline is the one property none of them touch. The halo rides along. */
 :focus-visible {
-  outline: none;
+  outline: 2px solid var(--steel-600);
+  outline-offset: 2px;
   box-shadow: var(--shadow-focus);
   border-radius: var(--radius-xs);
 }
@@ -349,7 +353,19 @@ body.grid-on .paper {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    /* The delay too: the entrances fill both ways, so a 1.8s stagger would hold
+       the copy at the keyframe's opacity:0 long after the motion was turned off. */
+    animation-delay: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Shadows and translucent fills are dropped in forced colors, so the ring is
+   restated in a system color the mode does paint. */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid Highlight;
   }
 }

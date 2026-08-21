@@ -10,6 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Privacy Policy — Halo</title>
     <meta name="description" content="How Halo handles the information you share." />
+    <!-- The brandmark, inline: no request, and the same drawing as #i-hub. -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233a7598' stroke-width='1.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 3v6M12 15v6M3 12h6M15 12h6'/%3E%3C/svg%3E"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -54,7 +59,7 @@
         <nav class="navbar" data-i18n-aria-label="nav.label" aria-label="Main">
           <a class="navbar__brand" href="index.html">
             <span class="brandmark"
-              ><svg class="icon icon--sm"><use href="#i-hub" /></svg
+              ><svg class="icon icon--sm" aria-hidden="true"><use href="#i-hub" /></svg
             ></span>
             Halo
           </a>
@@ -108,7 +113,7 @@
         <div class="site-foot__row">
           <a class="site-foot__brand" href="index.html">
             <span class="brandmark"
-              ><svg class="icon icon--sm"><use href="#i-hub" /></svg
+              ><svg class="icon icon--sm" aria-hidden="true"><use href="#i-hub" /></svg
             ></span>
             Halo
           </a>
@@ -118,7 +123,7 @@
             data-i18n-aria-label="foot.navLabel"
             aria-label="Footer"
           >
-            <a href="privacy.html" data-i18n="foot.privacy">Privacy Policy</a>
+            <a href="privacy.html" aria-current="page" data-i18n="foot.privacy">Privacy Policy</a>
             <!-- An address is not copy, so it carries no key. -->
             <a href="mailto:hello@yoursmarthome.com">hello@yoursmarthome.com</a>
           </nav>

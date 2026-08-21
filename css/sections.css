@@ -110,9 +110,12 @@
 
 /* ---- The widgets ------------------------------------------------------- */
 
+/* minmax(0,…), not 1fr: a plain 1fr floors each column at its content, and the
+   widest card then sets the stage's column — which the copy above is centered in.
+   A 320px phone in Russian pushed the whole hero off the sheet that way. */
 .hero__widgets {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
   width: 100%;
 }
@@ -125,7 +128,7 @@
 /* Once four of them fit across, the system reads as one strip. */
 @media (min-width: 760px) {
   .hero__widgets {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -390,8 +393,11 @@
   .hero__lede {
     font-size: var(--text-lg);
   }
+  /* Full width already, so the inline padding buys nothing but decides whether
+     the label fits: the Russian call to action needs the whole 320px column. */
   .hero__actions .btn {
     width: 100%;
+    --btn-px: var(--space-4);
   }
   .hero__device {
     padding: var(--space-4);
@@ -411,6 +417,15 @@
   .hero__plate .icon {
     width: 15px;
     height: 15px;
+  }
+}
+
+/* "подстраивается" is 14 letters and display-2 has stopped clamping by here, so
+   at the floor it is wider than the column. A headline set a step down beats one
+   that runs off the sheet. */
+@media (max-width: 360px) {
+  .hero__title {
+    font-size: var(--text-3xl);
   }
 }
 

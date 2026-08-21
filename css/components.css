@@ -217,6 +217,15 @@
   box-shadow: inset 2px 2px 6px rgba(4, 14, 20, 0.5);
 }
 
+/* These three exist because they sit on a dark ground, and one of them —
+   section 02's corner toggle — is not inside the ink card it covers, so the
+   ring cannot be inherited from it. Steel reads 2.7:1 there; paper reads 13:1. */
+.btn--inverse:focus-visible,
+.btn--inverse-outline:focus-visible,
+.btn--inverse-ghost:focus-visible {
+  outline-color: var(--paper-000);
+}
+
 .btn--icon {
   --btn-px: 0;
   width: var(--btn-height);
@@ -654,6 +663,12 @@
 .card--ink .badge--solid {
   background: var(--steel-600);
   color: var(--text-inverse);
+}
+
+/* Steel on the ink ground is 2.7:1, so on ink the light face carries the ring. */
+.card--ink :focus-visible {
+  outline-color: var(--paper-000);
+  box-shadow: 0 0 0 2px var(--paper-000), 0 0 0 5px rgba(194, 216, 229, 0.24);
 }
 
 /* The list is set for paper, so the card that darkens the ground has to say so. */
