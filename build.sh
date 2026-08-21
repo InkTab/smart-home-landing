@@ -1,9 +1,10 @@
 #!/bin/sh
 # Concatenates the stylesheets and scripts into one bundle each, so a page costs
-# two requests instead of eleven. Sources stay authored a file per layer.
+# two requests instead of eleven, and fills each page's icon sprite from
+# assets/icons/. Sources stay authored a file per layer, an icon per file.
 #
-#   ./build.sh          rebuild css/halo.css and js/halo.js, restamp ?v=
-#   ./build.sh --check  exit 1 if the bundles are stale (for CI / pre-commit)
+#   ./build.sh          rebuild the bundles and the sprites, restamp ?v=
+#   ./build.sh --check  exit 1 if either is stale (for CI / pre-commit)
 #
 # Order is load-bearing: palette before semantic before the rest, and i18n
 # before every script that reads window.Halo.
@@ -16,6 +17,11 @@ CSS_SOURCES="css/tokens/palette.css css/tokens/semantic.css css/base.css css/com
 JS_SOURCES="js/i18n.js js/reveal.js js/problem.js js/plan.js js/hero.js js/calc.js"
 
 PAGES="index.html privacy.html"
+
+# Every page with a sprite, including the design system, which shares the icons
+# but none of the bundles.
+SPRITE_PAGES="index.html privacy.html design-system/design-system.html"
+ICON_DIR="assets/icons"
 
 CSS_BUNDLE="css/halo.css"
 JS_BUNDLE="js/halo.js"
@@ -52,6 +58,87 @@ hash_of() {
   cat "$@" | shasum -a 256 | cut -c1-8
 }
 
+# ---- Icon sprite ---------------------------------------------------------
+#
+# Each page carries an `icons:` list in the comment above its sprite, and that
+# list is the source of truth — not the <use> elements below it. hero.js and
+# design-system.js swap an icon's href at runtime, so a list inferred from the
+# markup would drop i-door, i-x and i-menu and break those swaps silently.
+
+# Everything between `icons:` and the end of the comment, however many lines.
+icon_list() {
+  awk '
+    /icons:/ && !grab { grab = 1; sub(/^.*icons:/, "") }
+    grab {
+      line = $0
+      if (line ~ /-->/) { sub(/-->.*$/, "", line); done = 1 }
+      gsub(/^[ \t]+|[ \t]+$/, "", line)
+      if (line != "") printf "%s ", line
+      if (done) exit
+    }
+  ' "$1"
+}
+
+# The <defs> block a page's list asks for. Indent is the sprite's own column, so
+# the generated markup lands where a hand-written one would.
+sprite_block() {
+  indent=$1
+  shift
+  printf '%s<svg width="0" height="0" style="position: absolute" aria-hidden="true">\n' "$indent"
+  printf '%s  <defs>\n' "$indent"
+  for id in "$@"; do
+    src="$ICON_DIR/$id.svg"
+    [ -f "$src" ] || { echo "no such icon: $src" >&2; exit 1; }
+    viewbox=$(sed -n '1s/.*viewBox="\([^"]*\)".*/\1/p' "$src")
+    printf '%s    <symbol id="%s" viewBox="%s">\n' "$indent" "$id" "$viewbox"
+    sed '1d;$d' "$src" | sed "s|^|$indent    |"
+    printf '%s    </symbol>\n' "$indent"
+  done
+  printf '%s  </defs>\n' "$indent"
+  printf '%s</svg>\n' "$indent"
+}
+
+# The page with its sprite replaced by $2, written to stdout.
+splice_sprite() {
+  awk -v blockfile="$2" '
+    !inblock && /<svg width="0" height="0"/ {
+      inblock = 1
+      while ((getline line < blockfile) > 0) print line
+      close(blockfile)
+      next
+    }
+    inblock { if ($0 ~ /^[ \t]*<\/svg>[ \t]*$/) inblock = 0; next }
+    { print }
+  ' "$1"
+}
+
+# The list is hand-kept, so catch the one mistake that is easy to make: a <use>
+# in the markup naming an icon nobody listed. A runtime-only swap cannot be
+# caught this way, which is why those ids carry a note in the page.
+check_unlisted() {
+  page=$1
+  listed=" $(icon_list "$page") "
+  missing=""
+  for id in $(sed -n 's/.*<use href="#\([^"]*\)".*/\1/p' "$page" | sort -u); do
+    case "$listed" in
+      *" $id "*) ;;
+      *) missing="$missing $id" ;;
+    esac
+  done
+  [ -z "$missing" ] && return 0
+  echo "$page: <use> names icons that are not in its icons: list -$missing" >&2
+  return 1
+}
+
+# Regenerates one page's sprite into $tmp/sprited.
+build_sprite() {
+  page=$1
+  indent=$(sed -n 's/\(^[ \t]*\)<svg width="0" height="0".*/\1/p' "$page" | head -1)
+  # shellcheck disable=SC2046 -- the list is deliberately word-split
+  sprite_block "$indent" $(icon_list "$page") > "$tmp/block"
+  splice_sprite "$page" "$tmp/block" > "$tmp/sprited"
+}
+
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
@@ -76,7 +163,15 @@ if [ "$check_only" -eq 1 ]; then
       status=1
     fi
   done
-  [ "$status" -eq 0 ] && echo "bundles are current (v=$version)"
+  for page in $SPRITE_PAGES; do
+    build_sprite "$page"
+    if ! cmp -s "$page" "$tmp/sprited"; then
+      echo "stale: $page sprite does not match its icons: list (run ./build.sh)" >&2
+      status=1
+    fi
+    check_unlisted "$page" || status=1
+  done
+  [ "$status" -eq 0 ] && echo "bundles and sprites are current (v=$version)"
   exit "$status"
 fi
 
@@ -89,6 +184,13 @@ for page in $PAGES; do
   sed -e "s|halo\.css?v=[A-Za-z0-9]*|halo.css?v=$version|g" \
       -e "s|halo\.js?v=[A-Za-z0-9]*|halo.js?v=$version|g" \
       "$page" > "$tmp/page" && cp "$tmp/page" "$page"
+done
+
+for page in $SPRITE_PAGES; do
+  build_sprite "$page"
+  cp "$tmp/sprited" "$page"
+  check_unlisted "$page" || true
+  printf 'sprite %-34s %2s symbols\n' "$page" "$(icon_list "$page" | wc -w | tr -d ' ')"
 done
 
 printf 'css/halo.css  %6s bytes  (%s)\n' "$(wc -c < "$CSS_BUNDLE" | tr -d ' ')" "$(echo $CSS_SOURCES | wc -w | tr -d ' ') files"

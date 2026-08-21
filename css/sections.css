@@ -2189,10 +2189,15 @@
   gap: var(--space-3);
 }
 
-/* Height drives it; the viewBox gives the width, so the wordmark never distorts. */
+/* Height drives it; aspect-ratio replaces the viewBox the mark used to carry inline,
+   so the wordmark never distorts. */
 .trust__brand {
+  display: block;
   height: 38px;
-  width: auto;
+  aspect-ratio: 80 / 23;
+  background: currentColor;
+  -webkit-mask: url("../assets/logos/aqara.svg") center / contain no-repeat;
+  mask: url("../assets/logos/aqara.svg") center / contain no-repeat;
   color: var(--steel-700);
 }
 
@@ -2243,11 +2248,22 @@
   height: 34px;
 }
 
-/* --logo-h is set per mark in the markup — equal pixel height would make the
-   square glyphs tower over the wordmarks. Muted until pointed at. */
+/* Each mark is its own file in assets/logos/, pulled in as a mask rather than an
+   <img>: a mask is painted with background, so the colour tokens below still reach
+   it and the hover can warm it. An <img> is a separate document and would render
+   its own black regardless. Alpha is all the mask reads, so the fill in the file
+   is irrelevant.
+
+   Height and ratio are per mark, in the block below: equal pixel height would make
+   the square glyphs tower over the wordmarks, and the ratio is the file's viewBox,
+   which a <span> has no way to inherit. Muted until pointed at. */
 .trust__logo {
+  display: block;
   height: var(--logo-h, 24px);
-  width: auto;
+  aspect-ratio: var(--logo-ar, 1);
+  background: currentColor;
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
   color: var(--text-subtle);
   opacity: 0.62;
   transition: opacity var(--dur) var(--ease), color var(--dur) var(--ease);
@@ -2255,6 +2271,58 @@
 .trust__item:hover .trust__logo {
   color: var(--steel-700);
   opacity: 1;
+}
+
+.trust__logo--apple-home {
+  --logo: url("../assets/logos/apple-home.svg");
+  --logo-h: 23px;
+}
+.trust__logo--google-home {
+  --logo: url("../assets/logos/google-home.svg");
+  --logo-h: 25px;
+}
+.trust__logo--amazon-alexa {
+  --logo: url("../assets/logos/amazon-alexa.svg");
+  --logo-h: 31px;
+  --logo-ar: 242.67062 / 155.19994;
+}
+.trust__logo--smartthings {
+  --logo: url("../assets/logos/smartthings.svg");
+  --logo-h: 26px;
+}
+.trust__logo--matter {
+  --logo: url("../assets/logos/matter.svg");
+  --logo-h: 21px;
+  --logo-ar: 338.667 / 72.644;
+}
+.trust__logo--thread {
+  --logo: url("../assets/logos/thread.svg");
+  --logo-h: 16.5px;
+  --logo-ar: 143.02 / 26.458;
+}
+.trust__logo--zigbee {
+  --logo: url("../assets/logos/zigbee.svg");
+  --logo-h: 26px;
+}
+.trust__logo--home-assistant {
+  --logo: url("../assets/logos/home-assistant.svg");
+  --logo-h: 26px;
+}
+.trust__logo--ifttt {
+  --logo: url("../assets/logos/ifttt.svg");
+  --logo-h: 15px;
+  --logo-ar: 24 / 6.361;
+}
+
+/* Forced colors repaints every background, which for a masked mark means erasing
+   it — the inline SVG this replaced survived the mode because a fill is painted
+   as text. CanvasText restates it in a colour the mode does honour. */
+@media (forced-colors: active) {
+  .trust__brand,
+  .trust__logo {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
 }
 
 .trust__note {
