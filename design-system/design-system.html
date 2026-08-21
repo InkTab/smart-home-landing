@@ -25,7 +25,13 @@
   <body>
     <div class="paper" aria-hidden="true"></div>
 
-    <!-- ===== ICON SPRITE — 24px grid, 1.5 stroke, round caps ===== -->
+    <!-- ICON SPRITE — 24px grid, 1.5 stroke, round caps. The sheet carries every icon,
+         which is what makes it the sheet. ./build.sh fills them in from
+         assets/icons/. i-x and i-menu are swapped at runtime by design-system.js.
+         icons: i-hub i-thermostat i-lock i-bulb i-camera i-motion i-plug i-blinds i-wifi
+                i-shield i-leaf i-drop i-clock i-door i-speaker i-phone i-plan i-bolt i-check
+                i-plus i-arrow-right i-chevron-right i-x i-menu i-search i-info i-alert
+                i-sliders i-grid i-flat i-townhouse i-house i-mail -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <defs>
         <symbol id="i-hub" viewBox="0 0 24 24">

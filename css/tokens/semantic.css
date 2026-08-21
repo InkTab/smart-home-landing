@@ -1,5 +1,17 @@
 /* SEMANTIC TOKENS — the only layer components reference. Paper, steel ink, soft depth. */
 
+/* Arial re-metricked to Inter's box. Inter is fetched with display=swap, so text
+   paints in the fallback first; without these overrides the hero paragraph gains
+   a line when Inter lands and the call to action drops 30px. */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  ascent-override: 90.2%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
+  size-adjust: 107.4%;
+}
+
 :root {
   /* ---- Surfaces --------------------------------------------------------- */
   --bg: var(--paper-000);
@@ -33,8 +45,8 @@
 
   /* ---- Typography -------------------------------------------------------- */
   --font-display: "Jura", "Eurostile", "Avenir Next", "Segoe UI", sans-serif;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
+  --font-sans: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
     monospace;
 

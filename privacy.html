@@ -28,24 +28,22 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jura:wght@400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" />
     </noscript>
 
-    <!-- Non-blocking: preload fetches at stylesheet priority, the onload swap applies it. -->
-    <link
-      rel="preload"
-      as="style"
-      href="css/halo.css?v=51d00dea"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript><link rel="stylesheet" href="css/halo.css?v=51d00dea" /></noscript>
+    <!-- This holds the render, and must: without it the page paints unstyled and
+         then relays out. See the note in index.html. -->
+    <link rel="stylesheet" href="css/halo.css?v=88f12e92" />
 
     <!-- The dictionary and the switch. Nothing on this page reveals or animates,
          so the other five scripts in the bundle find no section and return. Shared
          with index.html, which means a second visit costs nothing. -->
-    <script src="js/halo.js?v=51d00dea" defer></script>
+    <script src="js/halo.js?v=88f12e92" defer></script>
   </head>
   <body>
     <div class="paper"></div>
 
     <!-- Only the two symbols this page draws. -->
+    <!-- Icon sprite. Two marks is all this page uses; ./build.sh fills them in from
+         assets/icons/ against the list below.
+         icons: i-hub i-arrow-right -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <defs>
         <symbol id="i-hub" viewBox="0 0 24 24">

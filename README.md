@@ -118,6 +118,15 @@ promoting. The one caveat is that the promotion is an inline `onload`
 handler — a Content-Security-Policy without `unsafe-inline` would leave the
 page on its fallback stack.
 
+Swapping is only free if the two stacks occupy the same space. Inter is wider
+than any system sans it falls back to, so the hero paragraph used to gain a
+line when Inter arrived and push the call to action down 30px — a layout shift
+in the first screen, on every first visit. `"Inter Fallback"` in
+`css/tokens/semantic.css` is Arial with `size-adjust` and the ascent/descent
+overrides set to Inter's metrics, sitting first in `--font-sans`: the swap now
+changes the glyphs and not the line breaks. Jura and IBM Plex Mono were each
+measured against their fallbacks and move nothing, so neither has one.
+
 The request asks for the weights the stylesheets actually set and no others:
 
 | face | asked for | why |
@@ -844,8 +853,8 @@ that explains itself is a logo row that is not confident.
 Equal pixel height is the wrong normal for a logo row. A square glyph at 26px
 and a wordmark at 26px do not read as the same size — the wordmark is 26px of
 cap height carried across 100px of width, and it shouts. Each mark therefore
-sets its own `--logo-h` in the markup, tuned by eye against its neighbours,
-and `.trust__logo` only supplies the fallback:
+sets its own `--logo-h` beside its file in `sections.css`, tuned by eye against
+its neighbours, and `.trust__logo` only supplies the fallback:
 
 | | Apple | Google Home | Alexa | SmartThings | Matter | Thread | Zigbee | Home Assistant | IFTTT |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -855,10 +864,45 @@ Alexa is the tallest because its box carries the swoosh below the word, so the
 word itself lands near 22px. IFTTT and Thread are the shortest because both are
 set in a heavy face and read larger than they measure.
 
-Every mark is inline SVG with `fill="currentColor"` and no colour of its own,
-so a single `color` on the parent tones the whole row down and a single hover
-brings one back up. `height` is set and `width` is `auto`, which the viewBox
-resolves — nothing is distorted and no aspect ratio is hard-coded.
+### Where the icons live
+
+Each of the 33 icons is a file in `assets/icons/`, and no page holds a
+hand-written sprite any more. Every page carries an `icons:` list in the comment
+above its sprite, and `./build.sh` fills the `<symbol>` block in from that list —
+twenty for the landing page, two for the privacy page, all thirty-three for the
+design system sheet, which is what makes it the sheet.
+
+The sprite stays *inline*, not a file fetched with `<use href="icons.svg#id">`.
+An external sprite would save about a kilobyte gzipped and cost a request that
+57 icon boxes would sit empty waiting for — a hole in the same first paint the
+blocking stylesheet exists to keep whole.
+
+**The list is the source, not the `<use>` elements.** `hero.js` swaps
+`#i-lock` for `#i-door` when the door beat fires, and `design-system.js` swaps
+`#i-menu` for `#i-x`; neither id ever appears in a `<use>` in the markup, so a
+sprite inferred from the page would drop them and break both swaps with nothing
+to show for it. Those ids carry a note in the page that says why they are
+listed. What `--check` *can* catch is the opposite mistake — a `<use>` naming an
+icon nobody listed — and it does, by name.
+
+### Where the marks live
+
+Each mark is its own file in `assets/logos/`, and the markup for one is an empty
+`<span role="img" aria-label="Apple Home">` — 21 kB of path data used to sit in
+`index.html`, a fifth of the file.
+
+They are pulled in with `mask-image`, not `<img>`. An `<img>` is a separate
+document that the page's stylesheet cannot reach into, so the row could not be
+toned down or warmed on hover; a mask is painted with `background`, so
+`background: currentColor` puts the whole row back under one `color`. Only the
+alpha channel is read, so the fill inside each file is irrelevant. The cost is
+that a `<span>` has no viewBox to resolve `width: auto` against, so each mark
+carries an `--logo-ar` taken from its file — the one thing the old inline SVG
+got for free.
+
+Forced-colors repaints every background, which for a masked mark means erasing
+it, so the mode gets the row restated in `CanvasText`. An inline SVG needed no
+such handling: a fill is painted as text.
 
 ### What the photograph weighs
 
@@ -1142,8 +1186,8 @@ placeholder marker is not copy in any language, and giving it one would mean
 translating it, which is a strange thing to have to notice later. And **only
 `i18n.js` is loaded**: nothing on the page reveals, animates or calculates, so
 the other five scripts would be five requests that find nothing. The sprite is
-the same — the two symbols the page draws rather than the landing page's
-twenty.
+the same — its `icons:` list names the two symbols the page draws rather than
+the landing page's twenty.
 
 The page's own block in `sections.css` is ten rules: a measure, a heading, the
 back link's offset and turn, and the marker set at `--text-subtle` so an
